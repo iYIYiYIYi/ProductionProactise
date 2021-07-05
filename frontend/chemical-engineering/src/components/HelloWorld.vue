@@ -1,17 +1,17 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-<!--    <NavMenu></NavMenu>-->
+<!--    <h1>{{ msg }}</h1>-->
+    <NavMenu></NavMenu>
     <LeftTabMenu></LeftTabMenu>
   </div>
 </template>
 
 <script>
-// import NavMenu from "@/components/layout/NavMenu";
+import NavMenu from "@/components/layout/NavMenu";
 import LeftTabMenu from "@/components/layout/LeftTabMenu";
 export default {
   name: 'HelloWorld',
-  components: {LeftTabMenu},
+  components: {NavMenu,LeftTabMenu},
   props: {
     msg: String
   }
