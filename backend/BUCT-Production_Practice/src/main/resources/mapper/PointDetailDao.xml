@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sram.buct_production_practice.dao.PointDetailDao">
+  <resultMap id="BaseResultMap" type="com.sram.buct_production_practice.entity.PointDetail">
+    <id column="pointUuid" jdbcType="VARCHAR" property="pointuuid" />
+    <result column="channelList" jdbcType="INTEGER" property="channellist" />
+    <result column="channelType" jdbcType="INTEGER" property="channeltype" />
+    <result column="channelTypeAlias" jdbcType="VARCHAR" property="channeltypealias" />
+    <result column="companyId" jdbcType="VARCHAR" property="companyid" />
+    <result column="contactAngle" jdbcType="FLOAT" property="contactangle" />
+    <result column="cylinderNo" jdbcType="INTEGER" property="cylinderno" />
+    <result column="dataSource" jdbcType="INTEGER" property="datasource" />
+    <result column="dataType" jdbcType="INTEGER" property="datatype" />
+    <result column="equipmentId" jdbcType="VARCHAR" property="equipmentid" />
+    <result column="equipmentType" jdbcType="INTEGER" property="equipmenttype" />
+    <result column="equipmentUuid" jdbcType="VARCHAR" property="equipmentuuid" />
+    <result column="eventType" jdbcType="INTEGER" property="eventtype" />
+    <result column="factoryId" jdbcType="VARCHAR" property="factoryid" />
+    <result column="hh" jdbcType="FLOAT" property="hh" />
+    <result column="hl" jdbcType="FLOAT" property="hl" />
+    <result column="lh" jdbcType="FLOAT" property="lh" />
+    <result column="ll" jdbcType="FLOAT" property="ll" />
+    <result column="locIndex" jdbcType="INTEGER" property="locindex" />
+    <result column="locName" jdbcType="VARCHAR" property="locname" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="measureDirection" jdbcType="INTEGER" property="measuredirection" />
+    <result column="mhost" jdbcType="VARCHAR" property="mhost" />
+    <result column="mport" jdbcType="INTEGER" property="mport" />
+    <result column="nodeHost" jdbcType="VARCHAR" property="nodehost" />
+    <result column="nodeId" jdbcType="VARCHAR" property="nodeid" />
+    <result column="nodePort" jdbcType="INTEGER" property="nodeport" />
+    <result column="nodeType" jdbcType="INTEGER" property="nodetype" />
+    <result column="pitchDiam" jdbcType="FLOAT" property="pitchdiam" />
+    <result column="pointId" jdbcType="VARCHAR" property="pointid" />
+    <result column="pointIndex" jdbcType="INTEGER" property="pointindex" />
+    <result column="pointName" jdbcType="VARCHAR" property="pointname" />
+    <result column="pointNo" jdbcType="VARCHAR" property="pointno" />
+    <result column="pointOrder" jdbcType="INTEGER" property="pointorder" />
+    <result column="revType" jdbcType="INTEGER" property="revtype" />
+    <result column="rollingNum" jdbcType="FLOAT" property="rollingnum" />
+    <result column="rollingDiam" jdbcType="FLOAT" property="rollingdiam" />
+    <result column="sectionIndex" jdbcType="INTEGER" property="sectionindex" />
+    <result column="sectionName" jdbcType="VARCHAR" property="sectionname" />
+    <result column="sensorType" jdbcType="INTEGER" property="sensortype" />
+    <result column="trendGap" jdbcType="FLOAT" property="trendgap" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pointUuid, channelList, channelType, channelTypeAlias, companyId, contactAngle, cylinderNo, 
+    dataSource, dataType, equipmentId, equipmentType, equipmentUuid, eventType, factoryId, 
+    hh, hl, lh, ll, locIndex, locName, manufacturer, measureDirection, mhost, mport, 
+    nodeHost, nodeId, nodePort, nodeType, pitchDiam, pointId, pointIndex, pointName, 
+    pointNo, pointOrder, revType, rollingNum, rollingDiam, sectionIndex, sectionName, 
+    sensorType, trendGap, `type`, unit
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from point_detail
+    where pointUuid = #{pointuuid,jdbcType=VARCHAR}
+  </select>
+    <select id="selectByEquipmentUuid" resultType="com.sram.buct_production_practice.entity.PointDetail">
+      select * from  point_detail
+        where equipmentUuid = #{EquipmentUuid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from point_detail
+    where pointUuid = #{pointuuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="pointUuid" keyProperty="pointuuid" parameterType="com.sram.buct_production_practice.entity.PointDetail" useGeneratedKeys="true">
+    insert into point_detail (channelList, channelType, channelTypeAlias, 
+      companyId, contactAngle, cylinderNo, 
+      dataSource, dataType, equipmentId, 
+      equipmentType, equipmentUuid, eventType, 
+      factoryId, hh, hl, lh, 
+      ll, locIndex, locName, 
+      manufacturer, measureDirection, mhost, 
+      mport, nodeHost, nodeId, 
+      nodePort, nodeType, pitchDiam, 
+      pointId, pointIndex, pointName, 
+      pointNo, pointOrder, revType, 
+      rollingNum, rollingDiam, sectionIndex, 
+      sectionName, sensorType, trendGap, 
+      `type`, unit)
+    values (#{channellist,jdbcType=INTEGER}, #{channeltype,jdbcType=INTEGER}, #{channeltypealias,jdbcType=VARCHAR}, 
+      #{companyid,jdbcType=VARCHAR}, #{contactangle,jdbcType=FLOAT}, #{cylinderno,jdbcType=INTEGER}, 
+      #{datasource,jdbcType=INTEGER}, #{datatype,jdbcType=INTEGER}, #{equipmentid,jdbcType=VARCHAR}, 
+      #{equipmenttype,jdbcType=INTEGER}, #{equipmentuuid,jdbcType=VARCHAR}, #{eventtype,jdbcType=INTEGER}, 
+      #{factoryid,jdbcType=VARCHAR}, #{hh,jdbcType=FLOAT}, #{hl,jdbcType=FLOAT}, #{lh,jdbcType=FLOAT}, 
+      #{ll,jdbcType=FLOAT}, #{locindex,jdbcType=INTEGER}, #{locname,jdbcType=VARCHAR}, 
+      #{manufacturer,jdbcType=VARCHAR}, #{measuredirection,jdbcType=INTEGER}, #{mhost,jdbcType=VARCHAR}, 
+      #{mport,jdbcType=INTEGER}, #{nodehost,jdbcType=VARCHAR}, #{nodeid,jdbcType=VARCHAR}, 
+      #{nodeport,jdbcType=INTEGER}, #{nodetype,jdbcType=INTEGER}, #{pitchdiam,jdbcType=FLOAT}, 
+      #{pointid,jdbcType=VARCHAR}, #{pointindex,jdbcType=INTEGER}, #{pointname,jdbcType=VARCHAR}, 
+      #{pointno,jdbcType=VARCHAR}, #{pointorder,jdbcType=INTEGER}, #{revtype,jdbcType=INTEGER}, 
+      #{rollingnum,jdbcType=FLOAT}, #{rollingdiam,jdbcType=FLOAT}, #{sectionindex,jdbcType=INTEGER}, 
+      #{sectionname,jdbcType=VARCHAR}, #{sensortype,jdbcType=INTEGER}, #{trendgap,jdbcType=FLOAT}, 
+      #{type,jdbcType=INTEGER}, #{unit,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="pointUuid" keyProperty="pointuuid" parameterType="com.sram.buct_production_practice.entity.PointDetail" useGeneratedKeys="true">
+    insert into point_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="channellist != null">
+        channelList,
+      </if>
+      <if test="channeltype != null">
+        channelType,
+      </if>
+      <if test="channeltypealias != null">
+        channelTypeAlias,
+      </if>
+      <if test="companyid != null">
+        companyId,
+      </if>
+      <if test="contactangle != null">
+        contactAngle,
+      </if>
+      <if test="cylinderno != null">
+        cylinderNo,
+      </if>
+      <if test="datasource != null">
+        dataSource,
+      </if>
+      <if test="datatype != null">
+        dataType,
+      </if>
+      <if test="equipmentid != null">
+        equipmentId,
+      </if>
+      <if test="equipmenttype != null">
+        equipmentType,
+      </if>
+      <if test="equipmentuuid != null">
+        equipmentUuid,
+      </if>
+      <if test="eventtype != null">
+        eventType,
+      </if>
+      <if test="factoryid != null">
+        factoryId,
+      </if>
+      <if test="hh != null">
+        hh,
+      </if>
+      <if test="hl != null">
+        hl,
+      </if>
+      <if test="lh != null">
+        lh,
+      </if>
+      <if test="ll != null">
+        ll,
+      </if>
+      <if test="locindex != null">
+        locIndex,
+      </if>
+      <if test="locname != null">
+        locName,
+      </if>
+      <if test="manufacturer != null">
+        manufacturer,
+      </if>
+      <if test="measuredirection != null">
+        measureDirection,
+      </if>
+      <if test="mhost != null">
+        mhost,
+      </if>
+      <if test="mport != null">
+        mport,
+      </if>
+      <if test="nodehost != null">
+        nodeHost,
+      </if>
+      <if test="nodeid != null">
+        nodeId,
+      </if>
+      <if test="nodeport != null">
+        nodePort,
+      </if>
+      <if test="nodetype != null">
+        nodeType,
+      </if>
+      <if test="pitchdiam != null">
+        pitchDiam,
+      </if>
+      <if test="pointid != null">
+        pointId,
+      </if>
+      <if test="pointindex != null">
+        pointIndex,
+      </if>
+      <if test="pointname != null">
+        pointName,
+      </if>
+      <if test="pointno != null">
+        pointNo,
+      </if>
+      <if test="pointorder != null">
+        pointOrder,
+      </if>
+      <if test="revtype != null">
+        revType,
+      </if>
+      <if test="rollingnum != null">
+        rollingNum,
+      </if>
+      <if test="rollingdiam != null">
+        rollingDiam,
+      </if>
+      <if test="sectionindex != null">
+        sectionIndex,
+      </if>
+      <if test="sectionname != null">
+        sectionName,
+      </if>
+      <if test="sensortype != null">
+        sensorType,
+      </if>
+      <if test="trendgap != null">
+        trendGap,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="channellist != null">
+        #{channellist,jdbcType=INTEGER},
+      </if>
+      <if test="channeltype != null">
+        #{channeltype,jdbcType=INTEGER},
+      </if>
+      <if test="channeltypealias != null">
+        #{channeltypealias,jdbcType=VARCHAR},
+      </if>
+      <if test="companyid != null">
+        #{companyid,jdbcType=VARCHAR},
+      </if>
+      <if test="contactangle != null">
+        #{contactangle,jdbcType=FLOAT},
+      </if>
+      <if test="cylinderno != null">
+        #{cylinderno,jdbcType=INTEGER},
+      </if>
+      <if test="datasource != null">
+        #{datasource,jdbcType=INTEGER},
+      </if>
+      <if test="datatype != null">
+        #{datatype,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentid != null">
+        #{equipmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmenttype != null">
+        #{equipmenttype,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentuuid != null">
+        #{equipmentuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="eventtype != null">
+        #{eventtype,jdbcType=INTEGER},
+      </if>
+      <if test="factoryid != null">
+        #{factoryid,jdbcType=VARCHAR},
+      </if>
+      <if test="hh != null">
+        #{hh,jdbcType=FLOAT},
+      </if>
+      <if test="hl != null">
+        #{hl,jdbcType=FLOAT},
+      </if>
+      <if test="lh != null">
+        #{lh,jdbcType=FLOAT},
+      </if>
+      <if test="ll != null">
+        #{ll,jdbcType=FLOAT},
+      </if>
+      <if test="locindex != null">
+        #{locindex,jdbcType=INTEGER},
+      </if>
+      <if test="locname != null">
+        #{locname,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null">
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="measuredirection != null">
+        #{measuredirection,jdbcType=INTEGER},
+      </if>
+      <if test="mhost != null">
+        #{mhost,jdbcType=VARCHAR},
+      </if>
+      <if test="mport != null">
+        #{mport,jdbcType=INTEGER},
+      </if>
+      <if test="nodehost != null">
+        #{nodehost,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeid != null">
+        #{nodeid,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeport != null">
+        #{nodeport,jdbcType=INTEGER},
+      </if>
+      <if test="nodetype != null">
+        #{nodetype,jdbcType=INTEGER},
+      </if>
+      <if test="pitchdiam != null">
+        #{pitchdiam,jdbcType=FLOAT},
+      </if>
+      <if test="pointid != null">
+        #{pointid,jdbcType=VARCHAR},
+      </if>
+      <if test="pointindex != null">
+        #{pointindex,jdbcType=INTEGER},
+      </if>
+      <if test="pointname != null">
+        #{pointname,jdbcType=VARCHAR},
+      </if>
+      <if test="pointno != null">
+        #{pointno,jdbcType=VARCHAR},
+      </if>
+      <if test="pointorder != null">
+        #{pointorder,jdbcType=INTEGER},
+      </if>
+      <if test="revtype != null">
+        #{revtype,jdbcType=INTEGER},
+      </if>
+      <if test="rollingnum != null">
+        #{rollingnum,jdbcType=FLOAT},
+      </if>
+      <if test="rollingdiam != null">
+        #{rollingdiam,jdbcType=FLOAT},
+      </if>
+      <if test="sectionindex != null">
+        #{sectionindex,jdbcType=INTEGER},
+      </if>
+      <if test="sectionname != null">
+        #{sectionname,jdbcType=VARCHAR},
+      </if>
+      <if test="sensortype != null">
+        #{sensortype,jdbcType=INTEGER},
+      </if>
+      <if test="trendgap != null">
+        #{trendgap,jdbcType=FLOAT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sram.buct_production_practice.entity.PointDetail">
+    update point_detail
+    <set>
+      <if test="channellist != null">
+        channelList = #{channellist,jdbcType=INTEGER},
+      </if>
+      <if test="channeltype != null">
+        channelType = #{channeltype,jdbcType=INTEGER},
+      </if>
+      <if test="channeltypealias != null">
+        channelTypeAlias = #{channeltypealias,jdbcType=VARCHAR},
+      </if>
+      <if test="companyid != null">
+        companyId = #{companyid,jdbcType=VARCHAR},
+      </if>
+      <if test="contactangle != null">
+        contactAngle = #{contactangle,jdbcType=FLOAT},
+      </if>
+      <if test="cylinderno != null">
+        cylinderNo = #{cylinderno,jdbcType=INTEGER},
+      </if>
+      <if test="datasource != null">
+        dataSource = #{datasource,jdbcType=INTEGER},
+      </if>
+      <if test="datatype != null">
+        dataType = #{datatype,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentid != null">
+        equipmentId = #{equipmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmenttype != null">
+        equipmentType = #{equipmenttype,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentuuid != null">
+        equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="eventtype != null">
+        eventType = #{eventtype,jdbcType=INTEGER},
+      </if>
+      <if test="factoryid != null">
+        factoryId = #{factoryid,jdbcType=VARCHAR},
+      </if>
+      <if test="hh != null">
+        hh = #{hh,jdbcType=FLOAT},
+      </if>
+      <if test="hl != null">
+        hl = #{hl,jdbcType=FLOAT},
+      </if>
+      <if test="lh != null">
+        lh = #{lh,jdbcType=FLOAT},
+      </if>
+      <if test="ll != null">
+        ll = #{ll,jdbcType=FLOAT},
+      </if>
+      <if test="locindex != null">
+        locIndex = #{locindex,jdbcType=INTEGER},
+      </if>
+      <if test="locname != null">
+        locName = #{locname,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null">
+        manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="measuredirection != null">
+        measureDirection = #{measuredirection,jdbcType=INTEGER},
+      </if>
+      <if test="mhost != null">
+        mhost = #{mhost,jdbcType=VARCHAR},
+      </if>
+      <if test="mport != null">
+        mport = #{mport,jdbcType=INTEGER},
+      </if>
+      <if test="nodehost != null">
+        nodeHost = #{nodehost,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeid != null">
+        nodeId = #{nodeid,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeport != null">
+        nodePort = #{nodeport,jdbcType=INTEGER},
+      </if>
+      <if test="nodetype != null">
+        nodeType = #{nodetype,jdbcType=INTEGER},
+      </if>
+      <if test="pitchdiam != null">
+        pitchDiam = #{pitchdiam,jdbcType=FLOAT},
+      </if>
+      <if test="pointid != null">
+        pointId = #{pointid,jdbcType=VARCHAR},
+      </if>
+      <if test="pointindex != null">
+        pointIndex = #{pointindex,jdbcType=INTEGER},
+      </if>
+      <if test="pointname != null">
+        pointName = #{pointname,jdbcType=VARCHAR},
+      </if>
+      <if test="pointno != null">
+        pointNo = #{pointno,jdbcType=VARCHAR},
+      </if>
+      <if test="pointorder != null">
+        pointOrder = #{pointorder,jdbcType=INTEGER},
+      </if>
+      <if test="revtype != null">
+        revType = #{revtype,jdbcType=INTEGER},
+      </if>
+      <if test="rollingnum != null">
+        rollingNum = #{rollingnum,jdbcType=FLOAT},
+      </if>
+      <if test="rollingdiam != null">
+        rollingDiam = #{rollingdiam,jdbcType=FLOAT},
+      </if>
+      <if test="sectionindex != null">
+        sectionIndex = #{sectionindex,jdbcType=INTEGER},
+      </if>
+      <if test="sectionname != null">
+        sectionName = #{sectionname,jdbcType=VARCHAR},
+      </if>
+      <if test="sensortype != null">
+        sensorType = #{sensortype,jdbcType=INTEGER},
+      </if>
+      <if test="trendgap != null">
+        trendGap = #{trendgap,jdbcType=FLOAT},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pointUuid = #{pointuuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sram.buct_production_practice.entity.PointDetail">
+    update point_detail
+    set channelList = #{channellist,jdbcType=INTEGER},
+      channelType = #{channeltype,jdbcType=INTEGER},
+      channelTypeAlias = #{channeltypealias,jdbcType=VARCHAR},
+      companyId = #{companyid,jdbcType=VARCHAR},
+      contactAngle = #{contactangle,jdbcType=FLOAT},
+      cylinderNo = #{cylinderno,jdbcType=INTEGER},
+      dataSource = #{datasource,jdbcType=INTEGER},
+      dataType = #{datatype,jdbcType=INTEGER},
+      equipmentId = #{equipmentid,jdbcType=VARCHAR},
+      equipmentType = #{equipmenttype,jdbcType=INTEGER},
+      equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR},
+      eventType = #{eventtype,jdbcType=INTEGER},
+      factoryId = #{factoryid,jdbcType=VARCHAR},
+      hh = #{hh,jdbcType=FLOAT},
+      hl = #{hl,jdbcType=FLOAT},
+      lh = #{lh,jdbcType=FLOAT},
+      ll = #{ll,jdbcType=FLOAT},
+      locIndex = #{locindex,jdbcType=INTEGER},
+      locName = #{locname,jdbcType=VARCHAR},
+      manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      measureDirection = #{measuredirection,jdbcType=INTEGER},
+      mhost = #{mhost,jdbcType=VARCHAR},
+      mport = #{mport,jdbcType=INTEGER},
+      nodeHost = #{nodehost,jdbcType=VARCHAR},
+      nodeId = #{nodeid,jdbcType=VARCHAR},
+      nodePort = #{nodeport,jdbcType=INTEGER},
+      nodeType = #{nodetype,jdbcType=INTEGER},
+      pitchDiam = #{pitchdiam,jdbcType=FLOAT},
+      pointId = #{pointid,jdbcType=VARCHAR},
+      pointIndex = #{pointindex,jdbcType=INTEGER},
+      pointName = #{pointname,jdbcType=VARCHAR},
+      pointNo = #{pointno,jdbcType=VARCHAR},
+      pointOrder = #{pointorder,jdbcType=INTEGER},
+      revType = #{revtype,jdbcType=INTEGER},
+      rollingNum = #{rollingnum,jdbcType=FLOAT},
+      rollingDiam = #{rollingdiam,jdbcType=FLOAT},
+      sectionIndex = #{sectionindex,jdbcType=INTEGER},
+      sectionName = #{sectionname,jdbcType=VARCHAR},
+      sensorType = #{sensortype,jdbcType=INTEGER},
+      trendGap = #{trendgap,jdbcType=FLOAT},
+      `type` = #{type,jdbcType=INTEGER},
+      unit = #{unit,jdbcType=VARCHAR}
+    where pointUuid = #{pointuuid,jdbcType=VARCHAR}
+  </update>
+</mapper>
