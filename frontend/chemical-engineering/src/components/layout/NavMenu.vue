@@ -4,7 +4,6 @@
       <el-menu-item index="1">监测数据</el-menu-item>
     </el-menu>
   </div>
-
 </template>
 
 <style>
