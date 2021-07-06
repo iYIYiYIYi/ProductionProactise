@@ -17,4 +17,6 @@ public interface PointDetailDao {
     int updateByPrimaryKeySelective(PointDetail record);
 
     int updateByPrimaryKey(PointDetail record);
+
+
 }
