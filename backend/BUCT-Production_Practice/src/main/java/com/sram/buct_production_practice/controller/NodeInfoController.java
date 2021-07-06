@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Api(value = "node_info")
 @CrossOrigin
 @RestController
@@ -26,8 +28,7 @@ public class NodeInfoController {
     @GetMapping("/node/info")
     @ApiOperation(value = "Get Node Information", notes = "")
     public String getNode( ){
-        NodeInfo nodeInfo = nodeInfoDao.selectByPrimaryKey("12700117001");
-        System.out.println(nodeInfo.toString());
-        return JSONObject.toJSONString(nodeInfo);
+        List<NodeInfo> nodeInfos = nodeInfoDao.selectAll();
+        return JSON.toJSONString(nodeInfos);
     }
 }

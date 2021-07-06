@@ -19,7 +19,10 @@
     from node_info
     where nodeId = #{nodeid,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <select id="selectAll" resultType="com.sram.buct_production_practice.entity.NodeInfo">
+      select * from node_info
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from node_info
     where nodeId = #{nodeid,jdbcType=VARCHAR}
   </delete>

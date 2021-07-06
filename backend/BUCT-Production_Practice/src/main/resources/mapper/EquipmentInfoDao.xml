@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sram.buct_production_practice.dao.EquipmentInfoDao">
+  <resultMap id="BaseResultMap" type="com.sram.buct_production_practice.entity.EquipmentInfo">
+    <id column="equipmentUuid" jdbcType="VARCHAR" property="equipmentuuid" />
+    <result column="alarmAlias" jdbcType="VARCHAR" property="alarmalias" />
+    <result column="alarmId" jdbcType="INTEGER" property="alarmid" />
+    <result column="alarmLevel" jdbcType="INTEGER" property="alarmlevel" />
+    <result column="alarmStatus" jdbcType="INTEGER" property="alarmstatus" />
+    <result column="companyId" jdbcType="VARCHAR" property="companyid" />
+    <result column="companyName" jdbcType="VARCHAR" property="companyname" />
+    <result column="companyNo" jdbcType="VARCHAR" property="companyno" />
+    <result column="companySort" jdbcType="INTEGER" property="companysort" />
+    <result column="companyVisible" jdbcType="INTEGER" property="companyvisible" />
+    <result column="dataType" jdbcType="INTEGER" property="datatype" />
+    <result column="driveName" jdbcType="VARCHAR" property="drivename" />
+    <result column="driveType" jdbcType="INTEGER" property="drivetype" />
+    <result column="equipmentId" jdbcType="VARCHAR" property="equipmentid" />
+    <result column="equipmentIndex" jdbcType="INTEGER" property="equipmentindex" />
+    <result column="equipmentName" jdbcType="VARCHAR" property="equipmentname" />
+    <result column="equipmentNo" jdbcType="VARCHAR" property="equipmentno" />
+    <result column="equipmentSort" jdbcType="INTEGER" property="equipmentsort" />
+    <result column="equipmentType" jdbcType="INTEGER" property="equipmenttype" />
+    <result column="equipmentTypeName" jdbcType="VARCHAR" property="equipmenttypename" />
+    <result column="equipmentVisible" jdbcType="INTEGER" property="equipmentvisible" />
+    <result column="erpcode" jdbcType="VARCHAR" property="erpcode" />
+    <result column="factoryId" jdbcType="VARCHAR" property="factoryid" />
+    <result column="factoryName" jdbcType="VARCHAR" property="factoryname" />
+    <result column="factorySort" jdbcType="INTEGER" property="factorysort" />
+    <result column="factoryVisible" jdbcType="INTEGER" property="factoryvisible" />
+    <result column="graphType" jdbcType="INTEGER" property="graphtype" />
+    <result column="groupId" jdbcType="VARCHAR" property="groupid" />
+    <result column="groupName" jdbcType="VARCHAR" property="groupname" />
+    <result column="groupSort" jdbcType="INTEGER" property="groupsort" />
+    <result column="groupVisible" jdbcType="INTEGER" property="groupvisible" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="mhost" jdbcType="VARCHAR" property="mhost" />
+    <result column="mport" jdbcType="INTEGER" property="mport" />
+    <result column="nodeHost" jdbcType="VARCHAR" property="nodehost" />
+    <result column="nodeId" jdbcType="VARCHAR" property="nodeid" />
+    <result column="nodePort" jdbcType="INTEGER" property="nodeport" />
+    <result column="nodeType" jdbcType="INTEGER" property="nodetype" />
+    <result column="rev" jdbcType="INTEGER" property="rev" />
+    <result column="samplingFreq" jdbcType="INTEGER" property="samplingfreq" />
+    <result column="samplingNumber" jdbcType="INTEGER" property="samplingnumber" />
+    <result column="unitId" jdbcType="VARCHAR" property="unitid" />
+    <result column="unitName" jdbcType="VARCHAR" property="unitname" />
+    <result column="unitSort" jdbcType="INTEGER" property="unitsort" />
+    <result column="unitVisible" jdbcType="INTEGER" property="unitvisible" />
+    <result column="updateTime" jdbcType="INTEGER" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    equipmentUuid, alarmAlias, alarmId, alarmLevel, alarmStatus, companyId, companyName, 
+    companyNo, companySort, companyVisible, dataType, driveName, driveType, equipmentId, 
+    equipmentIndex, equipmentName, equipmentNo, equipmentSort, equipmentType, equipmentTypeName, 
+    equipmentVisible, erpcode, factoryId, factoryName, factorySort, factoryVisible, graphType, 
+    groupId, groupName, groupSort, groupVisible, manufacturer, mhost, mport, nodeHost, 
+    nodeId, nodePort, nodeType, rev, samplingFreq, samplingNumber, unitId, unitName, 
+    unitSort, unitVisible, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from equipment_info
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByNodeID" resultType="com.sram.buct_production_practice.entity.EquipmentInfo">
+    select * from equipment_info
+    where nodeId = #{nodeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from equipment_info
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.EquipmentInfo" useGeneratedKeys="true">
+    insert into equipment_info (alarmAlias, alarmId, alarmLevel, 
+      alarmStatus, companyId, companyName, 
+      companyNo, companySort, companyVisible, 
+      dataType, driveName, driveType, 
+      equipmentId, equipmentIndex, equipmentName, 
+      equipmentNo, equipmentSort, equipmentType, 
+      equipmentTypeName, equipmentVisible, erpcode, 
+      factoryId, factoryName, factorySort, 
+      factoryVisible, graphType, groupId, 
+      groupName, groupSort, groupVisible, 
+      manufacturer, mhost, mport, 
+      nodeHost, nodeId, nodePort, 
+      nodeType, rev, samplingFreq, 
+      samplingNumber, unitId, unitName, 
+      unitSort, unitVisible, updateTime
+      )
+    values (#{alarmalias,jdbcType=VARCHAR}, #{alarmid,jdbcType=INTEGER}, #{alarmlevel,jdbcType=INTEGER}, 
+      #{alarmstatus,jdbcType=INTEGER}, #{companyid,jdbcType=VARCHAR}, #{companyname,jdbcType=VARCHAR}, 
+      #{companyno,jdbcType=VARCHAR}, #{companysort,jdbcType=INTEGER}, #{companyvisible,jdbcType=INTEGER}, 
+      #{datatype,jdbcType=INTEGER}, #{drivename,jdbcType=VARCHAR}, #{drivetype,jdbcType=INTEGER}, 
+      #{equipmentid,jdbcType=VARCHAR}, #{equipmentindex,jdbcType=INTEGER}, #{equipmentname,jdbcType=VARCHAR}, 
+      #{equipmentno,jdbcType=VARCHAR}, #{equipmentsort,jdbcType=INTEGER}, #{equipmenttype,jdbcType=INTEGER}, 
+      #{equipmenttypename,jdbcType=VARCHAR}, #{equipmentvisible,jdbcType=INTEGER}, #{erpcode,jdbcType=VARCHAR}, 
+      #{factoryid,jdbcType=VARCHAR}, #{factoryname,jdbcType=VARCHAR}, #{factorysort,jdbcType=INTEGER}, 
+      #{factoryvisible,jdbcType=INTEGER}, #{graphtype,jdbcType=INTEGER}, #{groupid,jdbcType=VARCHAR}, 
+      #{groupname,jdbcType=VARCHAR}, #{groupsort,jdbcType=INTEGER}, #{groupvisible,jdbcType=INTEGER}, 
+      #{manufacturer,jdbcType=VARCHAR}, #{mhost,jdbcType=VARCHAR}, #{mport,jdbcType=INTEGER}, 
+      #{nodehost,jdbcType=VARCHAR}, #{nodeid,jdbcType=VARCHAR}, #{nodeport,jdbcType=INTEGER}, 
+      #{nodetype,jdbcType=INTEGER}, #{rev,jdbcType=INTEGER}, #{samplingfreq,jdbcType=INTEGER}, 
+      #{samplingnumber,jdbcType=INTEGER}, #{unitid,jdbcType=VARCHAR}, #{unitname,jdbcType=VARCHAR}, 
+      #{unitsort,jdbcType=INTEGER}, #{unitvisible,jdbcType=INTEGER}, #{updatetime,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.EquipmentInfo" useGeneratedKeys="true">
+    insert into equipment_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="alarmalias != null">
+        alarmAlias,
+      </if>
+      <if test="alarmid != null">
+        alarmId,
+      </if>
+      <if test="alarmlevel != null">
+        alarmLevel,
+      </if>
+      <if test="alarmstatus != null">
+        alarmStatus,
+      </if>
+      <if test="companyid != null">
+        companyId,
+      </if>
+      <if test="companyname != null">
+        companyName,
+      </if>
+      <if test="companyno != null">
+        companyNo,
+      </if>
+      <if test="companysort != null">
+        companySort,
+      </if>
+      <if test="companyvisible != null">
+        companyVisible,
+      </if>
+      <if test="datatype != null">
+        dataType,
+      </if>
+      <if test="drivename != null">
+        driveName,
+      </if>
+      <if test="drivetype != null">
+        driveType,
+      </if>
+      <if test="equipmentid != null">
+        equipmentId,
+      </if>
+      <if test="equipmentindex != null">
+        equipmentIndex,
+      </if>
+      <if test="equipmentname != null">
+        equipmentName,
+      </if>
+      <if test="equipmentno != null">
+        equipmentNo,
+      </if>
+      <if test="equipmentsort != null">
+        equipmentSort,
+      </if>
+      <if test="equipmenttype != null">
+        equipmentType,
+      </if>
+      <if test="equipmenttypename != null">
+        equipmentTypeName,
+      </if>
+      <if test="equipmentvisible != null">
+        equipmentVisible,
+      </if>
+      <if test="erpcode != null">
+        erpcode,
+      </if>
+      <if test="factoryid != null">
+        factoryId,
+      </if>
+      <if test="factoryname != null">
+        factoryName,
+      </if>
+      <if test="factorysort != null">
+        factorySort,
+      </if>
+      <if test="factoryvisible != null">
+        factoryVisible,
+      </if>
+      <if test="graphtype != null">
+        graphType,
+      </if>
+      <if test="groupid != null">
+        groupId,
+      </if>
+      <if test="groupname != null">
+        groupName,
+      </if>
+      <if test="groupsort != null">
+        groupSort,
+      </if>
+      <if test="groupvisible != null">
+        groupVisible,
+      </if>
+      <if test="manufacturer != null">
+        manufacturer,
+      </if>
+      <if test="mhost != null">
+        mhost,
+      </if>
+      <if test="mport != null">
+        mport,
+      </if>
+      <if test="nodehost != null">
+        nodeHost,
+      </if>
+      <if test="nodeid != null">
+        nodeId,
+      </if>
+      <if test="nodeport != null">
+        nodePort,
+      </if>
+      <if test="nodetype != null">
+        nodeType,
+      </if>
+      <if test="rev != null">
+        rev,
+      </if>
+      <if test="samplingfreq != null">
+        samplingFreq,
+      </if>
+      <if test="samplingnumber != null">
+        samplingNumber,
+      </if>
+      <if test="unitid != null">
+        unitId,
+      </if>
+      <if test="unitname != null">
+        unitName,
+      </if>
+      <if test="unitsort != null">
+        unitSort,
+      </if>
+      <if test="unitvisible != null">
+        unitVisible,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="alarmalias != null">
+        #{alarmalias,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmid != null">
+        #{alarmid,jdbcType=INTEGER},
+      </if>
+      <if test="alarmlevel != null">
+        #{alarmlevel,jdbcType=INTEGER},
+      </if>
+      <if test="alarmstatus != null">
+        #{alarmstatus,jdbcType=INTEGER},
+      </if>
+      <if test="companyid != null">
+        #{companyid,jdbcType=VARCHAR},
+      </if>
+      <if test="companyname != null">
+        #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="companyno != null">
+        #{companyno,jdbcType=VARCHAR},
+      </if>
+      <if test="companysort != null">
+        #{companysort,jdbcType=INTEGER},
+      </if>
+      <if test="companyvisible != null">
+        #{companyvisible,jdbcType=INTEGER},
+      </if>
+      <if test="datatype != null">
+        #{datatype,jdbcType=INTEGER},
+      </if>
+      <if test="drivename != null">
+        #{drivename,jdbcType=VARCHAR},
+      </if>
+      <if test="drivetype != null">
+        #{drivetype,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentid != null">
+        #{equipmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentindex != null">
+        #{equipmentindex,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentname != null">
+        #{equipmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentno != null">
+        #{equipmentno,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentsort != null">
+        #{equipmentsort,jdbcType=INTEGER},
+      </if>
+      <if test="equipmenttype != null">
+        #{equipmenttype,jdbcType=INTEGER},
+      </if>
+      <if test="equipmenttypename != null">
+        #{equipmenttypename,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentvisible != null">
+        #{equipmentvisible,jdbcType=INTEGER},
+      </if>
+      <if test="erpcode != null">
+        #{erpcode,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryid != null">
+        #{factoryid,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryname != null">
+        #{factoryname,jdbcType=VARCHAR},
+      </if>
+      <if test="factorysort != null">
+        #{factorysort,jdbcType=INTEGER},
+      </if>
+      <if test="factoryvisible != null">
+        #{factoryvisible,jdbcType=INTEGER},
+      </if>
+      <if test="graphtype != null">
+        #{graphtype,jdbcType=INTEGER},
+      </if>
+      <if test="groupid != null">
+        #{groupid,jdbcType=VARCHAR},
+      </if>
+      <if test="groupname != null">
+        #{groupname,jdbcType=VARCHAR},
+      </if>
+      <if test="groupsort != null">
+        #{groupsort,jdbcType=INTEGER},
+      </if>
+      <if test="groupvisible != null">
+        #{groupvisible,jdbcType=INTEGER},
+      </if>
+      <if test="manufacturer != null">
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="mhost != null">
+        #{mhost,jdbcType=VARCHAR},
+      </if>
+      <if test="mport != null">
+        #{mport,jdbcType=INTEGER},
+      </if>
+      <if test="nodehost != null">
+        #{nodehost,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeid != null">
+        #{nodeid,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeport != null">
+        #{nodeport,jdbcType=INTEGER},
+      </if>
+      <if test="nodetype != null">
+        #{nodetype,jdbcType=INTEGER},
+      </if>
+      <if test="rev != null">
+        #{rev,jdbcType=INTEGER},
+      </if>
+      <if test="samplingfreq != null">
+        #{samplingfreq,jdbcType=INTEGER},
+      </if>
+      <if test="samplingnumber != null">
+        #{samplingnumber,jdbcType=INTEGER},
+      </if>
+      <if test="unitid != null">
+        #{unitid,jdbcType=VARCHAR},
+      </if>
+      <if test="unitname != null">
+        #{unitname,jdbcType=VARCHAR},
+      </if>
+      <if test="unitsort != null">
+        #{unitsort,jdbcType=INTEGER},
+      </if>
+      <if test="unitvisible != null">
+        #{unitvisible,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sram.buct_production_practice.entity.EquipmentInfo">
+    update equipment_info
+    <set>
+      <if test="alarmalias != null">
+        alarmAlias = #{alarmalias,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmid != null">
+        alarmId = #{alarmid,jdbcType=INTEGER},
+      </if>
+      <if test="alarmlevel != null">
+        alarmLevel = #{alarmlevel,jdbcType=INTEGER},
+      </if>
+      <if test="alarmstatus != null">
+        alarmStatus = #{alarmstatus,jdbcType=INTEGER},
+      </if>
+      <if test="companyid != null">
+        companyId = #{companyid,jdbcType=VARCHAR},
+      </if>
+      <if test="companyname != null">
+        companyName = #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="companyno != null">
+        companyNo = #{companyno,jdbcType=VARCHAR},
+      </if>
+      <if test="companysort != null">
+        companySort = #{companysort,jdbcType=INTEGER},
+      </if>
+      <if test="companyvisible != null">
+        companyVisible = #{companyvisible,jdbcType=INTEGER},
+      </if>
+      <if test="datatype != null">
+        dataType = #{datatype,jdbcType=INTEGER},
+      </if>
+      <if test="drivename != null">
+        driveName = #{drivename,jdbcType=VARCHAR},
+      </if>
+      <if test="drivetype != null">
+        driveType = #{drivetype,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentid != null">
+        equipmentId = #{equipmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentindex != null">
+        equipmentIndex = #{equipmentindex,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentname != null">
+        equipmentName = #{equipmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentno != null">
+        equipmentNo = #{equipmentno,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentsort != null">
+        equipmentSort = #{equipmentsort,jdbcType=INTEGER},
+      </if>
+      <if test="equipmenttype != null">
+        equipmentType = #{equipmenttype,jdbcType=INTEGER},
+      </if>
+      <if test="equipmenttypename != null">
+        equipmentTypeName = #{equipmenttypename,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentvisible != null">
+        equipmentVisible = #{equipmentvisible,jdbcType=INTEGER},
+      </if>
+      <if test="erpcode != null">
+        erpcode = #{erpcode,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryid != null">
+        factoryId = #{factoryid,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryname != null">
+        factoryName = #{factoryname,jdbcType=VARCHAR},
+      </if>
+      <if test="factorysort != null">
+        factorySort = #{factorysort,jdbcType=INTEGER},
+      </if>
+      <if test="factoryvisible != null">
+        factoryVisible = #{factoryvisible,jdbcType=INTEGER},
+      </if>
+      <if test="graphtype != null">
+        graphType = #{graphtype,jdbcType=INTEGER},
+      </if>
+      <if test="groupid != null">
+        groupId = #{groupid,jdbcType=VARCHAR},
+      </if>
+      <if test="groupname != null">
+        groupName = #{groupname,jdbcType=VARCHAR},
+      </if>
+      <if test="groupsort != null">
+        groupSort = #{groupsort,jdbcType=INTEGER},
+      </if>
+      <if test="groupvisible != null">
+        groupVisible = #{groupvisible,jdbcType=INTEGER},
+      </if>
+      <if test="manufacturer != null">
+        manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="mhost != null">
+        mhost = #{mhost,jdbcType=VARCHAR},
+      </if>
+      <if test="mport != null">
+        mport = #{mport,jdbcType=INTEGER},
+      </if>
+      <if test="nodehost != null">
+        nodeHost = #{nodehost,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeid != null">
+        nodeId = #{nodeid,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeport != null">
+        nodePort = #{nodeport,jdbcType=INTEGER},
+      </if>
+      <if test="nodetype != null">
+        nodeType = #{nodetype,jdbcType=INTEGER},
+      </if>
+      <if test="rev != null">
+        rev = #{rev,jdbcType=INTEGER},
+      </if>
+      <if test="samplingfreq != null">
+        samplingFreq = #{samplingfreq,jdbcType=INTEGER},
+      </if>
+      <if test="samplingnumber != null">
+        samplingNumber = #{samplingnumber,jdbcType=INTEGER},
+      </if>
+      <if test="unitid != null">
+        unitId = #{unitid,jdbcType=VARCHAR},
+      </if>
+      <if test="unitname != null">
+        unitName = #{unitname,jdbcType=VARCHAR},
+      </if>
+      <if test="unitsort != null">
+        unitSort = #{unitsort,jdbcType=INTEGER},
+      </if>
+      <if test="unitvisible != null">
+        unitVisible = #{unitvisible,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sram.buct_production_practice.entity.EquipmentInfo">
+    update equipment_info
+    set alarmAlias = #{alarmalias,jdbcType=VARCHAR},
+      alarmId = #{alarmid,jdbcType=INTEGER},
+      alarmLevel = #{alarmlevel,jdbcType=INTEGER},
+      alarmStatus = #{alarmstatus,jdbcType=INTEGER},
+      companyId = #{companyid,jdbcType=VARCHAR},
+      companyName = #{companyname,jdbcType=VARCHAR},
+      companyNo = #{companyno,jdbcType=VARCHAR},
+      companySort = #{companysort,jdbcType=INTEGER},
+      companyVisible = #{companyvisible,jdbcType=INTEGER},
+      dataType = #{datatype,jdbcType=INTEGER},
+      driveName = #{drivename,jdbcType=VARCHAR},
+      driveType = #{drivetype,jdbcType=INTEGER},
+      equipmentId = #{equipmentid,jdbcType=VARCHAR},
+      equipmentIndex = #{equipmentindex,jdbcType=INTEGER},
+      equipmentName = #{equipmentname,jdbcType=VARCHAR},
+      equipmentNo = #{equipmentno,jdbcType=VARCHAR},
+      equipmentSort = #{equipmentsort,jdbcType=INTEGER},
+      equipmentType = #{equipmenttype,jdbcType=INTEGER},
+      equipmentTypeName = #{equipmenttypename,jdbcType=VARCHAR},
+      equipmentVisible = #{equipmentvisible,jdbcType=INTEGER},
+      erpcode = #{erpcode,jdbcType=VARCHAR},
+      factoryId = #{factoryid,jdbcType=VARCHAR},
+      factoryName = #{factoryname,jdbcType=VARCHAR},
+      factorySort = #{factorysort,jdbcType=INTEGER},
+      factoryVisible = #{factoryvisible,jdbcType=INTEGER},
+      graphType = #{graphtype,jdbcType=INTEGER},
+      groupId = #{groupid,jdbcType=VARCHAR},
+      groupName = #{groupname,jdbcType=VARCHAR},
+      groupSort = #{groupsort,jdbcType=INTEGER},
+      groupVisible = #{groupvisible,jdbcType=INTEGER},
+      manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      mhost = #{mhost,jdbcType=VARCHAR},
+      mport = #{mport,jdbcType=INTEGER},
+      nodeHost = #{nodehost,jdbcType=VARCHAR},
+      nodeId = #{nodeid,jdbcType=VARCHAR},
+      nodePort = #{nodeport,jdbcType=INTEGER},
+      nodeType = #{nodetype,jdbcType=INTEGER},
+      rev = #{rev,jdbcType=INTEGER},
+      samplingFreq = #{samplingfreq,jdbcType=INTEGER},
+      samplingNumber = #{samplingnumber,jdbcType=INTEGER},
+      unitId = #{unitid,jdbcType=VARCHAR},
+      unitName = #{unitname,jdbcType=VARCHAR},
+      unitSort = #{unitsort,jdbcType=INTEGER},
+      unitVisible = #{unitvisible,jdbcType=INTEGER},
+      updateTime = #{updatetime,jdbcType=INTEGER}
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

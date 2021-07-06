@@ -4,6 +4,8 @@ import com.sram.buct_production_practice.entity.NodeInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface NodeInfoDao {
     int deleteByPrimaryKey(String nodeid);
@@ -17,4 +19,6 @@ public interface NodeInfoDao {
     int updateByPrimaryKeySelective(NodeInfo record);
 
     int updateByPrimaryKey(NodeInfo record);
+
+    List<NodeInfo> selectAll();
 }

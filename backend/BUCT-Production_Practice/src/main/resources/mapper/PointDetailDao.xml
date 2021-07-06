@@ -60,7 +60,11 @@
     from point_detail
     where pointUuid = #{pointuuid,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <select id="selectByEquipmentUuid" resultType="com.sram.buct_production_practice.entity.PointDetail">
+      select * from  point_detail
+        where equipmentUuid = #{EquipmentUuid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from point_detail
     where pointUuid = #{pointuuid,jdbcType=VARCHAR}
   </delete>

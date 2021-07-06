@@ -1,8 +1,9 @@
 package com.sram.buct_production_practice.dao;
 
 import com.sram.buct_production_practice.entity.PointDetail;
-import org.mapstruct.Mapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface PointDetailDao {
@@ -18,5 +19,5 @@ public interface PointDetailDao {
 
     int updateByPrimaryKey(PointDetail record);
 
-
+    List<PointDetail> selectByEquipmentUuid(String EquipmentUuid);
 }
