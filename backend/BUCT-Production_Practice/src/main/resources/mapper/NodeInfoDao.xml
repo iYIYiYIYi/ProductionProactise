@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sram.buct_production_practice.dao.NodeInfoDao">
+  <resultMap id="BaseResultMap" type="com.sram.buct_production_practice.entity.NodeInfo">
+    <id column="nodeId" jdbcType="VARCHAR" property="nodeid" />
+    <result column="linkType" jdbcType="INTEGER" property="linktype" />
+    <result column="nodeHost" jdbcType="VARCHAR" property="nodehost" />
+    <result column="nodePort" jdbcType="INTEGER" property="nodeport" />
+    <result column="status" jdbcType="BOOLEAN" property="status" />
+    <result column="nodeType" jdbcType="INTEGER" property="nodetype" />
+    <result column="syncTime" jdbcType="INTEGER" property="synctime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    nodeId, `linkType`, nodeHost, nodePort, `status`, nodeType, syncTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from node_info
+    where nodeId = #{nodeid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from node_info
+    where nodeId = #{nodeid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="nodeId" keyProperty="nodeid" parameterType="com.sram.buct_production_practice.entity.NodeInfo" useGeneratedKeys="true">
+    insert into node_info (`linkType`, nodeHost, nodePort, 
+      `status`, nodeType, syncTime
+      )
+    values (#{linktype,jdbcType=INTEGER}, #{nodehost,jdbcType=VARCHAR}, #{nodeport,jdbcType=INTEGER}, 
+      #{status,jdbcType=BOOLEAN}, #{nodetype,jdbcType=INTEGER}, #{synctime,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="nodeId" keyProperty="nodeid" parameterType="com.sram.buct_production_practice.entity.NodeInfo" useGeneratedKeys="true">
+    insert into node_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="linktype != null">
+        `linkType`,
+      </if>
+      <if test="nodehost != null">
+        nodeHost,
+      </if>
+      <if test="nodeport != null">
+        nodePort,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="nodetype != null">
+        nodeType,
+      </if>
+      <if test="synctime != null">
+        syncTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="linktype != null">
+        #{linktype,jdbcType=INTEGER},
+      </if>
+      <if test="nodehost != null">
+        #{nodehost,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeport != null">
+        #{nodeport,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BOOLEAN},
+      </if>
+      <if test="nodetype != null">
+        #{nodetype,jdbcType=INTEGER},
+      </if>
+      <if test="synctime != null">
+        #{synctime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sram.buct_production_practice.entity.NodeInfo">
+    update node_info
+    <set>
+      <if test="linktype != null">
+        `linkType` = #{linktype,jdbcType=INTEGER},
+      </if>
+      <if test="nodehost != null">
+        nodeHost = #{nodehost,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeport != null">
+        nodePort = #{nodeport,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=BOOLEAN},
+      </if>
+      <if test="nodetype != null">
+        nodeType = #{nodetype,jdbcType=INTEGER},
+      </if>
+      <if test="synctime != null">
+        syncTime = #{synctime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where nodeId = #{nodeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sram.buct_production_practice.entity.NodeInfo">
+    update node_info
+    set `linkType` = #{linktype,jdbcType=INTEGER},
+      nodeHost = #{nodehost,jdbcType=VARCHAR},
+      nodePort = #{nodeport,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=BOOLEAN},
+      nodeType = #{nodetype,jdbcType=INTEGER},
+      syncTime = #{synctime,jdbcType=INTEGER}
+    where nodeId = #{nodeid,jdbcType=VARCHAR}
+  </update>
+</mapper>
