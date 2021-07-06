@@ -1,17 +1,23 @@
 <template>
   <div class="hello">
 <!--    <h1>{{ msg }}</h1>-->
-    <NavMenu></NavMenu>
     <LeftTabMenu></LeftTabMenu>
+    <div class="right-part">
+      <NavMenu></NavMenu>
+      <div class="content">
+        <Content></Content>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import NavMenu from "@/components/layout/NavMenu";
 import LeftTabMenu from "@/components/layout/LeftTabMenu";
+import Content from "@/components/layout/Content";
 export default {
   name: 'HelloWorld',
-  components: {NavMenu,LeftTabMenu},
+  components: {Content, NavMenu,LeftTabMenu},
   props: {
     msg: String
   }
@@ -33,5 +39,17 @@ li {
 }
 a {
   color: #42b983;
+}
+
+.hello {
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+}
+
+.right-part {
+  width: 100%;
+
 }
 </style>
