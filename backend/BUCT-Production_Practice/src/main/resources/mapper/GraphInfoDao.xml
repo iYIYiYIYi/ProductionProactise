@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sram.buct_production_practice.dao.GraphInfoDao">
+  <resultMap id="BaseResultMap" type="com.sram.buct_production_practice.entity.GraphInfo">
+    <id column="equipmentUuid" jdbcType="VARCHAR" property="equipmentuuid" />
+    <result column="fontSize" jdbcType="INTEGER" property="fontsize" />
+    <result column="graphId" jdbcType="INTEGER" property="graphid" />
+    <result column="graphImageBackground" jdbcType="VARCHAR" property="graphimagebackground" />
+    <result column="graphImageBase64Code" jdbcType="VARCHAR" property="graphimagebase64code" />
+    <result column="graphImageHeight" jdbcType="INTEGER" property="graphimageheight" />
+    <result column="graphImageWidth" jdbcType="INTEGER" property="graphimagewidth" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    equipmentUuid, fontSize, graphId, graphImageBackground, graphImageBase64Code, graphImageHeight, 
+    graphImageWidth
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from graph_info
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from graph_info
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.GraphInfo" useGeneratedKeys="true">
+    insert into graph_info (fontSize, graphId, graphImageBackground, 
+      graphImageBase64Code, graphImageHeight, 
+      graphImageWidth)
+    values (#{fontsize,jdbcType=INTEGER}, #{graphid,jdbcType=INTEGER}, #{graphimagebackground,jdbcType=VARCHAR}, 
+      #{graphimagebase64code,jdbcType=VARCHAR}, #{graphimageheight,jdbcType=INTEGER}, 
+      #{graphimagewidth,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.GraphInfo" useGeneratedKeys="true">
+    insert into graph_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fontsize != null">
+        fontSize,
+      </if>
+      <if test="graphid != null">
+        graphId,
+      </if>
+      <if test="graphimagebackground != null">
+        graphImageBackground,
+      </if>
+      <if test="graphimagebase64code != null">
+        graphImageBase64Code,
+      </if>
+      <if test="graphimageheight != null">
+        graphImageHeight,
+      </if>
+      <if test="graphimagewidth != null">
+        graphImageWidth,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fontsize != null">
+        #{fontsize,jdbcType=INTEGER},
+      </if>
+      <if test="graphid != null">
+        #{graphid,jdbcType=INTEGER},
+      </if>
+      <if test="graphimagebackground != null">
+        #{graphimagebackground,jdbcType=VARCHAR},
+      </if>
+      <if test="graphimagebase64code != null">
+        #{graphimagebase64code,jdbcType=VARCHAR},
+      </if>
+      <if test="graphimageheight != null">
+        #{graphimageheight,jdbcType=INTEGER},
+      </if>
+      <if test="graphimagewidth != null">
+        #{graphimagewidth,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sram.buct_production_practice.entity.GraphInfo">
+    update graph_info
+    <set>
+      <if test="fontsize != null">
+        fontSize = #{fontsize,jdbcType=INTEGER},
+      </if>
+      <if test="graphid != null">
+        graphId = #{graphid,jdbcType=INTEGER},
+      </if>
+      <if test="graphimagebackground != null">
+        graphImageBackground = #{graphimagebackground,jdbcType=VARCHAR},
+      </if>
+      <if test="graphimagebase64code != null">
+        graphImageBase64Code = #{graphimagebase64code,jdbcType=VARCHAR},
+      </if>
+      <if test="graphimageheight != null">
+        graphImageHeight = #{graphimageheight,jdbcType=INTEGER},
+      </if>
+      <if test="graphimagewidth != null">
+        graphImageWidth = #{graphimagewidth,jdbcType=INTEGER},
+      </if>
+    </set>
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sram.buct_production_practice.entity.GraphInfo">
+    update graph_info
+    set fontSize = #{fontsize,jdbcType=INTEGER},
+      graphId = #{graphid,jdbcType=INTEGER},
+      graphImageBackground = #{graphimagebackground,jdbcType=VARCHAR},
+      graphImageBase64Code = #{graphimagebase64code,jdbcType=VARCHAR},
+      graphImageHeight = #{graphimageheight,jdbcType=INTEGER},
+      graphImageWidth = #{graphimagewidth,jdbcType=INTEGER}
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </update>
+</mapper>
