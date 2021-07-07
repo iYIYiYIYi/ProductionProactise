@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sram.buct_production_practice.dao.TrendInfoDao">
+  <resultMap id="BaseResultMap" type="com.sram.buct_production_practice.entity.TrendInfo">
+    <id column="equipmentUuid" jdbcType="VARCHAR" property="equipmentuuid" />
+    <result column="endTime" jdbcType="INTEGER" property="endtime" />
+    <result column="pointIdString" jdbcType="VARCHAR" property="pointidstring" />
+    <result column="startTime" jdbcType="INTEGER" property="starttime" />
+    <result column="equipmentName" jdbcType="VARCHAR" property="equipmentname" />
+    <result column="pointName" jdbcType="VARCHAR" property="pointname" />
+    <result column="pointUuid" jdbcType="VARCHAR" property="pointuuid" />
+    <result column="trendInfo" jdbcType="VARCHAR" property="trendinfo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    equipmentUuid, endTime, pointIdString, startTime, equipmentName, pointName, pointUuid, 
+    trendInfo
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from trend_info
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from trend_info
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.TrendInfo" useGeneratedKeys="true">
+    insert into trend_info (endTime, pointIdString, startTime, 
+      equipmentName, pointName, pointUuid, 
+      trendInfo)
+    values (#{endtime,jdbcType=INTEGER}, #{pointidstring,jdbcType=VARCHAR}, #{starttime,jdbcType=INTEGER}, 
+      #{equipmentname,jdbcType=VARCHAR}, #{pointname,jdbcType=VARCHAR}, #{pointuuid,jdbcType=VARCHAR}, 
+      #{trendinfo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.TrendInfo" useGeneratedKeys="true">
+    insert into trend_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="endtime != null">
+        endTime,
+      </if>
+      <if test="pointidstring != null">
+        pointIdString,
+      </if>
+      <if test="starttime != null">
+        startTime,
+      </if>
+      <if test="equipmentname != null">
+        equipmentName,
+      </if>
+      <if test="pointname != null">
+        pointName,
+      </if>
+      <if test="pointuuid != null">
+        pointUuid,
+      </if>
+      <if test="trendinfo != null">
+        trendInfo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="endtime != null">
+        #{endtime,jdbcType=INTEGER},
+      </if>
+      <if test="pointidstring != null">
+        #{pointidstring,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentname != null">
+        #{equipmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="pointname != null">
+        #{pointname,jdbcType=VARCHAR},
+      </if>
+      <if test="pointuuid != null">
+        #{pointuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="trendinfo != null">
+        #{trendinfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sram.buct_production_practice.entity.TrendInfo">
+    update trend_info
+    <set>
+      <if test="endtime != null">
+        endTime = #{endtime,jdbcType=INTEGER},
+      </if>
+      <if test="pointidstring != null">
+        pointIdString = #{pointidstring,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        startTime = #{starttime,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentname != null">
+        equipmentName = #{equipmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="pointname != null">
+        pointName = #{pointname,jdbcType=VARCHAR},
+      </if>
+      <if test="pointuuid != null">
+        pointUuid = #{pointuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="trendinfo != null">
+        trendInfo = #{trendinfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sram.buct_production_practice.entity.TrendInfo">
+    update trend_info
+    set endTime = #{endtime,jdbcType=INTEGER},
+      pointIdString = #{pointidstring,jdbcType=VARCHAR},
+      startTime = #{starttime,jdbcType=INTEGER},
+      equipmentName = #{equipmentname,jdbcType=VARCHAR},
+      pointName = #{pointname,jdbcType=VARCHAR},
+      pointUuid = #{pointuuid,jdbcType=VARCHAR},
+      trendInfo = #{trendinfo,jdbcType=VARCHAR}
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

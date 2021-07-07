@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sram.buct_production_practice.dao.NodeInfoDao;
 import com.sram.buct_production_practice.entity.NodeInfo;
+import com.sram.buct_production_practice.util.StandardJSonResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -17,8 +18,6 @@ import java.util.List;
 @RestController
 public class NodeInfoController {
 
-
-
     NodeInfoDao nodeInfoDao;
 
     public NodeInfoController(@Autowired NodeInfoDao nodeInfoDao) {
@@ -27,8 +26,8 @@ public class NodeInfoController {
 
     @GetMapping("/node/info")
     @ApiOperation(value = "Get Node Information", notes = "")
-    public String getNode( ){
+    public JSONObject getNode() {
         List<NodeInfo> nodeInfos = nodeInfoDao.selectAll();
-        return JSON.toJSONString(nodeInfos);
+        return StandardJSonResponse.Correct(nodeInfos, "node info");
     }
 }

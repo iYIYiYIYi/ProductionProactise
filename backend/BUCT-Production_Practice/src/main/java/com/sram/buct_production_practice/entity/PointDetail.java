@@ -3,7 +3,10 @@ package com.sram.buct_production_practice.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * point_detail
@@ -11,6 +14,8 @@ import lombok.Data;
  */
 @ApiModel(value="com.sram.buct_production_practice.entity.PointDetail")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PointDetail implements Serializable {
     private String pointuuid;
 

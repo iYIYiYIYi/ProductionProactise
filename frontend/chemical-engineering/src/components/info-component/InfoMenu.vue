@@ -32,6 +32,8 @@
 </template>
 
 <script>
+const axios = require('axios');
+
 export default {
   name: "InfoMenu",
   props :{
@@ -66,6 +68,30 @@ export default {
     change(){
 
     },
+
+    //获取测点信息//
+    getMessage(equipmentUuid){
+      // Make a request for a user with a given ID
+      axios({
+        method:'get',
+        url:'http://192.168.137.1:8848/point/'+equipmentUuid+'/detail',
+        responseType:'jsonp',
+      })
+          .then(function (response) {
+            // handle success
+            console.log(response);
+            var parse = JSON.parse(response.data);
+            console.log(parse)
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
+          .then(function () {
+            // always executed
+          });
+    },
+
   }
 }
 </script>
