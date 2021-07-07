@@ -115,7 +115,7 @@ export default {
       console.log(key, keyPath);
     },
     //获取节点信息//
-    getNodeld(){
+    getNodeId(){
       // Make a request for a user with a given ID
       axios({
         method:'get',
@@ -136,116 +136,6 @@ export default {
             // always executed
           });
     },
-    //获取设备信息//
-    getstatus(){
-      // Make a request for a user with a given ID
-      axios({
-        method:'get',
-        url:'http://192.168.137.1:8848/equipment/node/{nodeId}/info',
-        responseType:'jsonp',
-      })
-          .then(function (response) {
-            // handle success
-            console.log(response);
-            var parse = JSON.parse(response.data);
-            console.log(parse)
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          })
-          .then(function () {
-            // always executed
-          });
-    },
-    //获取测点信息//
-    getmessage(){
-      // Make a request for a user with a given ID
-      axios({
-        method:'get',
-        url:'http://192.168.137.1:8848/point/{equipmentUuid}/detail',
-        responseType:'jsonp',
-      })
-          .then(function (response) {
-            // handle success
-            console.log(response);
-            var parse = JSON.parse(response.data);
-            console.log(parse)
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          })
-          .then(function () {
-            // always executed
-          });
-    },
-    //获取频谱图数据//
-    getdata(){
-      // Make a request for a user with a given ID
-      axios({
-        method:'get',
-        url:'http://192.168.137.1:8848/trend/{equipmentUuid}/{pointIdString}/real_time',
-        responseType:'jsonp',
-      })
-          .then(function (response) {
-            // handle success
-            console.log(response);
-            var parse = JSON.parse(response.data);
-            console.log(parse)
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          })
-          .then(function () {
-            // always executed
-          });
-    },
-    //历史趋势图//
-    gethistory(){
-      // Make a request for a user with a given ID
-      axios({
-        method:'get',
-        url:'http://192.168.137.1:8848/trend/{equipmentUuid}/{pointIdString}/{startTime}/{endTime}/info',
-        responseType:'jsonp',
-      })
-          .then(function (response) {
-            // handle success
-            console.log(response);
-            var parse = JSON.parse(response.data);
-            console.log(parse)
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          })
-          .then(function () {
-            // always executed
-          });
-    },
-    //历史波形频谱图//
-    gethistorywave(){
-  // Make a request for a user with a given ID
-  axios({
-    method:'get',
-    url:'http://192.168.137.1:8848/wave-spectrum/{equipmentUuid}/{pointId}/{trendTime}/{waveNumber}/{analysisLines}/info',
-    responseType:'jsonp',
-  })
-      .then(function (response) {
-        // handle success
-        console.log(response);
-        var parse = JSON.parse(response.data);
-        console.log(parse)
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .then(function () {
-        // always executed
-      });
-      },
   }
 }
 </script>
