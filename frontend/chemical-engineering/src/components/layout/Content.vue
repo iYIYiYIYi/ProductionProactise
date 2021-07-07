@@ -1,7 +1,7 @@
 <template>
   <el-tabs type="border-card" class="tabs">
     <el-tab-pane v-for="type in types" :key="type" :label="type">
-      <ImageCanvas :name="name">
+      <ImageCanvas :name="name" :data="data">
 
       </ImageCanvas>
     </el-tab-pane>
@@ -15,7 +15,8 @@ export default {
   name: "Content",
   props:{
     types:Array,
-    name:String
+    name:String,
+    data:Object,
   },
   components:{
     ImageCanvas,
