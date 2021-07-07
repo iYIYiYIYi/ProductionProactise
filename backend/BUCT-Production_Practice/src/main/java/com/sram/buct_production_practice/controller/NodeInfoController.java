@@ -28,6 +28,8 @@ public class NodeInfoController {
     @ApiOperation(value = "Get Node Information", notes = "")
     public JSONObject getNode() {
         List<NodeInfo> nodeInfos = nodeInfoDao.selectAll();
+        if(nodeInfos.isEmpty())
+            return StandardJSonResponse.Error("node info");
         return StandardJSonResponse.Correct(nodeInfos, "node info");
     }
 }
