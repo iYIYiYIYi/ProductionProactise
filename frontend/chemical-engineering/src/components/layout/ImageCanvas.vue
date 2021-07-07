@@ -57,11 +57,11 @@ export default {
   },
 
   //获取频谱图数据//
-  getdata(){
+  getData(equipmentUuid,pointIdString){
     // Make a request for a user with a given ID
     axios({
       method:'get',
-      url:'http://192.168.137.1:8848/trend/{equipmentUuid}/{pointIdString}/real_time',
+      url:'http://192.168.137.1:8848/trend/'+equipmentUuid+'/'+pointIdString+'/real_time',
       responseType:'jsonp',
     })
         .then(function (response) {
@@ -79,11 +79,11 @@ export default {
         });
   },
   //历史趋势图//
-  gethistory(){
+  getHistory(equipmentUuid,pointIdString,startTime,endTime){
     // Make a request for a user with a given ID
     axios({
       method:'get',
-      url:'http://192.168.137.1:8848/trend/{equipmentUuid}/{pointIdString}/{startTime}/{endTime}/info',
+      url:'http://192.168.137.1:8848/trend/'+equipmentUuid+'/'+pointIdString+'/'+startTime+'/'+endTime+'/info',
       responseType:'jsonp',
     })
         .then(function (response) {
@@ -101,11 +101,11 @@ export default {
         });
   },
   //历史波形频谱图//
-  gethistorywave(){
+  getHistoryWave(equipmentUuid,pointId,trendTime,waveNumber,analysisLines){
     // Make a request for a user with a given ID
     axios({
       method:'get',
-      url:'http://192.168.137.1:8848/wave-spectrum/{equipmentUuid}/{pointId}/{trendTime}/{waveNumber}/{analysisLines}/info',
+      url:'http://192.168.137.1:8848/wave-spectrum/'+equipmentUuid+'/'+pointId+'/'+trendTime+'/'+waveNumber+'/'+analysisLines+'/info',
       responseType:'jsonp',
     })
         .then(function (response) {
