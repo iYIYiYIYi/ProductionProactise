@@ -30,8 +30,8 @@ public class PointDetailController {
 
     @GetMapping("/point/{equipmentUuid}/detail")
     @ApiOperation(value = "Get Point Detail Information", notes = "获取节点详细信息")
-    public JSONObject getPoint(@ApiParam(value = "String", required = true) @PathVariable String equipmentUuid){
+    public JSONObject getPoint(@ApiParam(value = "String", required = true) @PathVariable String equipmentUuid) {
         List<PointDetail> pointDetails = pointDetailDao.selectByEquipmentUuid(equipmentUuid);
-        return StandardJSonResponse.Correct(pointDetails,"point detail");
+        return StandardJSonResponse.Correct(pointDetails, "point detail");
     }
 }

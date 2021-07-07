@@ -18,8 +18,6 @@ import java.util.List;
 @RestController
 public class NodeInfoController {
 
-
-
     NodeInfoDao nodeInfoDao;
 
     public NodeInfoController(@Autowired NodeInfoDao nodeInfoDao) {
@@ -28,9 +26,8 @@ public class NodeInfoController {
 
     @GetMapping("/node/info")
     @ApiOperation(value = "Get Node Information", notes = "")
-    public JSONObject getNode( ){
-
+    public JSONObject getNode() {
         List<NodeInfo> nodeInfos = nodeInfoDao.selectAll();
-        return StandardJSonResponse.Correct(nodeInfos,"node info");
+        return StandardJSonResponse.Correct(nodeInfos, "node info");
     }
 }

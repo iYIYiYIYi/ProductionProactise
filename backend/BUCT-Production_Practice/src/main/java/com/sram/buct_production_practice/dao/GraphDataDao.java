@@ -1,7 +1,9 @@
 package com.sram.buct_production_practice.dao;
 
 import com.sram.buct_production_practice.entity.GraphData;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface GraphDataDao {
     int deleteByPrimaryKey(String equipmentuuid);
 
