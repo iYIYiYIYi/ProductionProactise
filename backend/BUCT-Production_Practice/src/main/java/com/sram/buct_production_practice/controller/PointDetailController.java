@@ -1,10 +1,12 @@
 package com.sram.buct_production_practice.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.sram.buct_production_practice.dao.NodeInfoDao;
+
+import com.alibaba.fastjson.JSONObject;
 import com.sram.buct_production_practice.dao.PointDetailDao;
-import com.sram.buct_production_practice.entity.NodeInfo;
+
 import com.sram.buct_production_practice.entity.PointDetail;
+import com.sram.buct_production_practice.util.StandardJSonResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -28,8 +30,8 @@ public class PointDetailController {
 
     @GetMapping("/point/{equipmentUuid}/detail")
     @ApiOperation(value = "Get Point Detail Information", notes = "获取节点详细信息")
-    public String getPoint(@ApiParam(value = "String", required = true) @PathVariable String equipmentUuid){
+    public JSONObject getPoint(@ApiParam(value = "String", required = true) @PathVariable String equipmentUuid){
         List<PointDetail> pointDetails = pointDetailDao.selectByEquipmentUuid(equipmentUuid);
-        return JSON.toJSONString(pointDetails);
+        return StandardJSonResponse.Correct(pointDetails,"point detail");
     }
 }
