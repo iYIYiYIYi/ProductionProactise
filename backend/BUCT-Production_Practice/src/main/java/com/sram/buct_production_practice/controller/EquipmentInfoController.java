@@ -6,6 +6,7 @@ import com.sram.buct_production_practice.dao.EquipmentInfoDao;
 
 import com.sram.buct_production_practice.entity.EquipmentInfo;
 
+import com.sram.buct_production_practice.util.StandardJSonResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,9 +31,9 @@ public class EquipmentInfoController {
 
     @GetMapping("/equipment/node/{nodeid}/info")
     @ApiOperation(value = "Get Equipment Information", notes = "")
-    public String getEquipment(@ApiParam(value = "String" , required=true )@PathVariable String nodeid){
+    public JSONObject getEquipment(@ApiParam(value = "String" , required=true )@PathVariable String nodeid){
         List<EquipmentInfo> equipmentInfos =  equipmentInfoDao.selectByNodeID(nodeid);
-        return JSON.toJSONString(equipmentInfos);
+        return StandardJSonResponse.Correct(equipmentInfos,"equipment info");
     }
 }
 
