@@ -1,28 +1,18 @@
 <template>
   <div class="hello">
 <!--    <h1>{{ msg }}</h1>-->
-    <LeftTabMenu></LeftTabMenu>
+    <LeftTabMenu :select="changeContent"></LeftTabMenu>
     <div class="right-part">
       <NavMenu></NavMenu>
       <div class="content">
         <Content
             :types="[
             '设备概貌图',
-            '全频谱图',//二维跟三维放到一起
-            '倒谱图',
-            '包络波形频谱图',
-            '振动监测',
-            '振动历史比较',
-            '单多值棒图',
-            '轴心轨迹',
-            '轴心位置',
-            '启停车图形',
-            '综合分析',
-            '运行状态图',
-            '其他参数趋势图',
-            '报警查询',
+            '频率检测',//二维跟三维放到一起
             ]"
-            name="k203b"/>
+            :name="name"
+            :data="select_data"
+        />
       </div>
     </div>
   </div>
@@ -38,7 +28,21 @@ export default {
   components: {Content, NavMenu,LeftTabMenu},
   props: {
     msg: String
-  }
+  },
+  data(){
+    return {
+      name:'',
+      select_data:{},
+
+    }
+  },
+  methods :{
+    changeContent(data,name) {
+      this.$data.name = name;
+      this.$data.select_data = data;
+    },
+
+  },
 }
 </script>
 

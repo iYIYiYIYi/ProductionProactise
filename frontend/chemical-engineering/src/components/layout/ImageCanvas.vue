@@ -22,6 +22,7 @@ export default {
   name: "ImageCanvas",
   props:{
     name:String,
+    data:Object,
   },
   data() {
     return {

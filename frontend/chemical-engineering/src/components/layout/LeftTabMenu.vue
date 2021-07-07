@@ -25,32 +25,22 @@
             default-active="2"
             class="el-menu-vertical-demo"
             @open="handleOpen"
-            @close="handleClose"
-            background-color="#545c64"
-            text-color="#fff"
-            active-text-color="#ffd04b">
-          <el-submenu index="1">
+            @close="handleClose">
+          <el-submenu v-for="(group_value, group_name) in nodes" :key="group_name">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>导航一</span>
+              <span>{{group_name}}</span>
             </template>
-            <el-menu-item-group>
-              <template slot="title">分组一</template>
-              <el-menu-item index="1-1">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
+            <el-menu-item-group v-for="(company_value,company_name) in group_value" :key="company_name">
+              <template slot="title">{{ company_name }}</template>
+              <el-submenu v-for="(factory_value,factory_name) in company_value" :key="factory_name">
+                <template slot="title">{{factory_name}}</template>
+                <el-menu-item v-for="(equipment_value,equipment_name) in factory_value" :key="equipment_name">
+                  {{equipment_name}}
+                </el-menu-item>
+              </el-submenu>
             </el-menu-item-group>
-            <el-menu-item-group title="分组2">
-              <el-menu-item index="1-3">选项3</el-menu-item>
-            </el-menu-item-group>
-            <el-submenu index="1-4">
-              <template slot="title">选项4</template>
-              <el-menu-item index="1-4-1">选项1</el-menu-item>
-            </el-submenu>
           </el-submenu>
-          <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航二</span>
-          </el-menu-item>
         </el-menu>
       </el-col>
     </div>
@@ -66,12 +56,10 @@
   height: 100%;
   overflow-x: hidden;
   overflow-y: hidden;
-  background-color: #545c64;
 }
 
 .left-tab-menu {
   height: 90%;
-  background-color: #545c64;
   width: fit-content;
   box-sizing: border-box;
   border-right: solid 2px #e6e6e6;
@@ -93,19 +81,22 @@
 </style>
 
 <script>
-const axios = require('axios');
 
+const axios = require('axios');
 export default {
   name:'LeftTabMenu',
   data() {
+    let node_tree = {};
+    this.getNodeId();
+
     return {
       isCollapse: true,
       search_value:'',
-
+      nodes:node_tree,
     };
   },
   props: {
-
+    select:Function,
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -115,61 +106,79 @@ export default {
       console.log(key, keyPath);
     },
     //获取节点信息//
-    getNodeld(){
+    getNodeId(){
       // Make a request for a user with a given ID
+      let it = this;
       axios({
         method:'get',
         url:'http://192.168.137.1:8848/node/info',
-        responseType:'jsonp',
+        responseType:'json',
       })
-          .then(function (response) {
-            // handle success
-            console.log(response);
-            var parse = JSON.parse(response.data);
-            console.log(parse)
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          })
-          .then(function () {
-            // always executed
-          });
+      .then(function (response) {
+        // handle success
+        let parse = response.data;
+        let data = parse.data;
+        for (const datum of data) {
+          it.getStatus(datum['nodeid']);
+        }
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
     },
     //获取设备信息//
-    getstatus(){
+    getStatus(node_id){
+      let it = this;
       // Make a request for a user with a given ID
       axios({
         method:'get',
-        url:'http://192.168.137.1:8848/equipment/node/{nodeId}/info',
-        responseType:'jsonp',
+        url:'http://192.168.137.1:8848/equipment/node/'+node_id+'/info',
+        responseType:'json',
       })
-          .then(function (response) {
-            // handle success
-            console.log(response);
-            var parse = JSON.parse(response.data);
-            console.log(parse)
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          })
-          .then(function () {
-            // always executed
-          });
+      .then(function (response) {
+        // handle success
+        let parse = response.data;
+        console.log(parse);
+        let data = parse.data;
+        let tree = {};
+        for (const datum of data) {
+          if (!tree[datum.groupname]) {
+            tree[datum.groupname] = {};
+          }
+          if (!tree[datum.groupname][datum.companyname]) {
+            tree[datum.groupname][datum.companyname] = {};
+          }
+          if (!tree[datum.groupname][datum.companyname][datum.factoryname]) {
+            tree[datum.groupname][datum.companyname][datum.factoryname] = {};
+          }
+          tree[datum.groupname][datum.companyname][datum.factoryname][datum.equipmentname] = datum;
+        }
+        it.$data.nodes = tree;
+        console.log(tree);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
     },
     //获取测点信息//
-    getmessage(){
+    getMessage(){
       // Make a request for a user with a given ID
       axios({
         method:'get',
         url:'http://192.168.137.1:8848/point/{equipmentUuid}/detail',
-        responseType:'jsonp',
+        responseType:'json',
       })
           .then(function (response) {
             // handle success
-            console.log(response);
-            var parse = JSON.parse(response.data);
+            let parse = JSON.parse(response.data);
             console.log(parse)
           })
           .catch(function (error) {
@@ -181,17 +190,16 @@ export default {
           });
     },
     //获取频谱图数据//
-    getdata(){
+    getData(){
       // Make a request for a user with a given ID
       axios({
         method:'get',
         url:'http://192.168.137.1:8848/trend/{equipmentUuid}/{pointIdString}/real_time',
-        responseType:'jsonp',
+        responseType:'json',
       })
           .then(function (response) {
             // handle success
-            console.log(response);
-            var parse = JSON.parse(response.data);
+            let parse = JSON.parse(response.data);
             console.log(parse)
           })
           .catch(function (error) {
@@ -203,17 +211,16 @@ export default {
           });
     },
     //历史趋势图//
-    gethistory(){
+    getHistory(){
       // Make a request for a user with a given ID
       axios({
         method:'get',
         url:'http://192.168.137.1:8848/trend/{equipmentUuid}/{pointIdString}/{startTime}/{endTime}/info',
-        responseType:'jsonp',
+        responseType:'json',
       })
           .then(function (response) {
             // handle success
-            console.log(response);
-            var parse = JSON.parse(response.data);
+            let parse = JSON.parse(response.data);
             console.log(parse)
           })
           .catch(function (error) {
@@ -225,17 +232,16 @@ export default {
           });
     },
     //历史波形频谱图//
-    gethistorywave(){
+    getHistoryWave(){
   // Make a request for a user with a given ID
-  axios({
-    method:'get',
-    url:'http://192.168.137.1:8848/wave-spectrum/{equipmentUuid}/{pointId}/{trendTime}/{waveNumber}/{analysisLines}/info',
-    responseType:'jsonp',
-  })
+      axios({
+        method:'get',
+        url:'http://192.168.137.1:8848/wave-spectrum/{equipmentUuid}/{pointId}/{trendTime}/{waveNumber}/{analysisLines}/info',
+        responseType:'json',
+      })
       .then(function (response) {
         // handle success
-        console.log(response);
-        var parse = JSON.parse(response.data);
+        let parse = JSON.parse(response.data);
         console.log(parse)
       })
       .catch(function (error) {
