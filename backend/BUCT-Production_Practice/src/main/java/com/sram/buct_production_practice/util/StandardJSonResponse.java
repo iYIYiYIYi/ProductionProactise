@@ -18,4 +18,7 @@ public class StandardJSonResponse {
     public static JSONObject Error(String message){
         return Convert(null,message,500);
     }
+    public static JSONObject Error(String message,Object data){
+        return Convert(data,message,500);
+    }
 }

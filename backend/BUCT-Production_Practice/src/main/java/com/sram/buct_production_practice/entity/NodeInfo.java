@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  * node_info
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.NodeInfo")
+@ApiModel(value="获取节点信息")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

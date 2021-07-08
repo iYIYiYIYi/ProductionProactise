@@ -31,12 +31,8 @@ public class EquipmentInfoController {
 
     @GetMapping("/equipment/node/{nodeid}/info")
     @ApiOperation(value = "Get Equipment Information", notes = "")
-    public JSONObject getGraph(@ApiParam(value = "String", required = true) @PathVariable String nodeid) {
-
-        List<EquipmentInfo> equipmentInfos = equipmentInfoDao.selectByNodeID(nodeid);
-        if(equipmentInfos.isEmpty())
-            return StandardJSonResponse.Error("Can't find uuid");
-        return StandardJSonResponse.Correct(equipmentInfos, "equipment info");
+    public List<EquipmentInfo> getGraph(@ApiParam(value = "String", required = true) @PathVariable String nodeid) {
+        return equipmentInfoDao.selectByNodeID(nodeid);
     }
 }
 
