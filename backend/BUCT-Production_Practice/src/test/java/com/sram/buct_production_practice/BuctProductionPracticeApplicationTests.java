@@ -3,11 +3,10 @@ package com.sram.buct_production_practice;
 import com.alibaba.fastjson.JSONObject;
 import com.sram.buct_production_practice.controller.NodeInfoController;
 import com.sram.buct_production_practice.dao.EquipmentInfoDao;
+import com.sram.buct_production_practice.dao.GraphInfoDao;
 import com.sram.buct_production_practice.dao.NodeInfoDao;
 import com.sram.buct_production_practice.dao.PointDetailDao;
-import com.sram.buct_production_practice.entity.EquipmentInfo;
-import com.sram.buct_production_practice.entity.NodeInfo;
-import com.sram.buct_production_practice.entity.PointDetail;
+import com.sram.buct_production_practice.entity.*;
 import lombok.val;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -27,6 +26,9 @@ import java.util.List;
 @SpringBootTest
 class BuctProductionPracticeApplicationTests {
 
+    CloseableHttpClient httpClient = HttpClients.createDefault();
+    CloseableHttpResponse response;
+
     @Autowired
     NodeInfoDao nodeInfoDao;
 
@@ -35,6 +37,9 @@ class BuctProductionPracticeApplicationTests {
 
     @Autowired
     PointDetailDao pointDetailDao;
+
+    @Autowired
+    GraphInfoDao graphInfoDao;
 
     @Test
     public void getNodeInfo() {
@@ -85,10 +90,42 @@ class BuctProductionPracticeApplicationTests {
         }
     }
 
+    @Test
+    public void getTrendRealTime(){
+        List<PointDetail> pointDetailList = pointDetailDao.selectAll();
+        for (PointDetail pointDetail : pointDetailList) {
+            String url="http://39.106.31.26:8289/trend/"+pointDetail.getEquipmentuuid()+"/"+pointDetail.getPointid()+"/real_time";
+            System.out.println(url);
+            JSONObject datas = getRequest(url);
+            System.out.println(datas);
+            Integer status = (Integer) datas.get("code");
+            if (status==200) {
+//                List<TrendRealTime> data = JSONObject.parseArray(datas.get("data").toString(), TrendRealTime.class);
+//                System.out.println(data);
+            }
+        }
+    }
+
+    @Test
+    public void getGraphInfo(){
+        final List<EquipmentInfo> equipmentInfoList = equipmentInfoDao.selectAll();
+        for (EquipmentInfo equipmentInfo : equipmentInfoList) {
+            String url="http://39.106.31.26:8289//graph/"+equipmentInfo.getEquipmentuuid()+"/info";
+            System.out.println(url);
+            JSONObject datas = getRequest(url);
+            Integer status = (Integer) datas.get("code");
+            System.out.println(datas);
+            if (status==200) {
+                GraphInfo data = JSONObject.parseObject(datas.get("data").toString(), GraphInfo.class);
+                data.setEquipmentuuid(equipmentInfo.getEquipmentuuid());
+                graphInfoDao.insert(data);
+            }
+        }
+    }
+
     public JSONObject getRequest(String url){
-        CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
-        CloseableHttpResponse response;
+
         try {
             response = httpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();

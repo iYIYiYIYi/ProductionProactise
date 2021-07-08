@@ -25,16 +25,19 @@
     where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.GraphInfo" useGeneratedKeys="true">
-    insert into graph_info (fontSize, graphId, graphImageBackground, 
+    insert into graph_info (equipmentUuid,fontSize, graphId, graphImageBackground,
       graphImageBase64Code, graphImageHeight, 
       graphImageWidth)
-    values (#{fontsize,jdbcType=INTEGER}, #{graphid,jdbcType=INTEGER}, #{graphimagebackground,jdbcType=VARCHAR}, 
+    values ( #{equipmentuuid,jdbcType=VARCHAR},#{fontsize,jdbcType=INTEGER}, #{graphid,jdbcType=INTEGER}, #{graphimagebackground,jdbcType=VARCHAR},
       #{graphimagebase64code,jdbcType=VARCHAR}, #{graphimageheight,jdbcType=INTEGER}, 
       #{graphimagewidth,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.GraphInfo" useGeneratedKeys="true">
     insert into graph_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="equipmentuuid != null">
+        equipmentUuid,
+      </if>
       <if test="fontsize != null">
         fontSize,
       </if>
@@ -53,8 +56,12 @@
       <if test="graphimagewidth != null">
         graphImageWidth,
       </if>
+
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="equipmentuuid != null">
+      #{equipmentuuid,jdbcType=VARCHAR},
+    </if>
       <if test="fontsize != null">
         #{fontsize,jdbcType=INTEGER},
       </if>
@@ -73,6 +80,7 @@
       <if test="graphimagewidth != null">
         #{graphimagewidth,jdbcType=INTEGER},
       </if>
+
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.sram.buct_production_practice.entity.GraphInfo">

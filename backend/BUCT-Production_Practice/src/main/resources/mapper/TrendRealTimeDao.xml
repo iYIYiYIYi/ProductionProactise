@@ -33,11 +33,11 @@
     where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.TrendRealTime" useGeneratedKeys="true">
-    insert into trend_real_time (pointIdString, endIndex, equipmentName, 
+    insert into trend_real_time (equipmentUuid,pointIdString, endIndex, equipmentName,
       pointName, rev, spectrumValue, 
       startIndex, trendTime, trendValue, 
       waveValue)
-    values (#{pointidstring,jdbcType=VARCHAR}, #{endindex,jdbcType=INTEGER}, #{equipmentname,jdbcType=VARCHAR}, 
+    values (#{equipmentuuid,jdbcType=VARCHAR},#{pointidstring,jdbcType=VARCHAR}, #{endindex,jdbcType=INTEGER}, #{equipmentname,jdbcType=VARCHAR},
       #{pointname,jdbcType=VARCHAR}, #{rev,jdbcType=INTEGER}, #{spectrumvalue,jdbcType=VARCHAR}, 
       #{startindex,jdbcType=INTEGER}, #{trendtime,jdbcType=INTEGER}, #{trendvalue,jdbcType=VARCHAR}, 
       #{wavevalue,jdbcType=VARCHAR})
@@ -45,6 +45,9 @@
   <insert id="insertSelective" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.TrendRealTime" useGeneratedKeys="true">
     insert into trend_real_time
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="equipmentuuid != null">
+        equipmentUuid,
+      </if>
       <if test="pointidstring != null">
         pointIdString,
       </if>
@@ -77,6 +80,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="equipmentuuid != null">
+        #{equipmentuuid,jdbcType=VARCHAR},
+      </if>
       <if test="pointidstring != null">
         #{pointidstring,jdbcType=VARCHAR},
       </if>
