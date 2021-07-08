@@ -174,11 +174,11 @@ export default {
       })
       .catch(function (error) {
         // handle error
-        it.$alert('这是一段内容', '标题名称', {
+        it.$alert('获取设备信息失败', '网络错误', {
           confirmButtonText: '确定',
           callback: action => {
             this.$message({
-              type: 'info',
+              type: 'error',
               message: `action: ${ action }`
             });
           }
