@@ -4,6 +4,7 @@
       <div class="grid-content bg-purple">
         <img src="../../../public/k203b.png" alt="示意图" class="image">
       </div>
+      <e-charts></e-charts>
     </el-col>
     <el-col :span="8">
       <div class="grid-content bg-purple">
@@ -13,12 +14,15 @@
       </div>
     </el-col>
   </el-row>
+
 </template>
 
 <script>
 const axios = require('axios');
 
-import InfoMenu from '../info-component/InfoMenu'
+import InfoMenu from '../info-component/InfoMenu';
+
+import ECharts from "../info-component/eCharts";
 
 export default {
   name: "ImageCanvas",
@@ -26,12 +30,6 @@ export default {
     name:String,
     data:Object,
   },
-  data() {
-    return {
-
-    };
-  },
-
   methods:{
     //获取设备信息//
     getStatus(nodeId){
@@ -124,8 +122,9 @@ export default {
         });
   },
 
+
   components:{
-    InfoMenu,
+    InfoMenu,ECharts,
   }
 }
 </script>
