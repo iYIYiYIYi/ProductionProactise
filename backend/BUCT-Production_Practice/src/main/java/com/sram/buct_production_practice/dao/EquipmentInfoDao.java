@@ -20,4 +20,6 @@ public interface EquipmentInfoDao {
     int updateByPrimaryKey(EquipmentInfo record);
 
     List<EquipmentInfo> selectByNodeID(String nodeId);
+
+    List<EquipmentInfo> selectAll();
 }

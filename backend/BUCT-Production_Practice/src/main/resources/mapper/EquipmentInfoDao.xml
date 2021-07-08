@@ -68,6 +68,9 @@
     select * from equipment_info
     where nodeId = #{nodeId,jdbcType=VARCHAR}
   </select>
+  <select id="selectAll" resultType="com.sram.buct_production_practice.entity.EquipmentInfo">
+    select * from equipment_info
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from equipment_info
     where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
@@ -87,7 +90,8 @@
       nodeHost, nodeId, nodePort, 
       nodeType, rev, samplingFreq, 
       samplingNumber, unitId, unitName, 
-      unitSort, unitVisible, updateTime
+      unitSort, unitVisible, updateTime,
+                                equipmentUuid
       )
     values (#{alarmalias,jdbcType=VARCHAR}, #{alarmid,jdbcType=INTEGER}, #{alarmlevel,jdbcType=INTEGER}, 
       #{alarmstatus,jdbcType=INTEGER}, #{companyid,jdbcType=VARCHAR}, #{companyname,jdbcType=VARCHAR}, 
@@ -103,7 +107,8 @@
       #{nodehost,jdbcType=VARCHAR}, #{nodeid,jdbcType=VARCHAR}, #{nodeport,jdbcType=INTEGER}, 
       #{nodetype,jdbcType=INTEGER}, #{rev,jdbcType=INTEGER}, #{samplingfreq,jdbcType=INTEGER}, 
       #{samplingnumber,jdbcType=INTEGER}, #{unitid,jdbcType=VARCHAR}, #{unitname,jdbcType=VARCHAR}, 
-      #{unitsort,jdbcType=INTEGER}, #{unitvisible,jdbcType=INTEGER}, #{updatetime,jdbcType=INTEGER}
+      #{unitsort,jdbcType=INTEGER}, #{unitvisible,jdbcType=INTEGER}, #{updatetime,jdbcType=INTEGER},
+            #{equipmentuuid,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.EquipmentInfo" useGeneratedKeys="true">
@@ -244,6 +249,9 @@
       <if test="updatetime != null">
         updateTime,
       </if>
+      <if test="equipmentuuid != null">
+        equipmentUuid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="alarmalias != null">
@@ -380,6 +388,9 @@
       </if>
       <if test="updatetime != null">
         #{updatetime,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentuuid != null">
+        #{equipmentuuid,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
