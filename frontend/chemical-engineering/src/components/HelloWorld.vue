@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
 <!--    <h1>{{ msg }}</h1>-->
-    <LeftTabMenu :select="changeContent"></LeftTabMenu>
+    <LeftTabMenu ></LeftTabMenu>
     <div class="right-part">
       <NavMenu></NavMenu>
       <div class="content">

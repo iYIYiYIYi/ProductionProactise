@@ -28,10 +28,10 @@
   </delete>
   <insert id="insert" keyColumn="nodeId" keyProperty="nodeid" parameterType="com.sram.buct_production_practice.entity.NodeInfo" useGeneratedKeys="true">
     insert into node_info (`linkType`, nodeHost, nodePort, 
-      `status`, nodeType, syncTime
+      `status`, nodeType, syncTime,nodeId
       )
     values (#{linktype,jdbcType=INTEGER}, #{nodehost,jdbcType=VARCHAR}, #{nodeport,jdbcType=INTEGER}, 
-      #{status,jdbcType=BOOLEAN}, #{nodetype,jdbcType=INTEGER}, #{synctime,jdbcType=INTEGER}
+      #{status,jdbcType=BOOLEAN}, #{nodetype,jdbcType=INTEGER}, #{synctime,jdbcType=INTEGER},#{nodeid,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="nodeId" keyProperty="nodeid" parameterType="com.sram.buct_production_practice.entity.NodeInfo" useGeneratedKeys="true">
@@ -39,6 +39,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="linktype != null">
         `linkType`,
+      </if>
+      <if test="nodeid != null">
+        `nodeId`,
       </if>
       <if test="nodehost != null">
         nodeHost,

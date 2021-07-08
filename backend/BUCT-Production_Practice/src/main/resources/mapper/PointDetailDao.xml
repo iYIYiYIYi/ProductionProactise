@@ -69,7 +69,7 @@
     where pointUuid = #{pointuuid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="pointUuid" keyProperty="pointuuid" parameterType="com.sram.buct_production_practice.entity.PointDetail" useGeneratedKeys="true">
-    insert into point_detail (channelList, channelType, channelTypeAlias, 
+    insert into point_detail (pointUuid,channelList, channelType, channelTypeAlias,
       companyId, contactAngle, cylinderNo, 
       dataSource, dataType, equipmentId, 
       equipmentType, equipmentUuid, eventType, 
@@ -83,7 +83,7 @@
       rollingNum, rollingDiam, sectionIndex, 
       sectionName, sensorType, trendGap, 
       `type`, unit)
-    values (#{channellist,jdbcType=INTEGER}, #{channeltype,jdbcType=INTEGER}, #{channeltypealias,jdbcType=VARCHAR}, 
+    values (#{pointuuid,jdbcType=VARCHAR},#{channellist,jdbcType=INTEGER}, #{channeltype,jdbcType=INTEGER}, #{channeltypealias,jdbcType=VARCHAR},
       #{companyid,jdbcType=VARCHAR}, #{contactangle,jdbcType=FLOAT}, #{cylinderno,jdbcType=INTEGER}, 
       #{datasource,jdbcType=INTEGER}, #{datatype,jdbcType=INTEGER}, #{equipmentid,jdbcType=VARCHAR}, 
       #{equipmenttype,jdbcType=INTEGER}, #{equipmentuuid,jdbcType=VARCHAR}, #{eventtype,jdbcType=INTEGER}, 
@@ -101,6 +101,9 @@
   <insert id="insertSelective" keyColumn="pointUuid" keyProperty="pointuuid" parameterType="com.sram.buct_production_practice.entity.PointDetail" useGeneratedKeys="true">
     insert into point_detail
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pointuuid != null">
+        pointUuid,
+      </if>
       <if test="channellist != null">
         channelList,
       </if>
@@ -229,6 +232,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pointuuid != null">
+        #{pointuuid,jdbcType=VARCHAR},
+      </if>
       <if test="channellist != null">
         #{channellist,jdbcType=INTEGER},
       </if>

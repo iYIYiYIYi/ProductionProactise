@@ -10,7 +10,7 @@
       <div class="grid-content bg-purple">
         <InfoMenu
           :name="name"
-        ></InfoMenu>
+        />
       </div>
     </el-col>
   </el-row>

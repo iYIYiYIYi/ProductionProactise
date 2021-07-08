@@ -25,23 +25,29 @@
             default-active="2"
             class="el-menu-vertical-demo"
             @open="handleOpen"
-            @close="handleClose">
-          <el-submenu v-for="(group_value, group_name) in nodes" :key="group_name">
+            @close="handleClose"
+            v-if="nodes !== undefined"
+        >
+          <el-submenu v-for="(group_value, group_name) in nodes" :key="group_name" :index="group_name">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>{{group_name}}</span>
             </template>
-            <el-menu-item-group v-for="(company_value,company_name) in group_value" :key="company_name">
+            <el-submenu v-for="(company_value,company_name) in group_value" :key="company_name" :index="company_name">
               <template slot="title">{{ company_name }}</template>
-              <el-submenu v-for="(factory_value,factory_name) in company_value" :key="factory_name">
+              <el-submenu v-for="(factory_value,factory_name) in company_value" :key="factory_name" :index="factory_name">
                 <template slot="title">{{factory_name}}</template>
-                <el-menu-item v-for="(equipment_value,equipment_name) in factory_value" :key="equipment_name">
+                <el-menu-item v-for="(equipment_value,equipment_name) in factory_value" :key="equipment_name" :index="equipment_name" >
                   {{equipment_name}}
                 </el-menu-item>
               </el-submenu>
-            </el-menu-item-group>
+            </el-submenu>
           </el-submenu>
+
+
         </el-menu>
+
+        <el-empty v-else-if="nodes === undefined" :description="tree_description" style="width: 240px"></el-empty>
       </el-col>
     </div>
   </div>
@@ -78,6 +84,7 @@
   height: 4%;
   background-color: white;
 }
+
 </style>
 
 <script>
@@ -86,17 +93,17 @@ const axios = require('axios');
 export default {
   name:'LeftTabMenu',
   data() {
-    let node_tree = {};
     this.getNodeId();
 
     return {
       isCollapse: true,
       search_value:'',
-      nodes:node_tree,
+      nodes:undefined,
+      tree_description:'正在获取节点信息...',
     };
   },
   props: {
-    select:Function,
+
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -104,6 +111,10 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
+    },
+    select(index,indexpath) {
+      console.log(index,indexpath);
+      // this.selectItem();
     },
     //获取节点信息//
     getNodeId(){
@@ -125,6 +136,7 @@ export default {
       .catch(function (error) {
         // handle error
         console.log(error);
+        it.$data.tree_description = '获取节点信息失败';
       })
       .then(function () {
         // always executed
@@ -162,6 +174,16 @@ export default {
       })
       .catch(function (error) {
         // handle error
+        it.$alert('获取设备信息失败', '网络错误', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$message({
+              type: 'error',
+              message: `action: ${ action }`
+            });
+          }
+        });
+        it.$data.tree_description = '获取设备信息失败';
         console.log(error);
       })
       .then(function () {

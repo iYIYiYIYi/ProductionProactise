@@ -1,7 +1,9 @@
 package com.sram.buct_production_practice.dao;
 
 import com.sram.buct_production_practice.entity.TrendInfo;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface TrendInfoDao {
     int deleteByPrimaryKey(String equipmentuuid);
 

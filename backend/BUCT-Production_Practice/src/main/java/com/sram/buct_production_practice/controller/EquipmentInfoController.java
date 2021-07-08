@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Api(value = "equipment_info")
@@ -32,7 +32,10 @@ public class EquipmentInfoController {
     @GetMapping("/equipment/node/{nodeid}/info")
     @ApiOperation(value = "Get Equipment Information", notes = "")
     public JSONObject getGraph(@ApiParam(value = "String", required = true) @PathVariable String nodeid) {
+
         List<EquipmentInfo> equipmentInfos = equipmentInfoDao.selectByNodeID(nodeid);
+        if(equipmentInfos.isEmpty())
+            return StandardJSonResponse.Error("Can't find uuid");
         return StandardJSonResponse.Correct(equipmentInfos, "equipment info");
     }
 }

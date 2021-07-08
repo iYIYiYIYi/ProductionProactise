@@ -32,6 +32,8 @@ public class PointDetailController {
     @ApiOperation(value = "Get Point Detail Information", notes = "获取节点详细信息")
     public JSONObject getPoint(@ApiParam(value = "String", required = true) @PathVariable String equipmentUuid) {
         List<PointDetail> pointDetails = pointDetailDao.selectByEquipmentUuid(equipmentUuid);
+        if(pointDetails.isEmpty())
+            return StandardJSonResponse.Error("Can't find uuid");
         return StandardJSonResponse.Correct(pointDetails, "point detail");
     }
 }
