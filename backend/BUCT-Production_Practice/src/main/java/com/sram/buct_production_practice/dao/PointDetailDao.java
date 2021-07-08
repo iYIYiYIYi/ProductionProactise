@@ -24,4 +24,7 @@ public interface PointDetailDao {
     int updateByPrimaryKey(PointDetail record);
 
     List<PointDetail> selectByEquipmentUuid(String EquipmentUuid);
+
+    List<PointDetail> selectAll();
+
 }

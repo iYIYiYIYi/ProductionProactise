@@ -12,98 +12,100 @@ import lombok.Data;
  * @author 
  */
 @Data
-@ApiModel(description ="EquipmentInfo")
+@ApiModel(value ="设备信息")
 public class EquipmentInfo implements Serializable {
+
+    @ApiModelProperty("设备唯一标识")
     private String equipmentuuid;
-
+    @ApiModelProperty("设备状态描述")
     private String alarmalias;
-
+    @ApiModelProperty("报警ID")
     private Integer alarmid;
-
+    @ApiModelProperty("报警级别")
     private Integer alarmlevel;
-
+    @ApiModelProperty("设备状态编码")
     private Integer alarmstatus;
-
+    @ApiModelProperty("公司ID")
     private String companyid;
-
+    @ApiModelProperty("公司显示名称")
     private String companyname;
-
+    @ApiModelProperty("公司位号")
     private String companyno;
-
+    @ApiModelProperty("公司排序号")
     private Integer companysort;
-
+    @ApiModelProperty("公司是否显示标识")
     private Integer companyvisible;
-
+    @ApiModelProperty("开停车状态有效位")
     private Integer datatype;
-
+    @ApiModelProperty("驱动机类型名称")
     private String drivename;
-
+    @ApiModelProperty("驱动机类型编码")
     private Integer drivetype;
-
+    @ApiModelProperty("设备ID")
     private String equipmentid;
-
+    @ApiModelProperty("设备索引")
     private Integer equipmentindex;
-
+    @ApiModelProperty("设备显示名称")
     private String equipmentname;
-
+    @ApiModelProperty("设备位号")
     private String equipmentno;
-
+    @ApiModelProperty("设备排序号")
     private Integer equipmentsort;
-
+    @ApiModelProperty("设备类型编码")
     private Integer equipmenttype;
-
+    @ApiModelProperty("设备类型名称")
     private String equipmenttypename;
-
+    @ApiModelProperty("设备是否显示标识")
     private Integer equipmentvisible;
-
+    @ApiModelProperty("设备资产编码")
     private String erpcode;
-
+    @ApiModelProperty("分厂ID")
     private String factoryid;
-
+    @ApiModelProperty("分厂显示名称")
     private String factoryname;
-
+    @ApiModelProperty("分厂排序号")
     private Integer factorysort;
-
+    @ApiModelProperty("分厂是否显示标识")
     private Integer factoryvisible;
-
+    @ApiModelProperty("设备概貌图号")
     private Integer graphtype;
-
+    @ApiModelProperty("集团ID")
     private String groupid;
-
+    @ApiModelProperty("集团显示名称")
     private String groupname;
-
+    @ApiModelProperty("集团排序号")
     private Integer groupsort;
-
+    @ApiModelProperty("集团是否显示标识")
     private Integer groupvisible;
-
+    @ApiModelProperty("制造商")
     private String manufacturer;
-
+    @ApiModelProperty("")
     private String mhost;
-
+    @ApiModelProperty("")
     private Integer mport;
-
+    @ApiModelProperty("主机地址")
     private String nodehost;
-
+    @ApiModelProperty("节点ID")
     private String nodeid;
-
+    @ApiModelProperty("端口号")
     private Integer nodeport;
-
+    @ApiModelProperty("节点类型")
     private Integer nodetype;
-
+    @ApiModelProperty("转速")
     private Integer rev;
-
+    @ApiModelProperty("采样频率")
     private Integer samplingfreq;
-
+    @ApiModelProperty("采样点数")
     private Integer samplingnumber;
-
+    @ApiModelProperty("装置ID")
     private String unitid;
-
+    @ApiModelProperty("装置显示名称")
     private String unitname;
-
+    @ApiModelProperty("装置排序号")
     private Integer unitsort;
-
+    @ApiModelProperty("装置是否显示标识")
     private Integer unitvisible;
-
+    @ApiModelProperty("数据更新时刻")
     private BigInteger updatetime;
 
     private static final long serialVersionUID = 1L;

@@ -12,95 +12,96 @@ import lombok.NoArgsConstructor;
  * point_detail
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.PointDetail")
+@ApiModel(value="测点信息")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PointDetail implements Serializable {
+    @ApiModelProperty("测点唯一标识")
     private String pointuuid;
-
+    @ApiModelProperty("所属测点框序号")
     private Integer channellist;
-
+    @ApiModelProperty("测点类型,1径向,2轴向")
     private Integer channeltype;
-
+    @ApiModelProperty("测点类型描述")
     private String channeltypealias;
-
+    @ApiModelProperty("公司ID")
     private String companyid;
-
+    @ApiModelProperty("接触角")
     private Double contactangle;
-
+    @ApiModelProperty("所属汽缸号")
     private Integer cylinderno;
-
+    @ApiModelProperty("数据源")
     private Integer datasource;
-
+    @ApiModelProperty("数据类型")
     private Integer datatype;
-
+    @ApiModelProperty("设备ID")
     private String equipmentid;
-
+    @ApiModelProperty("设备类型")
     private Integer equipmenttype;
-
+    @ApiModelProperty("设备唯一标识")
     private String equipmentuuid;
-
+    @ApiModelProperty("报警限类型")
     private Integer eventtype;
-
+    @ApiModelProperty("分厂ID")
     private String factoryid;
-
+    @ApiModelProperty("报警线高高限")
     private Double hh;
-
+    @ApiModelProperty("报警线高限")
     private Double hl;
-
+    @ApiModelProperty("报警线低限")
     private Double lh;
-
+    @ApiModelProperty("报警线下下限")
     private Double ll;
-
+    @ApiModelProperty("位置索引")
     private Integer locindex;
-
+    @ApiModelProperty("位置名称")
     private String locname;
-
+    @ApiModelProperty("制造商")
     private String manufacturer;
-
+    @ApiModelProperty("测点方向,0:水平，1:垂直")
     private Integer measuredirection;
-
+    @ApiModelProperty("")
     private String mhost;
-
+    @ApiModelProperty("")
     private Integer mport;
-
+    @ApiModelProperty("主机地址")
     private String nodehost;
-
+    @ApiModelProperty("节点ID")
     private String nodeid;
-
+    @ApiModelProperty("端口号")
     private Integer nodeport;
-
+    @ApiModelProperty("节点类型")
     private Integer nodetype;
-
+    @ApiModelProperty("节径")
     private Double pitchdiam;
-
+    @ApiModelProperty("测点ID")
     private String pointid;
-
+    @ApiModelProperty("测点索引(1000:振动,2000:过程量,3000:动态)")
     private Integer pointindex;
-
+    @ApiModelProperty("测点名称")
     private String pointname;
-
+    @ApiModelProperty("测点位号")
     private String pointno;
-
+    @ApiModelProperty("测点排序号")
     private Integer pointorder;
-
+    @ApiModelProperty("转速类型")
     private Integer revtype;
-
+    @ApiModelProperty("滚珠直径")
     private Double rollingnum;
-
+    @ApiModelProperty("滚珠数目")
     private Double rollingdiam;
-
+    @ApiModelProperty("部位索引")
     private Integer sectionindex;
-
+    @ApiModelProperty("部位名称")
     private String sectionname;
-
+    @ApiModelProperty("传感器类型")
     private Integer sensortype;
-
+    @ApiModelProperty("初始间隙电压")
     private Double trendgap;
-
+    @ApiModelProperty("特征值类型")
     private Integer type;
-
+    @ApiModelProperty("单位")
     private String unit;
 
     private static final long serialVersionUID = 1L;

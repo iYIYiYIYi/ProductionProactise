@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sram.buct_production_practice.dao.GraphDataListboxesDao">
+  <resultMap id="BaseResultMap" type="com.sram.buct_production_practice.entity.GraphDataListboxes">
+    <id column="equipmentUuid" jdbcType="VARCHAR" property="equipmentuuid" />
+    <result column="yPos" jdbcType="VARCHAR" property="ypos" />
+    <result column="width" jdbcType="VARCHAR" property="width" />
+    <result column="xPos" jdbcType="VARCHAR" property="xpos" />
+    <result column="height" jdbcType="VARCHAR" property="height" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    equipmentUuid, yPos, width, xPos, height
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from graph_data_listboxes
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByEquipmentUuid" resultType="com.sram.buct_production_practice.entity.GraphDataListboxes">
+    select *
+    from graph_data_listboxes
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from graph_data_listboxes
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.GraphDataListboxes" useGeneratedKeys="true">
+    insert into graph_data_listboxes (equipmentUuid,yPos, width, xPos,
+      height)
+    values (#{equipmentuuid,jdbcType=VARCHAR},#{ypos,jdbcType=VARCHAR}, #{width,jdbcType=VARCHAR}, #{xpos,jdbcType=VARCHAR},
+      #{height,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.GraphDataListboxes" useGeneratedKeys="true">
+    insert into graph_data_listboxes
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="equipmentuuid != null">
+        equipmentUuid,
+      </if>
+      <if test="ypos != null">
+        yPos,
+      </if>
+      <if test="width != null">
+        width,
+      </if>
+      <if test="xpos != null">
+        xPos,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="equipmentuuid != null">
+        #{equipmentuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="ypos != null">
+        #{ypos,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null">
+        #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="xpos != null">
+        #{xpos,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sram.buct_production_practice.entity.GraphDataListboxes">
+    update graph_data_listboxes
+    <set>
+      <if test="ypos != null">
+        yPos = #{ypos,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null">
+        width = #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="xpos != null">
+        xPos = #{xpos,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sram.buct_production_practice.entity.GraphDataListboxes">
+    update graph_data_listboxes
+    set yPos = #{ypos,jdbcType=VARCHAR},
+      width = #{width,jdbcType=VARCHAR},
+      xPos = #{xpos,jdbcType=VARCHAR},
+      height = #{height,jdbcType=VARCHAR}
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

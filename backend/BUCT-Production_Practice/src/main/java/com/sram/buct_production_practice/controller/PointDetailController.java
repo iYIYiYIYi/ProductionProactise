@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(value = "point_detail")
+@Api(tags = "测点信息")
 @CrossOrigin
 @RestController
 public class PointDetailController {
@@ -29,11 +29,8 @@ public class PointDetailController {
     }
 
     @GetMapping("/point/{equipmentUuid}/detail")
-    @ApiOperation(value = "Get Point Detail Information", notes = "获取节点详细信息")
-    public JSONObject getPoint(@ApiParam(value = "String", required = true) @PathVariable String equipmentUuid) {
-        List<PointDetail> pointDetails = pointDetailDao.selectByEquipmentUuid(equipmentUuid);
-        if(pointDetails.isEmpty())
-            return StandardJSonResponse.Error("Can't find uuid");
-        return StandardJSonResponse.Correct(pointDetails, "point detail");
+    @ApiOperation(value = "基于设备UUID获取测点详细信息", notes = "基于设备UUID获取测点详细信息")
+    public List<PointDetail> getPoint(@ApiParam(value = "String", required = true) @PathVariable String equipmentUuid) {
+        return pointDetailDao.selectByEquipmentUuid(equipmentUuid);
     }
 }

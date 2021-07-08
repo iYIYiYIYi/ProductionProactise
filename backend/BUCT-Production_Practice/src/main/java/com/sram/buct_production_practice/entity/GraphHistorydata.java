@@ -9,7 +9,7 @@ import lombok.Data;
  * graph_historydata
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.GraphHistorydata")
+@ApiModel(description="图片历史数据")
 @Data
 public class GraphHistorydata implements Serializable {
     private Integer equipmentuuid;
