@@ -1,11 +1,14 @@
 <template>
-  <el-tabs type="border-card" class="tabs">
-    <el-tab-pane v-for="type in types" :key="type" :label="type">
-      <ImageCanvas :name="name" :data="data">
+  <div>
+    <el-tabs v-if="dataInfo.equipmentuuid" type="border-card" class="tabs">
+      <el-tab-pane v-for="type in types" :key="type" :label="type">
+        <ImageCanvas :name="name" :dataInfo="dataInfo">
 
-      </ImageCanvas>
-    </el-tab-pane>
-  </el-tabs>
+        </ImageCanvas>
+      </el-tab-pane>
+    </el-tabs>
+    <el-empty description="请选择设备" image="./loading.png" image-size="500" v-else></el-empty>
+  </div>
 </template>
 
 <script>
@@ -16,7 +19,7 @@ export default {
   props:{
     types:Array,
     name:String,
-    data:Object,
+    dataInfo:Object,
   },
   components:{
     ImageCanvas,
