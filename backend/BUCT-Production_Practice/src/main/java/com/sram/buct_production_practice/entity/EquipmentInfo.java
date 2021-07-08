@@ -11,8 +11,8 @@ import lombok.Data;
  * equipment_info
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.EquipmentInfo")
 @Data
+@ApiModel(description ="EquipmentInfo")
 public class EquipmentInfo implements Serializable {
     private String equipmentuuid;
 
