@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(value = "node_info")
+@Api(tags = "节点信息")
 @CrossOrigin
 @RestController
 public class NodeInfoController {
@@ -25,12 +25,8 @@ public class NodeInfoController {
     }
 
     @GetMapping("/node/info")
-    @ApiOperation(value = "Get Node Information", notes = "")
+    @ApiOperation(value = "获取配置的中间件信息", notes = "获取配置的中间件信息")
     public List<NodeInfo> getNode() {
-        List<NodeInfo> nodeInfos = nodeInfoDao.selectAll();
-        return nodeInfos;
-//        if(nodeInfos.isEmpty())
-//            return StandardJSonResponse.Error("node info");
-//        return StandardJSonResponse.Correct(nodeInfos, "node info");
+        return nodeInfoDao.selectAll();
     }
 }

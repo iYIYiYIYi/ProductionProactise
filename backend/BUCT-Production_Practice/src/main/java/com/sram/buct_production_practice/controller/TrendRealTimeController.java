@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(value = "trend_real_time")
+@Api(tags = "趋势波形图")
 @CrossOrigin
 @RestController
 public class TrendRealTimeController {
@@ -25,12 +25,9 @@ public class TrendRealTimeController {
     }
 
     @GetMapping("/trend/{equipmentUuid}/{pointIdString}/real_time")
-    @ApiOperation(value = "Obtain real-time information of measuring points", notes = "获取测点实时趋势")
-    public JSONObject getTrend(@ApiParam(value = "String", required = true) @PathVariable String equipmentUuid,@ApiParam(value = "String", required = true) @PathVariable String pointIdString) {
-        List<TrendRealTime> trendRealTimes = trendRealTimeDao.selectByEquAndPoint(equipmentUuid,pointIdString);
-        if(trendRealTimes.isEmpty())
-            return StandardJSonResponse.Error("无法找到相关信息");
-        return StandardJSonResponse.Correct(trendRealTimes, "trend real time");
+    @ApiOperation(value = "测点实时趋势波形频谱", notes = "获取指定测点的实时趋势、波形和频谱数据")
+    public List<TrendRealTime> getTrend(@ApiParam(value = "String", required = true) @PathVariable String equipmentUuid,@ApiParam(value = "String", required = true) @PathVariable String pointIdString) {
+        return trendRealTimeDao.selectByEquAndPoint(equipmentUuid,pointIdString);
     }
 
 }

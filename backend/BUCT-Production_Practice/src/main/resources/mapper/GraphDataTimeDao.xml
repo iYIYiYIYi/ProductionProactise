@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sram.buct_production_practice.dao.GraphDataTimeDao">
+  <resultMap id="BaseResultMap" type="com.sram.buct_production_practice.entity.GraphDataTime">
+    <id column="equipmentUuid" jdbcType="VARCHAR" property="equipmentuuid" />
+    <result column="yPos" jdbcType="VARCHAR" property="ypos" />
+    <result column="width" jdbcType="VARCHAR" property="width" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+    <result column="xPos" jdbcType="VARCHAR" property="xpos" />
+    <result column="height" jdbcType="VARCHAR" property="height" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    equipmentUuid, yPos, width, `time`, xPos, height
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from graph_data_time
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from graph_data_time
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.GraphDataTime" useGeneratedKeys="true">
+    insert into graph_data_time (equipmentUuid,yPos, width, `time`,
+      xPos, height)
+    values (#{equipmentuuid,jdbcType=VARCHAR},#{ypos,jdbcType=VARCHAR}, #{width,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR},
+      #{xpos,jdbcType=VARCHAR}, #{height,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.GraphDataTime" useGeneratedKeys="true">
+    insert into graph_data_time
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="equipmentuuid != null">
+        equipmentUuid,
+      </if>
+      <if test="ypos != null">
+        yPos,
+      </if>
+      <if test="width != null">
+        width,
+      </if>
+      <if test="time != null">
+        `time`,
+      </if>
+      <if test="xpos != null">
+        xPos,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="equipmentuuid != null">
+        #{equipmentuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="ypos != null">
+        #{ypos,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null">
+        #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="xpos != null">
+        #{xpos,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sram.buct_production_practice.entity.GraphDataTime">
+    update graph_data_time
+    <set>
+      <if test="ypos != null">
+        yPos = #{ypos,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null">
+        width = #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        `time` = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="xpos != null">
+        xPos = #{xpos,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sram.buct_production_practice.entity.GraphDataTime">
+    update graph_data_time
+    set yPos = #{ypos,jdbcType=VARCHAR},
+      width = #{width,jdbcType=VARCHAR},
+      `time` = #{time,jdbcType=VARCHAR},
+      xPos = #{xpos,jdbcType=VARCHAR},
+      height = #{height,jdbcType=VARCHAR}
+    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

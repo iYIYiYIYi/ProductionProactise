@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sram.buct_production_practice.dao.ListBoxesPointsDao">
+  <resultMap id="BaseResultMap" type="com.sram.buct_production_practice.entity.ListBoxesPoints">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pointId" jdbcType="VARCHAR" property="pointid" />
+    <result column="pointUuid" jdbcType="VARCHAR" property="pointuuid" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="pointHash" jdbcType="VARCHAR" property="pointhash" />
+    <result column="equipmentUuid" jdbcType="VARCHAR" property="equipmentuuid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pointId, pointUuid, `value`, `status`, pointHash, equipmentUuid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from list_boxes_points
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultType="com.sram.buct_production_practice.entity.ListBoxesPoints">
+      select *
+      from list_boxes_points
+      where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR} and pointHash = #{pointHash,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from list_boxes_points
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sram.buct_production_practice.entity.ListBoxesPoints" useGeneratedKeys="true">
+    insert into list_boxes_points (pointId, pointUuid, `value`, 
+      `status`, pointHash, equipmentUuid
+      )
+    values (#{pointid,jdbcType=VARCHAR}, #{pointuuid,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{pointhash,jdbcType=VARCHAR}, #{equipmentuuid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sram.buct_production_practice.entity.ListBoxesPoints" useGeneratedKeys="true">
+    insert into list_boxes_points
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pointid != null">
+        pointId,
+      </if>
+      <if test="pointuuid != null">
+        pointUuid,
+      </if>
+      <if test="value != null">
+        `value`,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="pointhash != null">
+        pointHash,
+      </if>
+      <if test="equipmentuuid != null">
+        equipmentUuid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pointid != null">
+        #{pointid,jdbcType=VARCHAR},
+      </if>
+      <if test="pointuuid != null">
+        #{pointuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="pointhash != null">
+        #{pointhash,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentuuid != null">
+        #{equipmentuuid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sram.buct_production_practice.entity.ListBoxesPoints">
+    update list_boxes_points
+    <set>
+      <if test="pointid != null">
+        pointId = #{pointid,jdbcType=VARCHAR},
+      </if>
+      <if test="pointuuid != null">
+        pointUuid = #{pointuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null">
+        `value` = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="pointhash != null">
+        pointHash = #{pointhash,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentuuid != null">
+        equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sram.buct_production_practice.entity.ListBoxesPoints">
+    update list_boxes_points
+    set pointId = #{pointid,jdbcType=VARCHAR},
+      pointUuid = #{pointuuid,jdbcType=VARCHAR},
+      `value` = #{value,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=VARCHAR},
+      pointHash = #{pointhash,jdbcType=VARCHAR},
+      equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

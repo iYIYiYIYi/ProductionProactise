@@ -20,6 +20,9 @@
     from graph_info
     where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
   </select>
+  <select id="selectByEquipmentUuid" resultType="com.sram.buct_production_practice.entity.GraphInfo">
+    select *from graph_info where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from graph_info
     where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR}
@@ -29,7 +32,7 @@
       graphImageBase64Code, graphImageHeight, 
       graphImageWidth)
     values ( #{equipmentuuid,jdbcType=VARCHAR},#{fontsize,jdbcType=INTEGER}, #{graphid,jdbcType=INTEGER}, #{graphimagebackground,jdbcType=VARCHAR},
-      #{graphimagebase64code,jdbcType=VARCHAR}, #{graphimageheight,jdbcType=INTEGER}, 
+      #{graphimagebase64code,jdbcType=VARCHAR}, #{graphimageheight,jdbcType=INTEGER},
       #{graphimagewidth,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.GraphInfo" useGeneratedKeys="true">
