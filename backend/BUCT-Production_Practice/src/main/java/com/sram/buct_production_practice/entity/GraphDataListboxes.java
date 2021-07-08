@@ -12,19 +12,20 @@ import lombok.NoArgsConstructor;
  * graph_data_listboxes
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.GraphDataListboxes")
+@ApiModel(value="测点框的位置,大小,分组号")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class GraphDataListboxes implements Serializable {
+    @ApiModelProperty("设备唯一标识")
     private String equipmentuuid;
-
+    @ApiModelProperty("显示Y坐标")
     private String ypos;
-
+    @ApiModelProperty("显示宽度")
     private String width;
-
+    @ApiModelProperty("显示X坐标")
     private String xpos;
-
+    @ApiModelProperty("显示高度")
     private String height;
 
     private static final long serialVersionUID = 1L;

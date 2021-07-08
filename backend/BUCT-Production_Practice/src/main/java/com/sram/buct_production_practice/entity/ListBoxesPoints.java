@@ -12,23 +12,24 @@ import lombok.NoArgsConstructor;
  * list_boxes_points
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.ListBoxesPoints")
+@ApiModel(value="测点框的内容")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ListBoxesPoints implements Serializable {
+    @ApiModelProperty("自增ID")
     private Integer id;
-
+    @ApiModelProperty("测点ID")
     private String pointid;
-
+    @ApiModelProperty("测点唯一标识")
     private String pointuuid;
-
+    @ApiModelProperty("测点值")
     private String value;
-
+    @ApiModelProperty("状态")
     private String status;
-
+    @ApiModelProperty("测点哈希值")
     private String pointhash;
-
+    @ApiModelProperty("设备唯一标识")
     private String equipmentuuid;
 
     private static final long serialVersionUID = 1L;

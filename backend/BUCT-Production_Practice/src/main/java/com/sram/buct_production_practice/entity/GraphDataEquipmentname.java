@@ -10,20 +10,21 @@ import lombok.Data;
  * graph_data_equipmentname
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.GraphDataEquipmentname")
+@ApiModel(value="设备显示名称")
 @Data
 public class GraphDataEquipmentname implements Serializable {
+    @ApiModelProperty("设备唯一标识")
     private String equipmentuuid;
-
+    @ApiModelProperty("显示Y坐标")
     private String ypos;
-
+    @ApiModelProperty("显示宽度")
     private String width;
-
+    @ApiModelProperty("设备名称")
     @JSONField(alternateNames = "equipmentName")
     private String name;
-
+    @ApiModelProperty("显示X坐标")
     private String xpos;
-
+    @ApiModelProperty("显示高度")
     private String height;
 
     private static final long serialVersionUID = 1L;
