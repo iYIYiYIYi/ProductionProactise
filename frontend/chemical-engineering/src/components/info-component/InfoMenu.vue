@@ -78,7 +78,7 @@ export default {
       // eslint-disable-next-line vue/require-prop-type-constructor
       value: '',
       data: [{
-        label: '一级 1',
+        label: '震动测点',
         children: [{
           label: '二级 1-1',
           children: [{
@@ -133,11 +133,12 @@ export default {
     },
     //获取测点信息//
     getMessage(equipmentUuid){
+      let it = this;
       // Make a request for a user with a given ID
       axios({
         method:'get',
         url:'http://192.168.137.1:8848/point/'+equipmentUuid+'/detail',
-        responseType:'jsonp',
+        responseType:'json',
       })
           .then(function (response) {
             // handle success
@@ -145,9 +146,17 @@ export default {
             var parse = JSON.parse(response.data);
             console.log(parse)
           })
-          .catch(function (error) {
+          .catch(function () {
             // handle error
-            console.log(error);
+            it.$alert('获取设备测点信息失败', '网络错误', {
+              confirmButtonText: '确定',
+              callback: action => {
+                this.$message({
+                  type: 'error',
+                  message: `action: ${ action }`
+                });
+              }
+            });
           })
           .then(function () {
             // always executed
