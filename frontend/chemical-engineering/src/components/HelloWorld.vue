@@ -1,9 +1,9 @@
 <template>
   <div class="hello">
 <!--    <h1>{{ msg }}</h1>-->
-    <LeftTabMenu ></LeftTabMenu>
+    <LeftTabMenu @changeContent="changeContent"></LeftTabMenu>
     <div class="right-part">
-      <NavMenu></NavMenu>
+      <NavMenu ></NavMenu>
       <div class="content">
         <Content
             :types="[
@@ -11,7 +11,7 @@
             '频率检测',//二维跟三维放到一起
             ]"
             :name="name"
-            :data="select_data"
+            :dataInfo="select_data"
         />
       </div>
     </div>
@@ -38,6 +38,7 @@ export default {
   },
   methods :{
     changeContent(data,name) {
+      console.log(data,name);
       this.$data.name = name;
       this.$data.select_data = data;
     },

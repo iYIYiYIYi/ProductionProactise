@@ -37,7 +37,7 @@
               <template slot="title">{{ company_name }}</template>
               <el-submenu v-for="(factory_value,factory_name) in company_value" :key="factory_name" :index="factory_name">
                 <template slot="title">{{factory_name}}</template>
-                <el-menu-item v-for="(equipment_value,equipment_name) in factory_value" :key="equipment_name" :index="equipment_name" >
+                <el-menu-item v-for="(equipment_value,equipment_name) in factory_value" :key="equipment_name" :index="equipment_name" @click="selectNode">
                   {{equipment_name}}
                 </el-menu-item>
               </el-submenu>
@@ -75,7 +75,7 @@
 }
 
 .head {
-  background-color: #E6A23C;
+  background-color: #409EFF;
   color: white;
   height: 6%;
 }
@@ -89,7 +89,6 @@
 
 <script>
 
-const axios = require('axios');
 export default {
   name:'LeftTabMenu',
   data() {
@@ -112,17 +111,40 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-    select(index,indexpath) {
-      console.log(index,indexpath);
-      // this.selectItem();
+    selectNode(obj) {
+      let name = obj.indexPath[obj.indexPath.length - 1];
+      let dataObj = this.searchNodes(obj.indexPath);
+      this.$emit('changeContent',dataObj,name);
+    },
+    searchNodes(indexPath) {
+      for (const nodesKey in this.$data.nodes) {
+        if (nodesKey === indexPath[0]) {
+          let companyNodes = this.$data.nodes[nodesKey];
+          for (let companyNodesKey in companyNodes) {
+            if (companyNodesKey === indexPath[1]) {
+              let factoryNodes = companyNodes[companyNodesKey];
+              for (let factoryNodesKey in factoryNodes) {
+                if (factoryNodesKey === indexPath[2]) {
+                  let equipmentNodes = factoryNodes[factoryNodesKey];
+                  for (let equipmentNodesKey in equipmentNodes) {
+                    if (equipmentNodesKey === indexPath[3]) {
+                      return equipmentNodes[equipmentNodesKey];
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     //获取节点信息//
     getNodeId(){
       // Make a request for a user with a given ID
       let it = this;
-      axios({
+      this.$axios({
         method:'get',
-        url:'http://192.168.137.1:8848/node/info',
+        url:'/node/info',
         responseType:'json',
       })
       .then(function (response) {
@@ -146,9 +168,9 @@ export default {
     getStatus(node_id){
       let it = this;
       // Make a request for a user with a given ID
-      axios({
+      this.$axios({
         method:'get',
-        url:'http://192.168.137.1:8848/equipment/node/'+node_id+'/info',
+        url:'/equipment/node/'+node_id+'/info',
         responseType:'json',
       })
       .then(function (response) {
@@ -193,9 +215,9 @@ export default {
     //获取测点信息//
     getMessage(){
       // Make a request for a user with a given ID
-      axios({
+      this.$axios({
         method:'get',
-        url:'http://192.168.137.1:8848/point/{equipmentUuid}/detail',
+        url:'/point/{equipmentUuid}/detail',
         responseType:'json',
       })
           .then(function (response) {
