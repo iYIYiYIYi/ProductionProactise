@@ -61,6 +61,12 @@ class BuctProductionPracticeApplicationTests {
     @Autowired
     TrendValueDao trendValueDao;
 
+    @Autowired
+    TrendWaveValueDao trendWaveValueDao;
+
+    @Autowired
+    TrendSpectrumValueDao trendSpectrumValueDao;
+
     @Test
     public void getNodeInfo() {
         JSONObject datas = getRequest("http://39.106.31.26:8289/node/info");
@@ -119,6 +125,7 @@ class BuctProductionPracticeApplicationTests {
             JSONObject datas = getRequest(url);
             Integer status = (Integer) datas.get("code");
             if (status==200) {
+
                 JSONObject data = JSONObject.parseObject(datas.get("data").toString());
                 System.out.println(data.get("equipmentName"));
                 TrendRealTime trendRealTime=new TrendRealTime();
@@ -138,7 +145,39 @@ class BuctProductionPracticeApplicationTests {
                     trendValue.setEquipmentuuid(pointDetail.getEquipmentuuid());
                     trendValue.setPointidstring(pointDetail.getPointid());
                     System.out.println(trendValue);
-                    System.out.println(trendValueDao.insert(trendValue));
+//                    System.out.println(trendValueDao.insert(trendValue));
+                }
+
+                if(data.containsKey("waveValue")) {
+                    final JSONObject waveValue = JSONObject.parseObject(data.get("waveValue").toString());
+                    final JSONArray waveX = JSONObject.parseArray(waveValue.get("waveX").toString());
+                    final JSONArray waveY = JSONObject.parseArray(waveValue.get("waveY").toString());
+                    final JSONObject waveUnit = JSONObject.parseObject(waveValue.get("waveUnit").toString());
+                    TrendWaveValue trendWaveValue = new TrendWaveValue();
+                    trendWaveValue.setEquipmentuuid(pointDetail.getEquipmentuuid());
+                    trendWaveValue.setPointidstring(pointDetail.getPointid());
+                    trendWaveValue.setWavex(waveX.toString());
+                    trendWaveValue.setWavey(waveY.toString());
+                    trendWaveValue.setX(waveUnit.get("x").toString());
+                    trendWaveValue.setY(waveUnit.get("y").toString());
+//                    System.out.println(trendWaveValue);
+//                    System.out.println(trendWaveValueDao.insert(trendWaveValue));
+                }
+
+                if(data.containsKey("spectrumValue")){
+                    final JSONObject spectrumValue = JSONObject.parseObject(data.get("spectrumValue").toString());
+                    final JSONArray spectrumX = JSONObject.parseArray(spectrumValue.get("spectrumX").toString());
+                    final JSONArray spectrumY = JSONObject.parseArray(spectrumValue.get("spectrumY").toString());
+                    final JSONObject spectrumUnit = JSONObject.parseObject(spectrumValue.get("spectrumUnit").toString());
+                    TrendSpectrumValue trendSpectrumValue=new TrendSpectrumValue();
+                    trendSpectrumValue.setEquipmentuuid(pointDetail.getEquipmentuuid());
+                    trendSpectrumValue.setPointidstring(pointDetail.getPointid());
+                    trendSpectrumValue.setSpectrumx(spectrumX.toString());
+                    trendSpectrumValue.setSpectrumy(spectrumY.toString());
+                    trendSpectrumValue.setX(spectrumUnit.get("x").toString());
+                    trendSpectrumValue.setY(spectrumUnit.get("y").toString());
+//                    System.out.println(trendSpectrumValue);
+//                    System.out.println(trendSpectrumValueDao.insert(trendSpectrumValue));
                 }
 
             }
