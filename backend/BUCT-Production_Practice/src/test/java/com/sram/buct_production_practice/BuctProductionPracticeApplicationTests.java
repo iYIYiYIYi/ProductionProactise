@@ -1,13 +1,11 @@
 package com.sram.buct_production_practice;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sram.buct_production_practice.controller.NodeInfoController;
-import com.sram.buct_production_practice.dao.EquipmentInfoDao;
-import com.sram.buct_production_practice.dao.NodeInfoDao;
-import com.sram.buct_production_practice.dao.PointDetailDao;
-import com.sram.buct_production_practice.entity.EquipmentInfo;
-import com.sram.buct_production_practice.entity.NodeInfo;
-import com.sram.buct_production_practice.entity.PointDetail;
+import com.sram.buct_production_practice.dao.*;
+import com.sram.buct_production_practice.entity.*;
 import lombok.val;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -27,6 +25,9 @@ import java.util.List;
 @SpringBootTest
 class BuctProductionPracticeApplicationTests {
 
+    CloseableHttpClient httpClient = HttpClients.createDefault();
+    CloseableHttpResponse response;
+
     @Autowired
     NodeInfoDao nodeInfoDao;
 
@@ -35,6 +36,30 @@ class BuctProductionPracticeApplicationTests {
 
     @Autowired
     PointDetailDao pointDetailDao;
+
+    @Autowired
+    GraphInfoDao graphInfoDao;
+
+    @Autowired
+    GraphDataListboxesDao graphDataListboxesDao;
+
+    @Autowired
+    GraphDataEquipmentnameDao graphDataEquipmentnameDao;
+
+    @Autowired
+    GraphDataRevinfoDao graphDataRevinfoDao;
+
+    @Autowired
+    GraphDataTimeDao graphDataTimeDao;
+
+    @Autowired
+    ListBoxesPointsDao listBoxesPointsDao;
+
+    @Autowired
+    TrendRealTimeDao trendRealTimeDao;
+
+    @Autowired
+    TrendValueDao trendValueDao;
 
     @Test
     public void getNodeInfo() {
@@ -85,10 +110,130 @@ class BuctProductionPracticeApplicationTests {
         }
     }
 
+    @Test
+    public void getTrendRealTime(){
+        List<PointDetail> pointDetailList = pointDetailDao.selectAll();
+        for (PointDetail pointDetail : pointDetailList) {
+            String url="http://39.106.31.26:8289/trend/"+pointDetail.getEquipmentuuid()+"/"+pointDetail.getPointid()+"/real_time";
+            System.out.println(url);
+            JSONObject datas = getRequest(url);
+            Integer status = (Integer) datas.get("code");
+            if (status==200) {
+                JSONObject data = JSONObject.parseObject(datas.get("data").toString());
+                System.out.println(data.get("equipmentName"));
+                TrendRealTime trendRealTime=new TrendRealTime();
+                trendRealTime.setEquipmentuuid(data.get("equipmentName").toString());
+                trendRealTime.setRev(Integer.valueOf(data.get("rev").toString()));
+                trendRealTime.setPointname(String.valueOf(data.get("pointName")));
+                trendRealTime.setTrendtime((Long) data.get("trendTime"));
+                trendRealTime.setStartindex((Integer) data.get("startIndex"));
+                trendRealTime.setEndindex((Integer) data.get("endIndex"));
+                trendRealTime.setEquipmentuuid(pointDetail.getEquipmentuuid());
+                trendRealTime.setPointidstring(pointDetail.getPointid());
+                System.out.println(trendRealTime);
+//                System.out.println(trendRealTimeDao.insert(trendRealTime));
+
+                final List<TrendValue> trendValues = JSONObject.parseArray(data.get("trendValue").toString(), TrendValue.class);
+                for (TrendValue trendValue : trendValues) {
+                    trendValue.setEquipmentuuid(pointDetail.getEquipmentuuid());
+                    trendValue.setPointidstring(pointDetail.getPointid());
+                    System.out.println(trendValue);
+                    System.out.println(trendValueDao.insert(trendValue));
+                }
+
+            }
+        }
+    }
+
+    @Test
+    public void getGraphInfo(){
+        final List<EquipmentInfo> equipmentInfoList = equipmentInfoDao.selectAll();
+        for (EquipmentInfo equipmentInfo : equipmentInfoList) {
+            String url="http://39.106.31.26:8289/graph/"+equipmentInfo.getEquipmentuuid()+"/info";
+            System.out.println(url);
+            JSONObject datas = getRequest(url);
+            Integer status = (Integer) datas.get("code");
+            System.out.println(datas);
+            if (status == 200) {
+                GraphInfo data = JSONObject.parseObject(datas.get("data").toString(), GraphInfo.class);
+                data.setEquipmentuuid(equipmentInfo.getEquipmentuuid());
+                graphInfoDao.insert(data);
+            }
+        }
+    }
+
+    @Test
+    public void getGraphData(){
+        final List<EquipmentInfo> equipmentInfoList = equipmentInfoDao.selectAll();
+        for (EquipmentInfo equipmentInfo : equipmentInfoList) {
+            String url="http://39.106.31.26:8289/graph/"+equipmentInfo.getEquipmentuuid()+"/data";
+//            System.out.println(url);
+            JSONObject datas = getRequest(url);
+            Integer status = (Integer) datas.get("code");
+            System.out.println(datas);
+            if (status == 200) {
+                JSONObject data = (JSONObject) datas.get("data");
+                String equipmentUUID = data.getString("equipmentUuid");
+
+                GraphDataEquipmentname graphDataEquipmentname = data.getObject("equipmentName",GraphDataEquipmentname.class);
+                graphDataEquipmentname.setEquipmentuuid(equipmentUUID);
+
+                graphDataEquipmentnameDao.insert(graphDataEquipmentname);
+
+
+                GraphDataTime graphDataTime = data.getObject("time",GraphDataTime.class);
+                graphDataTime.setEquipmentuuid(equipmentUUID);
+
+                graphDataTimeDao.insert(graphDataTime);
+
+                JSONObject property = data.getJSONObject("revInfo");
+                for (String s : property.keySet()) {
+                    GraphDataRevinfo graphDataRevinfo = property.getObject(s,GraphDataRevinfo.class);
+                    graphDataRevinfo.setEquipmentuuid(equipmentUUID);
+                    graphDataRevinfo.setProperty(s);
+                    graphDataRevinfoDao.insert(graphDataRevinfo);
+                }
+
+
+
+
+
+                JSONArray listBoxes = data.getJSONArray("listBoxes");
+                for (Object listBox : listBoxes) {
+                    JSONObject listo = (JSONObject) listBox;
+                    GraphDataListboxes graphDataListboxes = new GraphDataListboxes(
+                                equipmentUUID,
+                                listo.getString("yPos"),
+                                listo.getString("width"),
+                                listo.getString("xPos"),
+                                listo.getString("height")
+                            );
+                    graphDataListboxesDao.insert(graphDataListboxes);
+
+                    JSONArray points = listo.getJSONArray("points");
+                    for (Object o : points) {
+                        JSONObject obj = (JSONObject) o;
+                        ListBoxesPoints listBoxesPoints = new ListBoxesPoints(
+                                0,
+                                obj.getString("pointId"),
+                                obj.getString("pointUuid"),
+                                obj.getString("value"),
+                                obj.getString("status"),
+                                graphDataListboxes.hashCodeSB(),
+                                equipmentUUID
+                        );
+                        listBoxesPointsDao.insert(listBoxesPoints);
+                    }
+
+                }
+
+            }
+        }
+    }
+
     public JSONObject getRequest(String url){
-        CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
-        CloseableHttpResponse response;
+
         try {
             response = httpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();

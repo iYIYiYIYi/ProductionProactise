@@ -9,21 +9,22 @@ import lombok.Data;
  * graph_info
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.GraphInfo")
+@ApiModel(description="图片信息")
 @Data
 public class GraphInfo implements Serializable {
+    @ApiModelProperty("设备唯一标识")
     private String equipmentuuid;
-
+    @ApiModelProperty("测点框字体大小")
     private Integer fontsize;
-
+    @ApiModelProperty("概貌图ID")
     private Integer graphid;
-
+    @ApiModelProperty("概貌图背景色")
     private String graphimagebackground;
-
+    @ApiModelProperty("概貌图")
     private String graphimagebase64code;
-
+    @ApiModelProperty("概貌图高度")
     private Integer graphimageheight;
-
+    @ApiModelProperty("概貌图宽度")
     private Integer graphimagewidth;
 
     private static final long serialVersionUID = 1L;

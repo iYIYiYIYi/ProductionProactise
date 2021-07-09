@@ -9,7 +9,7 @@ import lombok.Data;
  * trend_info
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.TrendInfo")
+@ApiModel(description="趋势信息")
 @Data
 public class TrendInfo implements Serializable {
     private String equipmentuuid;

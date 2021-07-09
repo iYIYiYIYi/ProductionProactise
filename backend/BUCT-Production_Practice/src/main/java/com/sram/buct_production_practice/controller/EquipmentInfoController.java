@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(value = "equipment_info")
+@Api(tags = "设备信息")
 @CrossOrigin
 @RestController
 public class EquipmentInfoController {
@@ -30,13 +30,9 @@ public class EquipmentInfoController {
     }
 
     @GetMapping("/equipment/node/{nodeid}/info")
-    @ApiOperation(value = "Get Equipment Information", notes = "")
-    public JSONObject getGraph(@ApiParam(value = "String", required = true) @PathVariable String nodeid) {
-
-        List<EquipmentInfo> equipmentInfos = equipmentInfoDao.selectByNodeID(nodeid);
-        if(equipmentInfos.isEmpty())
-            return StandardJSonResponse.Error("Can't find uuid");
-        return StandardJSonResponse.Correct(equipmentInfos, "equipment info");
+    @ApiOperation(value = "获取某个节点上所有设备最新状态", notes = "获取某个节点上所有设备最新状态")
+    public List<EquipmentInfo> getGraph(@ApiParam(value = "String", required = true) @PathVariable String nodeid) {
+        return equipmentInfoDao.selectByNodeID(nodeid);
     }
 }
 

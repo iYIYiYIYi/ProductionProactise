@@ -3,6 +3,8 @@ package com.sram.buct_production_practice.dao;
 import com.sram.buct_production_practice.entity.GraphInfo;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface GraphInfoDao {
     int deleteByPrimaryKey(String equipmentuuid);
@@ -16,4 +18,6 @@ public interface GraphInfoDao {
     int updateByPrimaryKeySelective(GraphInfo record);
 
     int updateByPrimaryKey(GraphInfo record);
+
+    List<GraphInfo> selectByEquipmentUuid(String equipmentUuid);
 }

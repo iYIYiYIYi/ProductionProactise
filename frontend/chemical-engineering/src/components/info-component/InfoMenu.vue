@@ -50,20 +50,19 @@
 </template>
 
 <script>
-const axios = require('axios');
 
 export default {
   name: "InfoMenu",
   props :{
     name:String,
-
+    equipmentUUID:String,
   },
   data() {
     return {
       openChart:false,
       dataMode:false,
       stop_switch:'停止',
-      stop_switch_type:'warning',
+      stop_switch_type:'primary',
       options: [{
         value: '选项1',
         label: '黄金糕'
@@ -126,7 +125,7 @@ export default {
       }
       else {
         this.$data.stop_switch = '停止';
-        this.$data.stop_switch_type = 'warning';
+        this.$data.stop_switch_type = 'primary';
 
       }
 
@@ -135,9 +134,9 @@ export default {
     getMessage(equipmentUuid){
       let it = this;
       // Make a request for a user with a given ID
-      axios({
+      this.$axios({
         method:'get',
-        url:'http://192.168.137.1:8848/point/'+equipmentUuid+'/detail',
+        url:'/point/'+equipmentUuid+'/detail',
         responseType:'json',
       })
           .then(function (response) {
@@ -178,7 +177,7 @@ export default {
 
 .title {
   font-size: 24px;
-  color: #E6A23C;
+  color: #409EFF;
   margin: 5px;
   padding: 0;
 }
