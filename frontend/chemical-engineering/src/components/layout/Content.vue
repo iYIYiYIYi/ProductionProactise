@@ -1,7 +1,7 @@
 <template>
   <el-tabs type="border-card" class="tabs">
     <el-tab-pane v-for="type in types" :key="type" :label="type">
-      <ImageCanvas :name="name" :data="data">
+      <ImageCanvas :name="name" :data="data" :type="type">
 
       </ImageCanvas>
     </el-tab-pane>

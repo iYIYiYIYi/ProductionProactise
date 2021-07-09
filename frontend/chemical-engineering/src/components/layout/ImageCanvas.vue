@@ -2,9 +2,9 @@
   <el-row :gutter="20">
     <el-col :span="16">
       <div class="grid-content bg-purple">
-        <img src="../../../public/k203b.png" alt="示意图" class="image">
+        <img v-if="type==='设备概貌图'" src="../../../public/k203b.png" alt="示意图" class="image">
+        <e-charts v-else-if="type==='频率检测'"></e-charts>
       </div>
-      <e-charts></e-charts>
     </el-col>
     <el-col :span="8">
       <div class="grid-content bg-purple">
@@ -29,6 +29,7 @@ export default {
   props:{
     name:String,
     data:Object,
+    type:String,
   },
   methods:{
     //获取设备信息//
