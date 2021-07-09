@@ -2,7 +2,8 @@
   <el-row :gutter="20">
     <el-col :span="16">
       <div class="grid-content bg-purple" id="boxes">
-        <img :src="'data:image/jepg;base64,'+base64image" alt="示意图" class="image">
+        <img  v-if="type==='设备概貌图'" :src="'data:image/jepg;base64,'+base64image" alt="示意图" class="image">
+        <e-charts v-else></e-charts>
       </div>
     </el-col>
     <el-col :span="8">
@@ -19,12 +20,14 @@
 <script>
 
 import InfoMenu from '../info-component/InfoMenu'
+import eCharts from '../info-component/eCharts'
 
 export default {
   name: "ImageCanvas",
   props:{
     name:String,
     dataInfo:Object,
+    type:String,
   },
   data() {
     this.getGraphImage(this.dataInfo.equipmentuuid);
@@ -166,7 +169,7 @@ export default {
 
 
   components:{
-    InfoMenu,
+    InfoMenu,eCharts,
   }
 }
 </script>
