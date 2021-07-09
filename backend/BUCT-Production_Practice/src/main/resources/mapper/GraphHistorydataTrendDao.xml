@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sram.buct_production_practice.dao.GraphHistorydataTrendDao">
+  <resultMap id="BaseResultMap" type="com.sram.buct_production_practice.entity.GraphHistorydataTrend">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="smpFreq" jdbcType="VARCHAR" property="smpfreq" />
+    <result column="smpNum" jdbcType="VARCHAR" property="smpnum" />
+    <result column="rev" jdbcType="VARCHAR" property="rev" />
+    <result column="trendValue" jdbcType="VARCHAR" property="trendvalue" />
+    <result column="trendTime" jdbcType="BIGINT" property="trendtime" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="equipmentUuid" jdbcType="VARCHAR" property="equipmentuuid" />
+    <result column="pointUuid" jdbcType="VARCHAR" property="pointuuid" />
+    <result column="alarmStartTime" jdbcType="BIGINT" property="alarmstarttime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, smpFreq, smpNum, rev, trendValue, trendTime, unit, equipmentUuid, pointUuid, 
+    alarmStartTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from graph_historydata_trend
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from graph_historydata_trend
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sram.buct_production_practice.entity.GraphHistorydataTrend" useGeneratedKeys="true">
+    insert into graph_historydata_trend (smpFreq, smpNum, rev, 
+      trendValue, trendTime, unit, 
+      equipmentUuid, pointUuid, alarmStartTime
+      )
+    values (#{smpfreq,jdbcType=VARCHAR}, #{smpnum,jdbcType=VARCHAR}, #{rev,jdbcType=VARCHAR}, 
+      #{trendvalue,jdbcType=VARCHAR}, #{trendtime,jdbcType=BIGINT}, #{unit,jdbcType=VARCHAR}, 
+      #{equipmentuuid,jdbcType=VARCHAR}, #{pointuuid,jdbcType=VARCHAR}, #{alarmstarttime,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sram.buct_production_practice.entity.GraphHistorydataTrend" useGeneratedKeys="true">
+    insert into graph_historydata_trend
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="smpfreq != null">
+        smpFreq,
+      </if>
+      <if test="smpnum != null">
+        smpNum,
+      </if>
+      <if test="rev != null">
+        rev,
+      </if>
+      <if test="trendvalue != null">
+        trendValue,
+      </if>
+      <if test="trendtime != null">
+        trendTime,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="equipmentuuid != null">
+        equipmentUuid,
+      </if>
+      <if test="pointuuid != null">
+        pointUuid,
+      </if>
+      <if test="alarmstarttime != null">
+        alarmStartTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="smpfreq != null">
+        #{smpfreq,jdbcType=VARCHAR},
+      </if>
+      <if test="smpnum != null">
+        #{smpnum,jdbcType=VARCHAR},
+      </if>
+      <if test="rev != null">
+        #{rev,jdbcType=VARCHAR},
+      </if>
+      <if test="trendvalue != null">
+        #{trendvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="trendtime != null">
+        #{trendtime,jdbcType=BIGINT},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentuuid != null">
+        #{equipmentuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="pointuuid != null">
+        #{pointuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmstarttime != null">
+        #{alarmstarttime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sram.buct_production_practice.entity.GraphHistorydataTrend">
+    update graph_historydata_trend
+    <set>
+      <if test="smpfreq != null">
+        smpFreq = #{smpfreq,jdbcType=VARCHAR},
+      </if>
+      <if test="smpnum != null">
+        smpNum = #{smpnum,jdbcType=VARCHAR},
+      </if>
+      <if test="rev != null">
+        rev = #{rev,jdbcType=VARCHAR},
+      </if>
+      <if test="trendvalue != null">
+        trendValue = #{trendvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="trendtime != null">
+        trendTime = #{trendtime,jdbcType=BIGINT},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentuuid != null">
+        equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="pointuuid != null">
+        pointUuid = #{pointuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmstarttime != null">
+        alarmStartTime = #{alarmstarttime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sram.buct_production_practice.entity.GraphHistorydataTrend">
+    update graph_historydata_trend
+    set smpFreq = #{smpfreq,jdbcType=VARCHAR},
+      smpNum = #{smpnum,jdbcType=VARCHAR},
+      rev = #{rev,jdbcType=VARCHAR},
+      trendValue = #{trendvalue,jdbcType=VARCHAR},
+      trendTime = #{trendtime,jdbcType=BIGINT},
+      unit = #{unit,jdbcType=VARCHAR},
+      equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR},
+      pointUuid = #{pointuuid,jdbcType=VARCHAR},
+      alarmStartTime = #{alarmstarttime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

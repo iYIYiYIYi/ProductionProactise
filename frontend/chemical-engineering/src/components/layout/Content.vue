@@ -2,7 +2,7 @@
   <div>
     <el-tabs v-if="dataInfo.equipmentuuid" type="border-card" class="tabs">
       <el-tab-pane v-for="type in types" :key="type" :label="type">
-        <ImageCanvas :name="name" :dataInfo="dataInfo">
+        <ImageCanvas :name="name" :type="type" :dataInfo="dataInfo">
 
         </ImageCanvas>
       </el-tab-pane>

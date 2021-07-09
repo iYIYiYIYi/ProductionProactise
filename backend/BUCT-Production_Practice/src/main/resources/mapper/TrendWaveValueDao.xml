@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sram.buct_production_practice.dao.TrendWaveValueDao">
+  <resultMap id="BaseResultMap" type="com.sram.buct_production_practice.entity.TrendWaveValue">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="x" jdbcType="VARCHAR" property="x" />
+    <result column="y" jdbcType="VARCHAR" property="y" />
+    <result column="waveX" jdbcType="VARCHAR" property="wavex" />
+    <result column="waveY" jdbcType="VARCHAR" property="wavey" />
+    <result column="equipmentUuid" jdbcType="VARCHAR" property="equipmentuuid" />
+    <result column="pointIdString" jdbcType="VARCHAR" property="pointidstring" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, x, y, waveX, waveY, equipmentUuid, pointIdString
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from trend_wave_value
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from trend_wave_value
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sram.buct_production_practice.entity.TrendWaveValue" useGeneratedKeys="true">
+    insert into trend_wave_value (x, y, waveX, 
+      waveY, equipmentUuid, pointIdString
+      )
+    values (#{x,jdbcType=VARCHAR}, #{y,jdbcType=VARCHAR}, #{wavex,jdbcType=VARCHAR}, 
+      #{wavey,jdbcType=VARCHAR}, #{equipmentuuid,jdbcType=VARCHAR}, #{pointidstring,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sram.buct_production_practice.entity.TrendWaveValue" useGeneratedKeys="true">
+    insert into trend_wave_value
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="x != null">
+        x,
+      </if>
+      <if test="y != null">
+        y,
+      </if>
+      <if test="wavex != null">
+        waveX,
+      </if>
+      <if test="wavey != null">
+        waveY,
+      </if>
+      <if test="equipmentuuid != null">
+        equipmentUuid,
+      </if>
+      <if test="pointidstring != null">
+        pointIdString,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="x != null">
+        #{x,jdbcType=VARCHAR},
+      </if>
+      <if test="y != null">
+        #{y,jdbcType=VARCHAR},
+      </if>
+      <if test="wavex != null">
+        #{wavex,jdbcType=VARCHAR},
+      </if>
+      <if test="wavey != null">
+        #{wavey,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentuuid != null">
+        #{equipmentuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="pointidstring != null">
+        #{pointidstring,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sram.buct_production_practice.entity.TrendWaveValue">
+    update trend_wave_value
+    <set>
+      <if test="x != null">
+        x = #{x,jdbcType=VARCHAR},
+      </if>
+      <if test="y != null">
+        y = #{y,jdbcType=VARCHAR},
+      </if>
+      <if test="wavex != null">
+        waveX = #{wavex,jdbcType=VARCHAR},
+      </if>
+      <if test="wavey != null">
+        waveY = #{wavey,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentuuid != null">
+        equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="pointidstring != null">
+        pointIdString = #{pointidstring,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sram.buct_production_practice.entity.TrendWaveValue">
+    update trend_wave_value
+    set x = #{x,jdbcType=VARCHAR},
+      y = #{y,jdbcType=VARCHAR},
+      waveX = #{wavex,jdbcType=VARCHAR},
+      waveY = #{wavey,jdbcType=VARCHAR},
+      equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR},
+      pointIdString = #{pointidstring,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

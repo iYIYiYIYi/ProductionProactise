@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Api(tags = "设备信息")
@@ -32,7 +33,11 @@ public class EquipmentInfoController {
     @GetMapping("/equipment/node/{nodeid}/info")
     @ApiOperation(value = "获取某个节点上所有设备最新状态", notes = "获取某个节点上所有设备最新状态")
     public List<EquipmentInfo> getGraph(@ApiParam(value = "String", required = true) @PathVariable String nodeid) {
-        return equipmentInfoDao.selectByNodeID(nodeid);
+        List<EquipmentInfo> equipmentInfos = equipmentInfoDao.selectByNodeID(nodeid);
+        for (EquipmentInfo equipmentInfo : equipmentInfos) {
+            equipmentInfo.setUpdatetime(BigInteger.valueOf(System.currentTimeMillis()));
+        }
+        return equipmentInfos;
     }
 }
 

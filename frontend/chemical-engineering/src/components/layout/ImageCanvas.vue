@@ -2,7 +2,7 @@
   <el-row :gutter="20">
     <el-col :span="18">
       <div class="grid-content bg-purple" ref="boxes" >
-        <img :src="'data:image/jepg;base64,'+base64image" alt="示意图" class="image" :style="'width:'+imageWidth*1.3+'px ;height:'+imageHeight+'px'">
+        <img v-if="type==='设备概貌图'"  :src="'data:image/jepg;base64,'+base64image" alt="示意图" class="image" :style="'width:'+imageWidth*1.3+'px ;height:'+imageHeight+'px'">
         <div class="boxes-container" ref="boxContainer" :style="'width:'+imageWidth*1.3+'px ;height:'+imageHeight+'px'">
           <div class="header box" v-if="equipmentName" :style="'width:'+equipmentName.width*1.3+'px;height:'+equipmentName.height+'px;left:'+equipmentName.xpos*1.3+'px;top:'+equipmentName.ypos+'px;'">{{equipmentName.name}}</div>
           <div class="header box" v-if="equipmentRevInfo" :style="'width:'+equipmentRevInfo.width*1.3+'px;height:'+equipmentRevInfo.height+'px;left:'+equipmentRevInfo.xpos*1.3+'px;top:'+equipmentRevInfo.ypos+'px;'">{{equipmentRevInfo.revname}}:{{equipmentRevInfo.revvalue}}</div>
@@ -12,7 +12,7 @@
             <div class="info_piece" v-for="(point,index) in box.points" :key="index"> {{point.pointid}}:{{point.value}} </div>
           </div>
         </div>
-      </div>
+        <e-charts v-else></e-charts>
     </el-col>
     <el-col :span="6" style="z-index: 9999">
       <div class="grid-content bg-purple">
@@ -28,12 +28,14 @@
 <script>
 
 import InfoMenu from '../info-component/InfoMenu'
+import eCharts from '../info-component/eCharts'
 
 export default {
   name: "ImageCanvas",
   props:{
     name:String,
     dataInfo:Object,
+    type:String,
   },
   data() {
     this.getGraphImage(this.dataInfo.equipmentuuid);
@@ -216,7 +218,7 @@ export default {
 
 
   components:{
-    InfoMenu,
+    InfoMenu,eCharts,
   }
 }
 </script>

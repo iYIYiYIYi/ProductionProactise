@@ -9,7 +9,7 @@ import lombok.Data;
  * graph_info
  * @author 
  */
-@ApiModel(description="图片信息")
+@ApiModel(value="概貌图信息")
 @Data
 public class GraphInfo implements Serializable {
     @ApiModelProperty("设备唯一标识")

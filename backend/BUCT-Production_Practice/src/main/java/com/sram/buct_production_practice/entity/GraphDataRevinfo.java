@@ -9,23 +9,24 @@ import lombok.Data;
  * graph_data_revinfo
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.GraphDataRevinfo")
+@ApiModel(value="转速信息")
 @Data
 public class GraphDataRevinfo implements Serializable {
+    @ApiModelProperty("设备唯一标识")
     private String equipmentuuid;
-
+    @ApiModelProperty("显示Y坐标")
     private String ypos;
-
+    @ApiModelProperty("显示宽度")
     private String width;
-
+    @ApiModelProperty("显示X坐标")
     private String xpos;
-
+    @ApiModelProperty("rev名称")
     private String revname;
-
+    @ApiModelProperty("rev值")
     private String revvalue;
-
+    @ApiModelProperty("显示高度")
     private String height;
-
+    @ApiModelProperty("属性")
     private String property;
 
     private static final long serialVersionUID = 1L;

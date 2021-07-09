@@ -7,17 +7,17 @@ import java.util.List;
 
 @Repository
 public interface TrendRealTimeDao {
-    int deleteByPrimaryKey(String equipmentuuid);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(TrendRealTime record);
 
     int insertSelective(TrendRealTime record);
 
-    TrendRealTime selectByPrimaryKey(String equipmentuuid);
+    TrendRealTime selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(TrendRealTime record);
 
     int updateByPrimaryKey(TrendRealTime record);
 
-    List<TrendRealTime> selectByEquAndPoint(String equipmentUuid, String PointUuid);
+    List<TrendRealTime> selectByEquAndPoint(String equipmentUuid, String pointIdString);
 }

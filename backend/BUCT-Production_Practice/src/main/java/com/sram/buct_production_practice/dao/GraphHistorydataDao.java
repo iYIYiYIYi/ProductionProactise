@@ -5,13 +5,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GraphHistorydataDao {
-    int deleteByPrimaryKey(Integer equipmentuuid);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(GraphHistorydata record);
 
     int insertSelective(GraphHistorydata record);
 
-    GraphHistorydata selectByPrimaryKey(Integer equipmentuuid);
+    GraphHistorydata selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(GraphHistorydata record);
 

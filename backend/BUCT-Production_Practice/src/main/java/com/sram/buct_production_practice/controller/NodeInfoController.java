@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Api(tags = "节点信息")
@@ -27,6 +28,10 @@ public class NodeInfoController {
     @GetMapping("/node/info")
     @ApiOperation(value = "获取配置的中间件信息", notes = "获取配置的中间件信息")
     public List<NodeInfo> getNode() {
-        return nodeInfoDao.selectAll();
+        List<NodeInfo> nodeInfos = nodeInfoDao.selectAll();
+        for (NodeInfo nodeInfo : nodeInfos) {
+            nodeInfo.setSynctime(BigInteger.valueOf(System.currentTimeMillis()));
+        }
+        return nodeInfos;
     }
 }

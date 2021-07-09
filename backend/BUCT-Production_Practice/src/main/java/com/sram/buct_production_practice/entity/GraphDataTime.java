@@ -12,21 +12,22 @@ import lombok.NoArgsConstructor;
  * graph_data_time
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.GraphDataTime")
+@ApiModel(value="数据同步的时刻")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class GraphDataTime implements Serializable {
+    @ApiModelProperty("设备唯一标识")
     private String equipmentuuid;
-
+    @ApiModelProperty("显示Y坐标")
     private String ypos;
-
+    @ApiModelProperty("显示宽度")
     private String width;
-
+    @ApiModelProperty("同步时间")
     private String time;
-
+    @ApiModelProperty("显示X坐标")
     private String xpos;
-
+    @ApiModelProperty("显示高度")
     private String height;
 
     private static final long serialVersionUID = 1L;

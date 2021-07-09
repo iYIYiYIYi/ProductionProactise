@@ -9,12 +9,14 @@ import lombok.Data;
  * graph_historydata
  * @author 
  */
-@ApiModel(description="图片历史数据")
+@ApiModel(value="com.sram.buct_production_practice.entity.GraphHistorydata")
 @Data
 public class GraphHistorydata implements Serializable {
-    private Integer equipmentuuid;
+    private Integer id;
 
-    private Integer alarmstarttime;
+    private Long alarmstarttime;
+
+    private String equipmentuuid;
 
     private Integer alarmstatus;
 
@@ -26,23 +28,21 @@ public class GraphHistorydata implements Serializable {
 
     private String pointuuid;
 
-    private Integer rev1;
+    private Double rev1;
 
-    private Integer rev2;
+    private Double rev2;
 
-    private Integer rev3;
+    private Double rev3;
 
-    private Integer rev4;
+    private Double rev4;
 
-    private Integer rev5;
+    private Double rev5;
 
     private String time;
 
-    private String trend;
-
     private String unit;
 
-    private Integer value;
+    private Double value;
 
     private static final long serialVersionUID = 1L;
 
@@ -58,8 +58,9 @@ public class GraphHistorydata implements Serializable {
             return false;
         }
         GraphHistorydata other = (GraphHistorydata) that;
-        return (this.getEquipmentuuid() == null ? other.getEquipmentuuid() == null : this.getEquipmentuuid().equals(other.getEquipmentuuid()))
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getAlarmstarttime() == null ? other.getAlarmstarttime() == null : this.getAlarmstarttime().equals(other.getAlarmstarttime()))
+            && (this.getEquipmentuuid() == null ? other.getEquipmentuuid() == null : this.getEquipmentuuid().equals(other.getEquipmentuuid()))
             && (this.getAlarmstatus() == null ? other.getAlarmstatus() == null : this.getAlarmstatus().equals(other.getAlarmstatus()))
             && (this.getChannellist() == null ? other.getChannellist() == null : this.getChannellist().equals(other.getChannellist()))
             && (this.getChanneltype() == null ? other.getChanneltype() == null : this.getChanneltype().equals(other.getChanneltype()))
@@ -71,7 +72,6 @@ public class GraphHistorydata implements Serializable {
             && (this.getRev4() == null ? other.getRev4() == null : this.getRev4().equals(other.getRev4()))
             && (this.getRev5() == null ? other.getRev5() == null : this.getRev5().equals(other.getRev5()))
             && (this.getTime() == null ? other.getTime() == null : this.getTime().equals(other.getTime()))
-            && (this.getTrend() == null ? other.getTrend() == null : this.getTrend().equals(other.getTrend()))
             && (this.getUnit() == null ? other.getUnit() == null : this.getUnit().equals(other.getUnit()))
             && (this.getValue() == null ? other.getValue() == null : this.getValue().equals(other.getValue()));
     }
@@ -80,8 +80,9 @@ public class GraphHistorydata implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getEquipmentuuid() == null) ? 0 : getEquipmentuuid().hashCode());
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getAlarmstarttime() == null) ? 0 : getAlarmstarttime().hashCode());
+        result = prime * result + ((getEquipmentuuid() == null) ? 0 : getEquipmentuuid().hashCode());
         result = prime * result + ((getAlarmstatus() == null) ? 0 : getAlarmstatus().hashCode());
         result = prime * result + ((getChannellist() == null) ? 0 : getChannellist().hashCode());
         result = prime * result + ((getChanneltype() == null) ? 0 : getChanneltype().hashCode());
@@ -93,7 +94,6 @@ public class GraphHistorydata implements Serializable {
         result = prime * result + ((getRev4() == null) ? 0 : getRev4().hashCode());
         result = prime * result + ((getRev5() == null) ? 0 : getRev5().hashCode());
         result = prime * result + ((getTime() == null) ? 0 : getTime().hashCode());
-        result = prime * result + ((getTrend() == null) ? 0 : getTrend().hashCode());
         result = prime * result + ((getUnit() == null) ? 0 : getUnit().hashCode());
         result = prime * result + ((getValue() == null) ? 0 : getValue().hashCode());
         return result;
@@ -105,8 +105,9 @@ public class GraphHistorydata implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", equipmentuuid=").append(equipmentuuid);
+        sb.append(", id=").append(id);
         sb.append(", alarmstarttime=").append(alarmstarttime);
+        sb.append(", equipmentuuid=").append(equipmentuuid);
         sb.append(", alarmstatus=").append(alarmstatus);
         sb.append(", channellist=").append(channellist);
         sb.append(", channeltype=").append(channeltype);
@@ -118,7 +119,6 @@ public class GraphHistorydata implements Serializable {
         sb.append(", rev4=").append(rev4);
         sb.append(", rev5=").append(rev5);
         sb.append(", time=").append(time);
-        sb.append(", trend=").append(trend);
         sb.append(", unit=").append(unit);
         sb.append(", value=").append(value);
         sb.append(", serialVersionUID=").append(serialVersionUID);

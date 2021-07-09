@@ -55,6 +55,24 @@ class BuctProductionPracticeApplicationTests {
     @Autowired
     ListBoxesPointsDao listBoxesPointsDao;
 
+    @Autowired
+    GraphHistorydataDao graphHistorydataDao;
+
+    @Autowired
+    GraphHistorydataTrendDao graphHistorydataTrendDao;
+
+    @Autowired
+    TrendRealTimeDao trendRealTimeDao;
+
+    @Autowired
+    TrendValueDao trendValueDao;
+
+    @Autowired
+    TrendWaveValueDao trendWaveValueDao;
+
+    @Autowired
+    TrendSpectrumValueDao trendSpectrumValueDao;
+
     @Test
     public void getNodeInfo() {
         JSONObject datas = getRequest("http://39.106.31.26:8289/node/info");
@@ -114,8 +132,61 @@ class BuctProductionPracticeApplicationTests {
             System.out.println(datas);
             Integer status = (Integer) datas.get("code");
             if (status==200) {
-//                List<TrendRealTime> data = JSONObject.parseArray(datas.get("data").toString(), TrendRealTime.class);
-//                System.out.println(data);
+
+                JSONObject data = JSONObject.parseObject(datas.get("data").toString());
+                System.out.println(data.get("equipmentName"));
+                TrendRealTime trendRealTime=new TrendRealTime();
+                trendRealTime.setEquipmentuuid(data.get("equipmentName").toString());
+                trendRealTime.setRev(Integer.valueOf(data.get("rev").toString()));
+                trendRealTime.setPointname(String.valueOf(data.get("pointName")));
+                trendRealTime.setTrendtime((Long) data.get("trendTime"));
+                trendRealTime.setStartindex((Integer) data.get("startIndex"));
+                trendRealTime.setEndindex((Integer) data.get("endIndex"));
+                trendRealTime.setEquipmentuuid(pointDetail.getEquipmentuuid());
+                trendRealTime.setPointidstring(pointDetail.getPointid());
+                System.out.println(trendRealTime);
+//                System.out.println(trendRealTimeDao.insert(trendRealTime));
+
+                final List<TrendValue> trendValues = JSONObject.parseArray(data.get("trendValue").toString(), TrendValue.class);
+                for (TrendValue trendValue : trendValues) {
+                    trendValue.setEquipmentuuid(pointDetail.getEquipmentuuid());
+                    trendValue.setPointidstring(pointDetail.getPointid());
+                    System.out.println(trendValue);
+//                    System.out.println(trendValueDao.insert(trendValue));
+                }
+
+                if(data.containsKey("waveValue")) {
+                    final JSONObject waveValue = JSONObject.parseObject(data.get("waveValue").toString());
+                    final JSONArray waveX = JSONObject.parseArray(waveValue.get("waveX").toString());
+                    final JSONArray waveY = JSONObject.parseArray(waveValue.get("waveY").toString());
+                    final JSONObject waveUnit = JSONObject.parseObject(waveValue.get("waveUnit").toString());
+                    TrendWaveValue trendWaveValue = new TrendWaveValue();
+                    trendWaveValue.setEquipmentuuid(pointDetail.getEquipmentuuid());
+                    trendWaveValue.setPointidstring(pointDetail.getPointid());
+                    trendWaveValue.setWavex(waveX.toString());
+                    trendWaveValue.setWavey(waveY.toString());
+                    trendWaveValue.setX(waveUnit.get("x").toString());
+                    trendWaveValue.setY(waveUnit.get("y").toString());
+//                    System.out.println(trendWaveValue);
+//                    System.out.println(trendWaveValueDao.insert(trendWaveValue));
+                }
+
+                if(data.containsKey("spectrumValue")){
+                    final JSONObject spectrumValue = JSONObject.parseObject(data.get("spectrumValue").toString());
+                    final JSONArray spectrumX = JSONObject.parseArray(spectrumValue.get("spectrumX").toString());
+                    final JSONArray spectrumY = JSONObject.parseArray(spectrumValue.get("spectrumY").toString());
+                    final JSONObject spectrumUnit = JSONObject.parseObject(spectrumValue.get("spectrumUnit").toString());
+                    TrendSpectrumValue trendSpectrumValue=new TrendSpectrumValue();
+                    trendSpectrumValue.setEquipmentuuid(pointDetail.getEquipmentuuid());
+                    trendSpectrumValue.setPointidstring(pointDetail.getPointid());
+                    trendSpectrumValue.setSpectrumx(spectrumX.toString());
+                    trendSpectrumValue.setSpectrumy(spectrumY.toString());
+                    trendSpectrumValue.setX(spectrumUnit.get("x").toString());
+                    trendSpectrumValue.setY(spectrumUnit.get("y").toString());
+//                    System.out.println(trendSpectrumValue);
+//                    System.out.println(trendSpectrumValueDao.insert(trendSpectrumValue));
+                }
+
             }
         }
     }
@@ -205,6 +276,35 @@ class BuctProductionPracticeApplicationTests {
             }
         }
     }
+
+    @Test
+    public void getGraphHistoryData(){
+        final List<EquipmentInfo> equipmentInfoList = equipmentInfoDao.selectAll();
+        for (EquipmentInfo equipmentInfo : equipmentInfoList) {
+            long time =System.currentTimeMillis();
+            String url="http://39.106.31.26:8289/graph/"+equipmentInfo.getEquipmentuuid()+"/"+time+"/historyData";
+            JSONObject datas = getRequest(url);
+            Integer status = (Integer) datas.get("code");
+            System.out.println(datas);
+            if (status == 200) {
+                JSONArray data = (JSONArray) datas.get("data");
+                for (Object datum : data) {
+                    GraphHistorydata graphHistorydata = ((JSONObject)datum).toJavaObject(GraphHistorydata.class);
+                    graphHistorydata.setEquipmentuuid(equipmentInfo.getEquipmentuuid());
+                    graphHistorydata.setAlarmstarttime(time);
+                    graphHistorydataDao.insert(graphHistorydata);
+
+                    GraphHistorydataTrend graphHistorydataTrend = ((JSONObject)datum).getObject("trend",GraphHistorydataTrend.class);
+                    graphHistorydataTrend.setEquipmentuuid(equipmentInfo.getEquipmentuuid());
+                    graphHistorydataTrend.setAlarmstarttime(time);
+                    graphHistorydataTrend.setPointuuid(graphHistorydata.getPointuuid());
+                    graphHistorydataTrendDao.insert(graphHistorydataTrend);
+                }
+            }
+        }
+    }
+
+
     public JSONObject getRequest(String url){
         HttpGet httpGet = new HttpGet(url);
 
