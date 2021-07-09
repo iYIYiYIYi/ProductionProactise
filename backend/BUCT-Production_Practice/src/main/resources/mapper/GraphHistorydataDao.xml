@@ -2,54 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sram.buct_production_practice.dao.GraphHistorydataDao">
   <resultMap id="BaseResultMap" type="com.sram.buct_production_practice.entity.GraphHistorydata">
-    <id column="equipmentUuid" jdbcType="INTEGER" property="equipmentuuid" />
-    <result column="alarmStartTime" jdbcType="INTEGER" property="alarmstarttime" />
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="alarmStartTime" jdbcType="BIGINT" property="alarmstarttime" />
+    <result column="equipmentUuid" jdbcType="VARCHAR" property="equipmentuuid" />
     <result column="alarmStatus" jdbcType="INTEGER" property="alarmstatus" />
     <result column="channelList" jdbcType="INTEGER" property="channellist" />
     <result column="channelType" jdbcType="INTEGER" property="channeltype" />
     <result column="pointId" jdbcType="VARCHAR" property="pointid" />
     <result column="pointUuid" jdbcType="VARCHAR" property="pointuuid" />
-    <result column="rev1" jdbcType="INTEGER" property="rev1" />
-    <result column="rev2" jdbcType="INTEGER" property="rev2" />
-    <result column="rev3" jdbcType="INTEGER" property="rev3" />
-    <result column="rev4" jdbcType="INTEGER" property="rev4" />
-    <result column="rev5" jdbcType="INTEGER" property="rev5" />
+    <result column="rev1" jdbcType="FLOAT" property="rev1" />
+    <result column="rev2" jdbcType="FLOAT" property="rev2" />
+    <result column="rev3" jdbcType="FLOAT" property="rev3" />
+    <result column="rev4" jdbcType="FLOAT" property="rev4" />
+    <result column="rev5" jdbcType="FLOAT" property="rev5" />
     <result column="time" jdbcType="VARCHAR" property="time" />
-    <result column="trend" jdbcType="VARCHAR" property="trend" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
-    <result column="value" jdbcType="INTEGER" property="value" />
+    <result column="value" jdbcType="FLOAT" property="value" />
   </resultMap>
   <sql id="Base_Column_List">
-    equipmentUuid, alarmStartTime, alarmStatus, channelList, channelType, pointId, pointUuid, 
-    rev1, rev2, rev3, rev4, rev5, `time`, trend, unit, `value`
+    id, alarmStartTime, equipmentUuid, alarmStatus, channelList, channelType, pointId, 
+    pointUuid, rev1, rev2, rev3, rev4, rev5, `time`, unit, `value`
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from graph_historydata
-    where equipmentUuid = #{equipmentuuid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from graph_historydata
-    where equipmentUuid = #{equipmentuuid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.GraphHistorydata" useGeneratedKeys="true">
-    insert into graph_historydata (alarmStartTime, alarmStatus, channelList, 
-      channelType, pointId, pointUuid, 
-      rev1, rev2, rev3, rev4, 
-      rev5, `time`, trend, 
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sram.buct_production_practice.entity.GraphHistorydata" useGeneratedKeys="true">
+    insert into graph_historydata (alarmStartTime, equipmentUuid, alarmStatus, 
+      channelList, channelType, pointId, 
+      pointUuid, rev1, rev2, 
+      rev3, rev4, rev5, `time`, 
       unit, `value`)
-    values (#{alarmstarttime,jdbcType=INTEGER}, #{alarmstatus,jdbcType=INTEGER}, #{channellist,jdbcType=INTEGER}, 
-      #{channeltype,jdbcType=INTEGER}, #{pointid,jdbcType=VARCHAR}, #{pointuuid,jdbcType=VARCHAR}, 
-      #{rev1,jdbcType=INTEGER}, #{rev2,jdbcType=INTEGER}, #{rev3,jdbcType=INTEGER}, #{rev4,jdbcType=INTEGER}, 
-      #{rev5,jdbcType=INTEGER}, #{time,jdbcType=VARCHAR}, #{trend,jdbcType=VARCHAR}, 
-      #{unit,jdbcType=VARCHAR}, #{value,jdbcType=INTEGER})
+    values (#{alarmstarttime,jdbcType=BIGINT}, #{equipmentuuid,jdbcType=VARCHAR}, #{alarmstatus,jdbcType=INTEGER}, 
+      #{channellist,jdbcType=INTEGER}, #{channeltype,jdbcType=INTEGER}, #{pointid,jdbcType=VARCHAR}, 
+      #{pointuuid,jdbcType=VARCHAR}, #{rev1,jdbcType=FLOAT}, #{rev2,jdbcType=FLOAT}, 
+      #{rev3,jdbcType=FLOAT}, #{rev4,jdbcType=FLOAT}, #{rev5,jdbcType=FLOAT}, #{time,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{value,jdbcType=FLOAT})
   </insert>
-  <insert id="insertSelective" keyColumn="equipmentUuid" keyProperty="equipmentuuid" parameterType="com.sram.buct_production_practice.entity.GraphHistorydata" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sram.buct_production_practice.entity.GraphHistorydata" useGeneratedKeys="true">
     insert into graph_historydata
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="alarmstarttime != null">
         alarmStartTime,
+      </if>
+      <if test="equipmentuuid != null">
+        equipmentUuid,
       </if>
       <if test="alarmstatus != null">
         alarmStatus,
@@ -84,9 +87,6 @@
       <if test="time != null">
         `time`,
       </if>
-      <if test="trend != null">
-        trend,
-      </if>
       <if test="unit != null">
         unit,
       </if>
@@ -96,7 +96,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="alarmstarttime != null">
-        #{alarmstarttime,jdbcType=INTEGER},
+        #{alarmstarttime,jdbcType=BIGINT},
+      </if>
+      <if test="equipmentuuid != null">
+        #{equipmentuuid,jdbcType=VARCHAR},
       </if>
       <if test="alarmstatus != null">
         #{alarmstatus,jdbcType=INTEGER},
@@ -114,31 +117,28 @@
         #{pointuuid,jdbcType=VARCHAR},
       </if>
       <if test="rev1 != null">
-        #{rev1,jdbcType=INTEGER},
+        #{rev1,jdbcType=FLOAT},
       </if>
       <if test="rev2 != null">
-        #{rev2,jdbcType=INTEGER},
+        #{rev2,jdbcType=FLOAT},
       </if>
       <if test="rev3 != null">
-        #{rev3,jdbcType=INTEGER},
+        #{rev3,jdbcType=FLOAT},
       </if>
       <if test="rev4 != null">
-        #{rev4,jdbcType=INTEGER},
+        #{rev4,jdbcType=FLOAT},
       </if>
       <if test="rev5 != null">
-        #{rev5,jdbcType=INTEGER},
+        #{rev5,jdbcType=FLOAT},
       </if>
       <if test="time != null">
         #{time,jdbcType=VARCHAR},
-      </if>
-      <if test="trend != null">
-        #{trend,jdbcType=VARCHAR},
       </if>
       <if test="unit != null">
         #{unit,jdbcType=VARCHAR},
       </if>
       <if test="value != null">
-        #{value,jdbcType=INTEGER},
+        #{value,jdbcType=FLOAT},
       </if>
     </trim>
   </insert>
@@ -146,7 +146,10 @@
     update graph_historydata
     <set>
       <if test="alarmstarttime != null">
-        alarmStartTime = #{alarmstarttime,jdbcType=INTEGER},
+        alarmStartTime = #{alarmstarttime,jdbcType=BIGINT},
+      </if>
+      <if test="equipmentuuid != null">
+        equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR},
       </if>
       <if test="alarmstatus != null">
         alarmStatus = #{alarmstatus,jdbcType=INTEGER},
@@ -164,52 +167,49 @@
         pointUuid = #{pointuuid,jdbcType=VARCHAR},
       </if>
       <if test="rev1 != null">
-        rev1 = #{rev1,jdbcType=INTEGER},
+        rev1 = #{rev1,jdbcType=FLOAT},
       </if>
       <if test="rev2 != null">
-        rev2 = #{rev2,jdbcType=INTEGER},
+        rev2 = #{rev2,jdbcType=FLOAT},
       </if>
       <if test="rev3 != null">
-        rev3 = #{rev3,jdbcType=INTEGER},
+        rev3 = #{rev3,jdbcType=FLOAT},
       </if>
       <if test="rev4 != null">
-        rev4 = #{rev4,jdbcType=INTEGER},
+        rev4 = #{rev4,jdbcType=FLOAT},
       </if>
       <if test="rev5 != null">
-        rev5 = #{rev5,jdbcType=INTEGER},
+        rev5 = #{rev5,jdbcType=FLOAT},
       </if>
       <if test="time != null">
         `time` = #{time,jdbcType=VARCHAR},
-      </if>
-      <if test="trend != null">
-        trend = #{trend,jdbcType=VARCHAR},
       </if>
       <if test="unit != null">
         unit = #{unit,jdbcType=VARCHAR},
       </if>
       <if test="value != null">
-        `value` = #{value,jdbcType=INTEGER},
+        `value` = #{value,jdbcType=FLOAT},
       </if>
     </set>
-    where equipmentUuid = #{equipmentuuid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sram.buct_production_practice.entity.GraphHistorydata">
     update graph_historydata
-    set alarmStartTime = #{alarmstarttime,jdbcType=INTEGER},
+    set alarmStartTime = #{alarmstarttime,jdbcType=BIGINT},
+      equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR},
       alarmStatus = #{alarmstatus,jdbcType=INTEGER},
       channelList = #{channellist,jdbcType=INTEGER},
       channelType = #{channeltype,jdbcType=INTEGER},
       pointId = #{pointid,jdbcType=VARCHAR},
       pointUuid = #{pointuuid,jdbcType=VARCHAR},
-      rev1 = #{rev1,jdbcType=INTEGER},
-      rev2 = #{rev2,jdbcType=INTEGER},
-      rev3 = #{rev3,jdbcType=INTEGER},
-      rev4 = #{rev4,jdbcType=INTEGER},
-      rev5 = #{rev5,jdbcType=INTEGER},
+      rev1 = #{rev1,jdbcType=FLOAT},
+      rev2 = #{rev2,jdbcType=FLOAT},
+      rev3 = #{rev3,jdbcType=FLOAT},
+      rev4 = #{rev4,jdbcType=FLOAT},
+      rev5 = #{rev5,jdbcType=FLOAT},
       `time` = #{time,jdbcType=VARCHAR},
-      trend = #{trend,jdbcType=VARCHAR},
       unit = #{unit,jdbcType=VARCHAR},
-      `value` = #{value,jdbcType=INTEGER}
-    where equipmentUuid = #{equipmentuuid,jdbcType=INTEGER}
+      `value` = #{value,jdbcType=FLOAT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

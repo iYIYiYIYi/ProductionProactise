@@ -55,6 +55,12 @@ class BuctProductionPracticeApplicationTests {
     @Autowired
     ListBoxesPointsDao listBoxesPointsDao;
 
+    @Autowired
+    GraphHistorydataDao graphHistorydataDao;
+
+    @Autowired
+    GraphHistorydataTrendDao graphHistorydataTrendDao;
+
     @Test
     public void getNodeInfo() {
         JSONObject datas = getRequest("http://39.106.31.26:8289/node/info");
@@ -205,6 +211,34 @@ class BuctProductionPracticeApplicationTests {
             }
         }
     }
+
+    @Test
+    public void getGraphHistoryData(){
+        final List<EquipmentInfo> equipmentInfoList = equipmentInfoDao.selectAll();
+        for (EquipmentInfo equipmentInfo : equipmentInfoList) {
+            long time =System.currentTimeMillis();
+            String url="http://39.106.31.26:8289/graph/"+equipmentInfo.getEquipmentuuid()+"/"+time+"/historyData";
+            JSONObject datas = getRequest(url);
+            Integer status = (Integer) datas.get("code");
+            System.out.println(datas);
+            if (status == 200) {
+                JSONArray data = (JSONArray) datas.get("data");
+                for (Object datum : data) {
+                    GraphHistorydata graphHistorydata = ((JSONObject)datum).toJavaObject(GraphHistorydata.class);
+                    graphHistorydata.setEquipmentuuid(equipmentInfo.getEquipmentuuid());
+                    graphHistorydata.setAlarmstarttime(time);
+                    graphHistorydataDao.insert(graphHistorydata);
+
+                    GraphHistorydataTrend graphHistorydataTrend = ((JSONObject)datum).getObject("trend",GraphHistorydataTrend.class);
+                    graphHistorydataTrend.setEquipmentuuid(equipmentInfo.getEquipmentuuid());
+                    graphHistorydataTrend.setAlarmstarttime(time);
+                    graphHistorydataTrend.setPointuuid(graphHistorydata.getPointuuid());
+                    graphHistorydataTrendDao.insert(graphHistorydataTrend);
+                }
+            }
+        }
+    }
+
     public JSONObject getRequest(String url){
         HttpGet httpGet = new HttpGet(url);
 
