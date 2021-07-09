@@ -34,11 +34,11 @@
               <span>{{group_name}}</span>
             </template>
             <el-submenu v-for="(company_value,company_name) in group_value" :key="company_name" :index="company_name">
-              <template slot="title">{{ company_name }}</template>
+              <template slot="title"><i class="el-icon-s-cooperation"></i>{{ company_name }}</template>
               <el-submenu v-for="(factory_value,factory_name) in company_value" :key="factory_name" :index="factory_name">
-                <template slot="title">{{factory_name}}</template>
+                <template slot="title"><i class="el-icon-s-flag"></i>{{factory_name}}</template>
                 <el-menu-item v-for="(equipment_value,equipment_name) in factory_value" :key="equipment_name" :index="equipment_name" @click="selectNode">
-                  {{equipment_name}}
+                  <i class="el-icon-setting"></i>{{equipment_name}}
                 </el-menu-item>
               </el-submenu>
             </el-submenu>
