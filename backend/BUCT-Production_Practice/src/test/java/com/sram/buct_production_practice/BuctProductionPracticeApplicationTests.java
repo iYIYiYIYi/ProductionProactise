@@ -55,6 +55,12 @@ class BuctProductionPracticeApplicationTests {
     @Autowired
     ListBoxesPointsDao listBoxesPointsDao;
 
+    @Autowired
+    TrendRealTimeDao trendRealTimeDao;
+
+    @Autowired
+    TrendValueDao trendValueDao;
+
     @Test
     public void getNodeInfo() {
         JSONObject datas = getRequest("http://39.106.31.26:8289/node/info");
@@ -111,11 +117,30 @@ class BuctProductionPracticeApplicationTests {
             String url="http://39.106.31.26:8289/trend/"+pointDetail.getEquipmentuuid()+"/"+pointDetail.getPointid()+"/real_time";
             System.out.println(url);
             JSONObject datas = getRequest(url);
-            System.out.println(datas);
             Integer status = (Integer) datas.get("code");
             if (status==200) {
-//                List<TrendRealTime> data = JSONObject.parseArray(datas.get("data").toString(), TrendRealTime.class);
-//                System.out.println(data);
+                JSONObject data = JSONObject.parseObject(datas.get("data").toString());
+                System.out.println(data.get("equipmentName"));
+                TrendRealTime trendRealTime=new TrendRealTime();
+                trendRealTime.setEquipmentuuid(data.get("equipmentName").toString());
+                trendRealTime.setRev(Integer.valueOf(data.get("rev").toString()));
+                trendRealTime.setPointname(String.valueOf(data.get("pointName")));
+                trendRealTime.setTrendtime((Long) data.get("trendTime"));
+                trendRealTime.setStartindex((Integer) data.get("startIndex"));
+                trendRealTime.setEndindex((Integer) data.get("endIndex"));
+                trendRealTime.setEquipmentuuid(pointDetail.getEquipmentuuid());
+                trendRealTime.setPointidstring(pointDetail.getPointid());
+                System.out.println(trendRealTime);
+//                System.out.println(trendRealTimeDao.insert(trendRealTime));
+
+                final List<TrendValue> trendValues = JSONObject.parseArray(data.get("trendValue").toString(), TrendValue.class);
+                for (TrendValue trendValue : trendValues) {
+                    trendValue.setEquipmentuuid(pointDetail.getEquipmentuuid());
+                    trendValue.setPointidstring(pointDetail.getPointid());
+                    System.out.println(trendValue);
+                    System.out.println(trendValueDao.insert(trendValue));
+                }
+
             }
         }
     }
@@ -205,6 +230,7 @@ class BuctProductionPracticeApplicationTests {
             }
         }
     }
+
     public JSONObject getRequest(String url){
         HttpGet httpGet = new HttpGet(url);
 
