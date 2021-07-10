@@ -9,7 +9,7 @@ import lombok.Data;
  * trend_real_time
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.TrendRealTime")
+@ApiModel(value="趋势图信息")
 @Data
 public class TrendRealTime implements Serializable {
     private Integer id;

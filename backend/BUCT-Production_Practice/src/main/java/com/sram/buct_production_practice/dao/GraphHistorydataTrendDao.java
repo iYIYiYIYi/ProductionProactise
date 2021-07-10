@@ -16,4 +16,6 @@ public interface GraphHistorydataTrendDao {
     int updateByPrimaryKeySelective(GraphHistorydataTrend record);
 
     int updateByPrimaryKey(GraphHistorydataTrend record);
+
+    GraphHistorydataTrend selectByThree(String equipmentUuid,String alarmStartTime,String pointUuid);
 }

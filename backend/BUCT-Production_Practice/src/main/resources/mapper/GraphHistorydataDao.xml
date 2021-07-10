@@ -29,7 +29,13 @@
     from graph_historydata
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByEquipAndTime" resultType="com.sram.buct_production_practice.entity.GraphHistorydata">
+      select *
+      from graph_historydata
+      where equipmentUuid = #{equipmentUuid,jdbcType = VARCHAR}
+        and alarmStartTime = #{alarmStartTime,jdbcType = VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from graph_historydata
     where id = #{id,jdbcType=INTEGER}
   </delete>

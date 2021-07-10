@@ -3,14 +3,19 @@ package com.sram.buct_production_practice.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * graph_historydata
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.GraphHistorydata")
+@ApiModel(value="概貌历史图部分数据")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class GraphHistorydata implements Serializable {
     private Integer id;
 

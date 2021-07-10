@@ -23,7 +23,14 @@
     from graph_historydata_trend
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByThree" resultType="com.sram.buct_production_practice.entity.GraphHistorydataTrend">
+      select *
+      from graph_historydata_trend
+      where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR}
+        and pointUuid = #{pointUuid,jdbcType=VARCHAR}
+        and alarmStartTime = #{alarmStartTime,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from graph_historydata_trend
     where id = #{id,jdbcType=INTEGER}
   </delete>

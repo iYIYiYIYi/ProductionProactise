@@ -9,9 +9,10 @@ import lombok.Data;
  * graph_historydata_trend
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.GraphHistorydataTrend")
+@ApiModel(value="概貌图历史趋势")
 @Data
 public class GraphHistorydataTrend implements Serializable {
+
     private Integer id;
 
     private String smpfreq;
