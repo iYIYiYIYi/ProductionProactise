@@ -7,7 +7,8 @@ import lombok.Data;
 
 /**
  * trend_real_time
- * @author 
+ * @author ZHY
+ *
  */
 @ApiModel(value="趋势图信息")
 @Data
