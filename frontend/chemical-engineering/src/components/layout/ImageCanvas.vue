@@ -3,7 +3,7 @@
     <el-col :span="18">
       <div class="grid-content bg-purple" ref="boxes" >
         <img v-if="type==='设备概貌图'"  :src="'data:image/jepg;base64,'+base64image" alt="示意图" class="image" :style="'width:'+imageWidth*1.3+'px ;height:'+imageHeight+'px'">
-        <div class="boxes-container" ref="boxContainer" :style="'width:'+imageWidth*1.3+'px ;height:'+imageHeight+'px'">
+        <div v-if="type==='设备概貌图'" class="boxes-container" ref="boxContainer" :style="'width:'+imageWidth*1.3+'px ;height:'+imageHeight+'px'">
           <div class="header box" v-if="equipmentName" :style="'width:'+equipmentName.width*1.3+'px;height:'+equipmentName.height+'px;left:'+equipmentName.xpos*1.3+'px;top:'+equipmentName.ypos+'px;'">{{equipmentName.name}}</div>
           <div class="header box" v-if="equipmentRevInfo" :style="'width:'+equipmentRevInfo.width*1.3+'px;height:'+equipmentRevInfo.height+'px;left:'+equipmentRevInfo.xpos*1.3+'px;top:'+equipmentRevInfo.ypos+'px;'">{{equipmentRevInfo.revname}}:{{equipmentRevInfo.revvalue}}</div>
           <div class="header box" v-if="equipmentTime" :style="'width:'+equipmentTime.width*1.3+'px;height:'+equipmentTime.height+'px;left:'+equipmentTime.xpos*1.3+'px;top:'+equipmentTime.ypos+'px;'">{{equipmentTime.time}}</div>
@@ -13,6 +13,7 @@
           </div>
         </div>
         <e-charts v-else></e-charts>
+      </div>
     </el-col>
     <el-col :span="6" style="z-index: 9999">
       <div class="grid-content bg-purple">
@@ -52,35 +53,12 @@ export default {
     };
   },
   watch :{
-    dataInfo(val ,oldVal) {
-      console.log(val,oldVal);
+    dataInfo(val) {
       this.getGraphImage(val.equipmentuuid);
       clearInterval(this.$interval);
     }
   },
   methods:{
-    //获取设备信息//
-    getStatus(nodeId){
-      // Make a request for a user with a given ID
-      this.$axios({
-        method:'get',
-        url:'/equipment/node/'+nodeId+'/info',
-        responseType:'json',
-      })
-          .then(function (response) {
-            // handle success
-            console.log(response);
-            var parse = JSON.parse(response.data);
-            console.log(parse);
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          })
-          .then(function () {
-            // always executed
-          });
-    },
     //获取频谱图数据//
     getData(equipmentUuid,pointIdString){
       // Make a request for a user with a given ID
@@ -89,19 +67,19 @@ export default {
         url:'/trend/'+equipmentUuid+'/'+pointIdString+'/real_time',
         responseType:'json',
       })
-          .then(function (response) {
-            // handle success
-            console.log(response);
-            var parse = JSON.parse(response.data);
-            console.log(parse)
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          })
-          .then(function () {
-            // always executed
-          });
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        var parse = JSON.parse(response.data);
+        console.log(parse)
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
     },
     //历史趋势图//
     getHistory(equipmentUuid,pointIdString,startTime,endTime){
@@ -111,19 +89,19 @@ export default {
         url:'/trend/'+equipmentUuid+'/'+pointIdString+'/'+startTime+'/'+endTime+'/info',
         responseType:'json',
       })
-          .then(function (response) {
-            // handle success
-            console.log(response);
-            var parse = JSON.parse(response.data);
-            console.log(parse)
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          })
-          .then(function () {
-            // always executed
-          });
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        var parse = JSON.parse(response.data);
+        console.log(parse)
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
     },
     //历史波形频谱图//
     getHistoryWave(equipmentUuid,pointId,trendTime,waveNumber,analysisLines){
@@ -171,9 +149,8 @@ export default {
               it.updateData(equipmentUuid);
             },1000);
           })
-          .catch(function (error) {
+          .catch(function () {
             // handle error
-            console.log(error);
             it.$alert('获取图片失败', '网络错误', {
               confirmButtonText: '确定',
               callback: action => {
@@ -194,22 +171,20 @@ export default {
       it.$axios.get('/graph/'+equipmentUUID+'/data')
           .then(function (response) {
             let parse = response.data;
-            console.log(parse);
             it.$data.boxPoints = parse.data[0].listboxes;
             it.$data.equipmentName = parse.data[0].equipmentname;
             it.$data.equipmentRevInfo = parse.data[0].revinfo;
             it.$data.equipmentTime = parse.data[0].time;
-          }).catch(function (error) {
-        console.error(error)
-        it.$alert('获取节点数据失败', '网络错误', {
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: 'error',
-              message: `action: ${ action }`
+          }).catch(function () {
+            it.$alert('获取节点数据失败', '网络错误', {
+              confirmButtonText: '确定',
+              callback: action => {
+                this.$message({
+                  type: 'error',
+                  message: `action: ${ action }`
+                });
+              }
             });
-          }
-        });
       }).then(function () {
 
       });

@@ -25,14 +25,35 @@
               </el-option>
             </el-select>
           </div>
+          <br>
+          <div v-if="statusOptions&&statusOptions.length > 0">
+            特征选择:
+            <el-select v-model="value" placeholder="请选择">
+              <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                  :disabled="item.disabled">
+              </el-option>
+            </el-select>
+          </div>
           <el-divider><i class="el-icon-monitor"></i></el-divider>
           <div>
-            <el-tree
-                :data="data"
-                :props="defaultProps"
-                show-checkbox
-                @node-click="handleNodeClick"
-            />
+<!--            <el-tree-->
+<!--                :data="data"-->
+<!--                :props="defaultProps"-->
+<!--                show-checkbox-->
+<!--                @node-click="handleNodeClick"-->
+<!--            />-->
+            <el-select v-model="selectEquipments" multiple placeholder="请选择">
+              <el-option
+                  v-for="item in equipmentOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+              </el-option>
+            </el-select>
           </div>
           <el-divider><i class="el-icon-data-analysis"></i></el-divider>
           <el-switch
@@ -58,46 +79,44 @@ export default {
     equipmentUUID:String,
   },
   data() {
+    this.getMessage(this.equipmentUUID);
+
     return {
       openChart:false,
       dataMode:false,
       stop_switch:'停止',
       stop_switch_type:'primary',
       options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
         value: '选项2',
         label: '双皮奶',
-        disabled: true
       }, {
         value: '选项3',
         label: '蚵仔煎'
       }],
       // eslint-disable-next-line vue/require-prop-type-constructor
       value: '',
-      data: [{
-        label: '震动测点',
-        children: [{
-          label: '二级 1-1',
-          children: [{
-            label: '三级 1-1-1'
-          }]
-        }]
-      }, {
-        label: '一级 2',
-        children: [{
-          label: '二级 2-1',
-          children: [{
-            label: '三级 2-1-1'
-          }]
-        }, {
-          label: '二级 2-2',
-          children: [{
-            label: '三级 2-2-1'
-          }]
-        }]
+      statusOptions:[{
+        value: '选项2',
+        label: '双皮奶',
       }],
+      statusValue:'',
+      selectEquipments:[],
+      equipmentOptions:[{
+        value: '选项2',
+        label: '双皮奶',
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }],
+      // data: [{
+      //   label: '震动测点',
+      //   children: [{
+      //     label: '二级 1-1',
+      //     children: [{
+      //       label: '三级 1-1-1'
+      //     }]
+      //   }]
+      // },],
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -139,27 +158,40 @@ export default {
         url:'/point/'+equipmentUuid+'/detail',
         responseType:'json',
       })
-          .then(function (response) {
-            // handle success
-            console.log(response);
-            var parse = JSON.parse(response.data);
-            console.log(parse)
-          })
-          .catch(function () {
-            // handle error
-            it.$alert('获取设备测点信息失败', '网络错误', {
-              confirmButtonText: '确定',
-              callback: action => {
-                this.$message({
-                  type: 'error',
-                  message: `action: ${ action }`
-                });
-              }
-            });
-          })
-          .then(function () {
-            // always executed
-          });
+      .then(function (response) {
+        // handle success
+        var parse = response.data;
+        console.log(parse);
+        let data = parse.data;
+        it.parseData(data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+        it.$alert('获取设备测点信息失败', '网络错误', {
+          confirmButtonText: '确定',
+          // callback: action => {
+          //
+          // }
+        });
+      })
+      .then(function () {
+        // always executed
+      });
+    },
+    parseData(data) {
+      let channelTypeAliasList = new Set();
+      this.equipmentOptions.length=0;
+
+      for (let datum of data) {
+        channelTypeAliasList.add(datum.channeltypealias);
+        this.equipmentOptions.push({
+          value: datum.pointuuid,
+          label: datum.pointname,
+          id: datum.pointid,
+        });
+      }
+      this.statusOptions = Array.from(channelTypeAliasList)
     },
 
   }
