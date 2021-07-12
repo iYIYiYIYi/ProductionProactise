@@ -19,5 +19,5 @@ public interface TrendRealTimeDao {
 
     int updateByPrimaryKey(TrendRealTime record);
 
-    List<TrendRealTime> selectByEquAndPoint(String equipmentUuid, String pointIdString);
+    TrendRealTime selectByEquAndPoint(String equipmentUuid, String pointIdString);
 }

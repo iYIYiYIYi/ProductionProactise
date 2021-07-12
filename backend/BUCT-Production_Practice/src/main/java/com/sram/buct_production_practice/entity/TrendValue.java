@@ -42,6 +42,8 @@ public class TrendValue implements Serializable {
 
     private String pointidstring;
 
+    private Long systime;
+
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -70,7 +72,8 @@ public class TrendValue implements Serializable {
             && (this.getPhasethree() == null ? other.getPhasethree() == null : this.getPhasethree().equals(other.getPhasethree()))
             && (this.getPhasehalf() == null ? other.getPhasehalf() == null : this.getPhasehalf().equals(other.getPhasehalf()))
             && (this.getEquipmentuuid() == null ? other.getEquipmentuuid() == null : this.getEquipmentuuid().equals(other.getEquipmentuuid()))
-            && (this.getPointidstring() == null ? other.getPointidstring() == null : this.getPointidstring().equals(other.getPointidstring()));
+            && (this.getPointidstring() == null ? other.getPointidstring() == null : this.getPointidstring().equals(other.getPointidstring()))
+            && (this.getSystime() == null ? other.getSystime() == null : this.getSystime().equals(other.getSystime()));
     }
 
     @Override
@@ -92,6 +95,7 @@ public class TrendValue implements Serializable {
         result = prime * result + ((getPhasehalf() == null) ? 0 : getPhasehalf().hashCode());
         result = prime * result + ((getEquipmentuuid() == null) ? 0 : getEquipmentuuid().hashCode());
         result = prime * result + ((getPointidstring() == null) ? 0 : getPointidstring().hashCode());
+        result = prime * result + ((getSystime() == null) ? 0 : getSystime().hashCode());
         return result;
     }
 
@@ -116,6 +120,7 @@ public class TrendValue implements Serializable {
         sb.append(", phasehalf=").append(phasehalf);
         sb.append(", equipmentuuid=").append(equipmentuuid);
         sb.append(", pointidstring=").append(pointidstring);
+        sb.append(", systime=").append(systime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

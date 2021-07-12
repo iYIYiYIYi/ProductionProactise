@@ -24,7 +24,7 @@
   </select>
   <select id="selectByEquAndPoint" resultType="com.sram.buct_production_practice.entity.TrendRealTime">
     select * from trend_real_time
-    where equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR} and pointIdString = #{pointidstring,jdbcType=VARCHAR}
+    where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR} and pointIdString = #{pointIdString,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from trend_real_time

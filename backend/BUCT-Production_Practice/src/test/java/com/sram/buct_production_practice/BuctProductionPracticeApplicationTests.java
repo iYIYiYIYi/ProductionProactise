@@ -144,14 +144,16 @@ class BuctProductionPracticeApplicationTests {
                 trendRealTime.setEndindex((Integer) data.get("endIndex"));
                 trendRealTime.setEquipmentuuid(pointDetail.getEquipmentuuid());
                 trendRealTime.setPointidstring(pointDetail.getPointid());
-                System.out.println(trendRealTime);
+//                System.out.println(trendRealTime);
 //                System.out.println(trendRealTimeDao.insert(trendRealTime));
 
                 final List<TrendValue> trendValues = JSONObject.parseArray(data.get("trendValue").toString(), TrendValue.class);
+
                 for (TrendValue trendValue : trendValues) {
                     trendValue.setEquipmentuuid(pointDetail.getEquipmentuuid());
                     trendValue.setPointidstring(pointDetail.getPointid());
-                    System.out.println(trendValue);
+                    trendValue.setSystime(System.currentTimeMillis());
+//                    System.out.println(trendValue);
 //                    System.out.println(trendValueDao.insert(trendValue));
                 }
 
@@ -239,9 +241,6 @@ class BuctProductionPracticeApplicationTests {
                     graphDataRevinfo.setProperty(s);
                     graphDataRevinfoDao.insert(graphDataRevinfo);
                 }
-
-
-
 
 
                 JSONArray listBoxes = data.getJSONArray("listBoxes");
