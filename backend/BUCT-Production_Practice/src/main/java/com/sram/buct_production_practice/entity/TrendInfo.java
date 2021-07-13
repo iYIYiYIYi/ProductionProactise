@@ -24,8 +24,6 @@ public class TrendInfo implements Serializable {
 
     private String pointuuid;
 
-    private Long systime;
-
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -45,8 +43,7 @@ public class TrendInfo implements Serializable {
             && (this.getPointidstring() == null ? other.getPointidstring() == null : this.getPointidstring().equals(other.getPointidstring()))
             && (this.getEquipmentname() == null ? other.getEquipmentname() == null : this.getEquipmentname().equals(other.getEquipmentname()))
             && (this.getPointname() == null ? other.getPointname() == null : this.getPointname().equals(other.getPointname()))
-            && (this.getPointuuid() == null ? other.getPointuuid() == null : this.getPointuuid().equals(other.getPointuuid()))
-            && (this.getSystime() == null ? other.getSystime() == null : this.getSystime().equals(other.getSystime()));
+            && (this.getPointuuid() == null ? other.getPointuuid() == null : this.getPointuuid().equals(other.getPointuuid()));
     }
 
     @Override
@@ -59,7 +56,6 @@ public class TrendInfo implements Serializable {
         result = prime * result + ((getEquipmentname() == null) ? 0 : getEquipmentname().hashCode());
         result = prime * result + ((getPointname() == null) ? 0 : getPointname().hashCode());
         result = prime * result + ((getPointuuid() == null) ? 0 : getPointuuid().hashCode());
-        result = prime * result + ((getSystime() == null) ? 0 : getSystime().hashCode());
         return result;
     }
 
@@ -75,7 +71,6 @@ public class TrendInfo implements Serializable {
         sb.append(", equipmentname=").append(equipmentname);
         sb.append(", pointname=").append(pointname);
         sb.append(", pointuuid=").append(pointuuid);
-        sb.append(", systime=").append(systime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

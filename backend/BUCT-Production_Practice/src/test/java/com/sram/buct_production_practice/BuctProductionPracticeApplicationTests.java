@@ -69,6 +69,12 @@ class BuctProductionPracticeApplicationTests {
     @Autowired
     TrendSpectrumValueDao trendSpectrumValueDao;
 
+    @Autowired
+    TrendInfoDao trendInfoDao;
+
+    @Autowired
+    TrendInfoTrendinfoDao trendInfoTrendinfoDao;
+
     @Test
     public void getNodeInfo() {
         JSONObject datas = getRequest("http://39.106.31.26:8289/node/info");
@@ -272,6 +278,36 @@ class BuctProductionPracticeApplicationTests {
 
             }
         }
+    }
+    @Test
+    public void getTrendInfo(){
+        final List<PointDetail> pointDetailList = pointDetailDao.selectAll();
+        for (PointDetail pointDetail : pointDetailList) {
+            long time =System.currentTimeMillis();
+            String url="http://39.106.31.26:8289/trend/"+pointDetail.getEquipmentuuid()+"/"+pointDetail.getPointid()+"/"+"1593689047405"+"/"+"1625225047405"+"/info";
+            JSONObject datas = getRequest(url);
+            Integer status = (Integer) datas.get("code");
+            //System.out.println(data);
+            if (status == 200) {
+                JSONObject data = datas.getJSONObject("data");
+                TrendInfo trendInfo = JSONObject.parseObject(data.toJSONString(),TrendInfo.class);
+                trendInfo.setPointidstring(pointDetail.getPointid());
+                //trendInfoDao.insert(trendInfo);
+
+                JSONArray trends = data.getJSONArray("trendInfo");
+                for (Object trend : trends) {
+                    TrendInfoTrendinfo trendInfoTrendinfo = JSONObject.parseObject(trend.toString(),TrendInfoTrendinfo.class);
+                    JSONArray trendValues = ((JSONObject) trend).getJSONArray("trendValue");
+                    for (Object trendValue : trendValues) {
+                        System.out.println(trendValue);
+                    }
+                }
+
+
+
+            }
+        }
+
     }
 
     @Test
