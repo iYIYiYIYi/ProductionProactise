@@ -13,9 +13,9 @@ public interface TrendValueDao {
 
     TrendValue selectByPrimaryKey(Integer id);
 
-    TrendValue selectByEquAndPoint(String equipmentUuid, String pointIdString);
-
     int updateByPrimaryKeySelective(TrendValue record);
 
     int updateByPrimaryKey(TrendValue record);
+
+    TrendValue selectByEquAndPoint(String equipmentUuid, String pointIdString);
 }

@@ -1,6 +1,5 @@
 package com.sram.buct_production_practice.dao;
 
-import com.sram.buct_production_practice.entity.TrendValue;
 import com.sram.buct_production_practice.entity.TrendWaveValue;
 import org.springframework.stereotype.Repository;
 
@@ -14,9 +13,9 @@ public interface TrendWaveValueDao {
 
     TrendWaveValue selectByPrimaryKey(Integer id);
 
-    TrendWaveValue selectByEquAndPoint(String equipmentUuid, String pointIdString);
-
     int updateByPrimaryKeySelective(TrendWaveValue record);
 
     int updateByPrimaryKey(TrendWaveValue record);
+
+    TrendWaveValue selectByEquAndPoint(String equipmentUuid, String pointIdString);
 }

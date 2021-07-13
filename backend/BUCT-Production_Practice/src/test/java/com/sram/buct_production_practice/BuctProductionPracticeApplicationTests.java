@@ -1,12 +1,9 @@
 package com.sram.buct_production_practice;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.sram.buct_production_practice.controller.NodeInfoController;
 import com.sram.buct_production_practice.dao.*;
 import com.sram.buct_production_practice.entity.*;
-import lombok.val;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -17,7 +14,6 @@ import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.List;
@@ -134,27 +130,27 @@ class BuctProductionPracticeApplicationTests {
             if (status==200) {
 
                 JSONObject data = JSONObject.parseObject(datas.get("data").toString());
-                System.out.println(data.get("equipmentName"));
+                Long trendTime=(Long) data.get("trendTime");
                 TrendRealTime trendRealTime=new TrendRealTime();
                 trendRealTime.setEquipmentuuid(data.get("equipmentName").toString());
                 trendRealTime.setRev(Integer.valueOf(data.get("rev").toString()));
                 trendRealTime.setPointname(String.valueOf(data.get("pointName")));
-                trendRealTime.setTrendtime((Long) data.get("trendTime"));
+                trendRealTime.setTrendtime(trendTime);
                 trendRealTime.setStartindex((Integer) data.get("startIndex"));
                 trendRealTime.setEndindex((Integer) data.get("endIndex"));
                 trendRealTime.setEquipmentuuid(pointDetail.getEquipmentuuid());
                 trendRealTime.setPointidstring(pointDetail.getPointid());
 //                System.out.println(trendRealTime);
-//                System.out.println(trendRealTimeDao.insert(trendRealTime));
+                System.out.println(trendRealTimeDao.insert(trendRealTime));
 
                 final List<TrendValue> trendValues = JSONObject.parseArray(data.get("trendValue").toString(), TrendValue.class);
 
                 for (TrendValue trendValue : trendValues) {
                     trendValue.setEquipmentuuid(pointDetail.getEquipmentuuid());
                     trendValue.setPointidstring(pointDetail.getPointid());
-                    trendValue.setSystime(System.currentTimeMillis());
+                    trendValue.setTrendtime(trendTime);
 //                    System.out.println(trendValue);
-//                    System.out.println(trendValueDao.insert(trendValue));
+                    System.out.println(trendValueDao.insert(trendValue));
                 }
 
                 if(data.containsKey("waveValue")) {
@@ -169,8 +165,9 @@ class BuctProductionPracticeApplicationTests {
                     trendWaveValue.setWavey(waveY.toString());
                     trendWaveValue.setX(waveUnit.get("x").toString());
                     trendWaveValue.setY(waveUnit.get("y").toString());
+                    trendWaveValue.setTrendtime(trendTime);
 //                    System.out.println(trendWaveValue);
-//                    System.out.println(trendWaveValueDao.insert(trendWaveValue));
+                    System.out.println(trendWaveValueDao.insert(trendWaveValue));
                 }
 
                 if(data.containsKey("spectrumValue")){
@@ -185,8 +182,9 @@ class BuctProductionPracticeApplicationTests {
                     trendSpectrumValue.setSpectrumy(spectrumY.toString());
                     trendSpectrumValue.setX(spectrumUnit.get("x").toString());
                     trendSpectrumValue.setY(spectrumUnit.get("y").toString());
+                    trendSpectrumValue.setTrendtime(trendTime);
 //                    System.out.println(trendSpectrumValue);
-//                    System.out.println(trendSpectrumValueDao.insert(trendSpectrumValue));
+                    System.out.println(trendSpectrumValueDao.insert(trendSpectrumValue));
                 }
 
             }
