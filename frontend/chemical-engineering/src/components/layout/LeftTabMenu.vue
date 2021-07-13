@@ -60,7 +60,7 @@
 
 .menu {
   height: 100%;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: hidden;
 }
 
