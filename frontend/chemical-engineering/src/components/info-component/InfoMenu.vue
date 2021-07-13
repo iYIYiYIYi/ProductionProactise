@@ -28,9 +28,9 @@
           <br>
           <div v-if="statusOptions&&statusOptions.length > 0">
             特征选择:
-            <el-select v-model="value" placeholder="请选择">
+            <el-select v-model="statusValue" placeholder="请选择">
               <el-option
-                  v-for="item in options"
+                  v-for="item in statusOptions"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -97,7 +97,7 @@ export default {
       value: '',
       statusOptions:[{
         value: '选项2',
-        label: '双皮奶',
+        label: '蜜雪冰城',
       }],
       statusValue:'',
       selectEquipments:[],
@@ -108,27 +108,25 @@ export default {
         value: '选项3',
         label: '蚵仔煎'
       }],
-      // data: [{
-      //   label: '震动测点',
-      //   children: [{
-      //     label: '二级 1-1',
-      //     children: [{
-      //       label: '三级 1-1-1'
-      //     }]
-      //   }]
-      // },],
+      data:[],
       defaultProps: {
         children: 'children',
         label: 'label'
       }
     }
   },
+  watch:{
+    equipmentUUID(val) {
+      this.selectEquipments.length = 0;
+      this.getMessage(val);
+    },
+    value(val) {
+      this.genData(val);
+    }
+  },
   methods : {
     handleCheckChange(data, checked, indeterminate) {
       console.log(data, checked, indeterminate);
-    },
-    handleNodeClick(data) {
-      console.log(data);
     },
     change(){
 
@@ -163,16 +161,15 @@ export default {
         var parse = response.data;
         console.log(parse);
         let data = parse.data;
+        it.data = data;
         it.parseData(data);
       })
       .catch(function (error) {
         // handle error
         console.log(error);
-        it.$alert('获取设备测点信息失败', '网络错误', {
-          confirmButtonText: '确定',
-          // callback: action => {
-          //
-          // }
+        it.$notify.error({
+          title: '网络错误',
+          message: '获取设备测点信息失败'
         });
       })
       .then(function () {
@@ -182,17 +179,36 @@ export default {
     parseData(data) {
       let channelTypeAliasList = new Set();
       this.equipmentOptions.length=0;
+      this.options = [];
 
       for (let datum of data) {
+        if (!channelTypeAliasList.has(datum.channeltypealias)) {
+          this.options.push({
+            label:datum.channeltypealias,
+            value:datum.channeltypealias,
+          })
+        }
         channelTypeAliasList.add(datum.channeltypealias);
-        this.equipmentOptions.push({
-          value: datum.pointuuid,
-          label: datum.pointname,
-          id: datum.pointid,
-        });
       }
-      this.statusOptions = Array.from(channelTypeAliasList)
+
+      this.value = this.options[0].value;
     },
+
+    genData(value) {
+      this.statusOptions = [];
+
+      for (let datum of this.data) {
+        if (datum.channeltypealias === value) {
+          this.equipmentOptions.push({
+            id: datum.pointid,
+            label: datum.pointname,
+            value: datum.pointuuid,
+          });
+
+
+        }
+      }
+    }
 
   }
 }

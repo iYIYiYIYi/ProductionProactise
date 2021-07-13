@@ -60,7 +60,7 @@
 
 .menu {
   height: 100%;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: hidden;
 }
 
@@ -159,6 +159,10 @@ export default {
         // handle error
         console.log(error);
         it.$data.tree_description = '获取节点信息失败';
+        it.$notify.error({
+          title: '网络错误',
+          message: '获取节点信息失败'
+        });
       })
       .then(function () {
         // always executed
@@ -196,14 +200,18 @@ export default {
       })
       .catch(function (error) {
         // handle error
-        it.$alert('获取设备信息失败', '网络错误', {
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: 'error',
-              message: `action: ${ action }`
-            });
-          }
+        // it.$alert('获取设备信息失败', '网络错误', {
+        //   confirmButtonText: '确定',
+        //   callback: action => {
+        //     this.$message({
+        //       type: 'error',
+        //       message: `action: ${ action }`
+        //     });
+        //   }
+        // });
+        it.$notify.error({
+          title: '网络错误',
+          message: '获取设备信息失败'
         });
         it.$data.tree_description = '获取设备信息失败';
         console.log(error);
@@ -211,27 +219,6 @@ export default {
       .then(function () {
         // always executed
       });
-    },
-    //获取测点信息//
-    getMessage(){
-      // Make a request for a user with a given ID
-      this.$axios({
-        method:'get',
-        url:'/point/{equipmentUuid}/detail',
-        responseType:'json',
-      })
-          .then(function (response) {
-            // handle success
-            let parse = JSON.parse(response.data);
-            console.log(parse)
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          })
-          .then(function () {
-            // always executed
-          });
     },
   }
 }
