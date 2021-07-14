@@ -1,9 +1,7 @@
 package com.sram.buct_production_practice.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.sram.buct_production_practice.dao.*;
 import com.sram.buct_production_practice.entity.*;
-import com.sram.buct_production_practice.util.StandardJSonResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -44,13 +42,13 @@ public class TrendRealTimeController {
         toReturn.setEquipmentname(trendRealTime.getEquipmentname());
 
         final TrendValue trendValue = trendValueDao.selectByEquAndPoint(equipmentUuid, pointIdString);
-        toReturn.setTrendValue(trendValue);
+        toReturn.setTrendvalue(trendValue);
 
         final TrendWaveValue trendWaveValue = trendWaveValueDao.selectByEquAndPoint(equipmentUuid, pointIdString);
-        toReturn.setTrendWaveValue(trendWaveValue);
+        toReturn.setTrendWavevalue(trendWaveValue);
 
         final TrendSpectrumValue trendSpectrumValue = trendSpectrumValueDao.selectByEquAndPoint(equipmentUuid, pointIdString);
-        toReturn.setTrendSpectrumValue(trendSpectrumValue);
+        toReturn.setTrendSpectrumvalue(trendSpectrumValue);
 
         List<TrendRealTime_ToReturn> toReturns=new LinkedList<>();
         toReturns.add(toReturn);

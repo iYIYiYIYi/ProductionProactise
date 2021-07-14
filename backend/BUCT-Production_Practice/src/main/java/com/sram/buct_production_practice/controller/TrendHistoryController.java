@@ -36,13 +36,13 @@ public class TrendHistoryController {
 
 
     @GetMapping("/wave-spectrum/{equipmentUuid}/{pointIdString}/{trendTime}/{waveNumber}/{analysisLines}/info")
-    @ApiOperation(value = "测点历史趋势波形频谱", notes = "获取指定测点的历史趋势、波形和频谱数据")
+    @ApiOperation(value = "测点的历史波形和频谱数据", notes = "获取指定测点和时间点的历史波形和频谱数据")
     public List<TrendRealTime_ToReturn> getTrend(
             @ApiParam(value = "String", required = true) @PathVariable String equipmentUuid,
             @ApiParam(value = "String", required = true) @PathVariable String pointIdString,
             @ApiParam(value = "BigInteger", required = true) @PathVariable BigInteger trendTime,
-            @ApiParam(value = "BigInteger", required = false) @PathVariable BigInteger waveNumber,
-            @ApiParam(value = "BigInteger", required = false) @PathVariable BigInteger analysisLines
+            @ApiParam(value = "BigInteger", required = true) @PathVariable BigInteger waveNumber,
+            @ApiParam(value = "BigInteger", required = true) @PathVariable BigInteger analysisLines
             ) {
         //历史数据和实时数据共用一个类
         TrendRealTime trendRealTime = trendRealTimeDao.selectByEquAndPointAndTime(equipmentUuid, pointIdString,trendTime);
@@ -56,13 +56,13 @@ public class TrendHistoryController {
         toReturn.setEquipmentname(trendRealTime.getEquipmentname());
 
         final TrendValue trendValue = trendValueDao.selectByEquAndPointAndTime(equipmentUuid, pointIdString,trendTime);
-        toReturn.setTrendValue(trendValue);
+        toReturn.setTrendvalue(trendValue);
 
         final TrendWaveValue trendWaveValue = trendWaveValueDao.selectByEquAndPointAndTime(equipmentUuid, pointIdString,trendTime);
-        toReturn.setTrendWaveValue(trendWaveValue);
+        toReturn.setTrendWavevalue(trendWaveValue);
 
         final TrendSpectrumValue trendSpectrumValue = trendSpectrumValueDao.selectByEquAndPointAndTime(equipmentUuid, pointIdString,trendTime);
-        toReturn.setTrendSpectrumValue(trendSpectrumValue);
+        toReturn.setTrendSpectrumvalue(trendSpectrumValue);
 
         List<TrendRealTime_ToReturn> toReturns=new LinkedList<>();
         toReturns.add(toReturn);
