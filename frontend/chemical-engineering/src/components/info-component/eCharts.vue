@@ -41,13 +41,13 @@ export default {
     return {
       option1 : {
         title: {
-          text: '不会就这吧'
+          text: 'K-203B 实时趋势图'
         },
         tooltip: {
           trigger: 'axis'
         },
         legend: {
-          data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+          data: ['邮件营销']
         },
         grid: {
           left: '3%',
@@ -74,36 +74,18 @@ export default {
             type: 'line',
             stack: '总量',
             data: [120, 132, 101, 134, 90, 230, 210]
-          },
-          {
-            name: '联盟广告',
-            type: 'line',
-            stack: '总量',
-            data: [220, 182, 191, 234, 290, 330, 310]
-          },
-          {
-            name: '视频广告',
-            type: 'line',
-            stack: '总量',
-            data: [150, 232, 201, 154, 190, 330, 410]
-          },
-          {
-            name: '直接访问',
-            type: 'line',
-            stack: '总量',
-            data: [320, 332, 301, 334, 390, 330, 320]
           },
         ]
       },
       option2 : {
         title: {
-          text: '还真是就这'
+          text: 'K-203B 实时转速趋势图'
         },
         tooltip: {
           trigger: 'axis'
         },
         legend: {
-          data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+          data: ['联盟广告']
         },
         grid: {
           left: '3%',
@@ -126,40 +108,22 @@ export default {
         },
         series: [
           {
-            name: '邮件营销',
-            type: 'line',
-            stack: '总量',
-            data: [120, 132, 101, 134, 90, 230, 210]
-          },
-          {
             name: '联盟广告',
             type: 'line',
             stack: '总量',
             data: [220, 182, 191, 234, 290, 330, 310]
-          },
-          {
-            name: '视频广告',
-            type: 'line',
-            stack: '总量',
-            data: [150, 232, 201, 154, 190, 330, 410]
-          },
-          {
-            name: '直接访问',
-            type: 'line',
-            stack: '总量',
-            data: [320, 332, 301, 334, 390, 330, 320]
           },
         ]
       },
       option3 : {
         title: {
-          text: '这样子咋了'
+          text: 'K203B 仪表位号_1H 实时波形图'
         },
         tooltip: {
           trigger: 'axis'
         },
         legend: {
-          data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+          data: ['视频广告']
         },
         grid: {
           left: '3%',
@@ -182,40 +146,22 @@ export default {
         },
         series: [
           {
-            name: '邮件营销',
-            type: 'line',
-            stack: '总量',
-            data: [120, 132, 101, 134, 90, 230, 210]
-          },
-          {
-            name: '联盟广告',
-            type: 'line',
-            stack: '总量',
-            data: [220, 182, 191, 234, 290, 330, 310]
-          },
-          {
             name: '视频广告',
             type: 'line',
             stack: '总量',
             data: [150, 232, 201, 154, 190, 330, 410]
-          },
-          {
-            name: '直接访问',
-            type: 'line',
-            stack: '总量',
-            data: [320, 332, 301, 334, 390, 330, 320]
           },
         ]
       },
       option4 : {
         title: {
-          text: '还真就这么点啊'
+          text: 'K203B 仪表位号_1H 实时频谱图'
         },
         tooltip: {
           trigger: 'axis'
         },
         legend: {
-          data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+          data: ['直接访问']
         },
         grid: {
           left: '3%',
@@ -237,24 +183,6 @@ export default {
           type: 'value'
         },
         series: [
-          {
-            name: '邮件营销',
-            type: 'line',
-            stack: '总量',
-            data: [120, 132, 101, 134, 90, 230, 210]
-          },
-          {
-            name: '联盟广告',
-            type: 'line',
-            stack: '总量',
-            data: [220, 182, 191, 234, 290, 330, 310]
-          },
-          {
-            name: '视频广告',
-            type: 'line',
-            stack: '总量',
-            data: [150, 232, 201, 154, 190, 330, 410]
-          },
           {
             name: '直接访问',
             type: 'line',
