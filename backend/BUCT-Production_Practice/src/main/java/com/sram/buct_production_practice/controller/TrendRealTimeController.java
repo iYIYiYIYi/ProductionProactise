@@ -35,8 +35,9 @@ public class TrendRealTimeController {
         TrendRealTime_ToReturn toReturn=new TrendRealTime_ToReturn();
 
         toReturn.setRev(trendRealTime.getRev());
+        toReturn.setTrendtime(System.currentTimeMillis());
         toReturn.setEndindex(trendRealTime.getEndindex());
-        toReturn.setTrendtime(trendRealTime.getTrendtime());
+        //toReturn.setTrendtime(trendRealTime.getTrendtime());
         toReturn.setPointname(trendRealTime.getPointname());
         toReturn.setStartindex(trendRealTime.getStartindex());
         toReturn.setEquipmentname(trendRealTime.getEquipmentname());
