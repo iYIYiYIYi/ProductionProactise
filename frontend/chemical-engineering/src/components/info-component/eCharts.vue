@@ -41,7 +41,7 @@ export default {
     return {
       option1 : {
         title: {
-          text: '折线图堆叠'
+          text: '不会就这吧'
         },
         tooltip: {
           trigger: 'axis'
@@ -97,7 +97,7 @@ export default {
       },
       option2 : {
         title: {
-          text: '折线图堆叠'
+          text: '还真是就这'
         },
         tooltip: {
           trigger: 'axis'
@@ -153,7 +153,7 @@ export default {
       },
       option3 : {
         title: {
-          text: '折线图堆叠'
+          text: '这样子咋了'
         },
         tooltip: {
           trigger: 'axis'
@@ -209,7 +209,7 @@ export default {
       },
       option4 : {
         title: {
-          text: '折线图堆叠'
+          text: '还真就这么点啊'
         },
         tooltip: {
           trigger: 'axis'
