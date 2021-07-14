@@ -24,6 +24,12 @@
       select * from trend_wave_value
       where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR} and pointIdString = #{pointIdString,jdbcType=VARCHAR}
     </select>
+    <select id="selectByEquAndPointAndTime" resultType="com.sram.buct_production_practice.entity.TrendWaveValue">
+      select * from trend_wave_value
+      where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR}
+        and pointIdString = #{pointIdString,jdbcType=VARCHAR}
+        and trendTime = #{trendTime,jdbcType=BIGINT}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from trend_wave_value
     where id = #{id,jdbcType=INTEGER}
