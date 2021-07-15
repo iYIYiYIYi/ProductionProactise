@@ -7,7 +7,7 @@
         </ImageCanvas>
       </el-tab-pane>
     </el-tabs>
-    <el-empty description="请选择设备" image="./loading.png" image-size=500 v-else></el-empty>
+    <el-empty description="请选择设备" image="./loading.png" :image-size=500 v-else></el-empty>
   </div>
 </template>
 
