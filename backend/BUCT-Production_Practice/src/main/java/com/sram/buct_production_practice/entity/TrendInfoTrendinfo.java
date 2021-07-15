@@ -28,6 +28,8 @@ public class TrendInfoTrendinfo implements Serializable {
 
     private String equipmentuuid;
 
+    private TrendValue trendValues;
+
     private static final long serialVersionUID = 1L;
 
     @Override

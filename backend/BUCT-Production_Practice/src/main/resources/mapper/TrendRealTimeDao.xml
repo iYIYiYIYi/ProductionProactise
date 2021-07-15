@@ -23,10 +23,24 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByEquAndPoint" resultType="com.sram.buct_production_practice.entity.TrendRealTime">
-    select * from trend_real_time
-    where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR} and pointIdString = #{pointIdString,jdbcType=VARCHAR}
+    select *
+    from trend_real_time
+    where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR}
+      and pointIdString = #{pointIdString,jdbcType=VARCHAR}
   </select>
   <select id="selectByEquAndPointAndTime" resultType="com.sram.buct_production_practice.entity.TrendRealTime">
+    select * from trend_real_time
+    where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR}
+      and pointIdString = #{pointIdString,jdbcType=VARCHAR}
+      and trendTime = #{trendTime,jdbcType=BIGINT}
+  </select>
+  <select id="selectRecent" resultType="java.math.BigInteger">
+    select max(trendTime)
+    from trend_real_time
+    where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR}
+      and pointIdString = #{pointIdString,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultType="com.sram.buct_production_practice.entity.TrendRealTime">
     select * from trend_real_time
     where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR}
       and pointIdString = #{pointIdString,jdbcType=VARCHAR}

@@ -20,7 +20,20 @@
     from trend_info_trendinfo
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByEquAndPointAndTime"
+            resultType="com.sram.buct_production_practice.entity.TrendInfoTrendinfo">
+    select *from trend_info_trendinfo
+    where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR}
+      and pointIdString = #{pointIdString,jdbcType=VARCHAR}
+      and trendTime = #{trendTime,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultType="com.sram.buct_production_practice.entity.TrendInfoTrendinfo">
+      select *from trend_info_trendinfo
+      where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR}
+        and pointIdString = #{pointIdString,jdbcType=VARCHAR}
+        and trendTime = #{trendTime,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from trend_info_trendinfo
     where id = #{id,jdbcType=INTEGER}
   </delete>

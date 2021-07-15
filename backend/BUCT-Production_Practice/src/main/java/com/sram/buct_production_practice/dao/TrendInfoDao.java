@@ -16,4 +16,6 @@ public interface TrendInfoDao {
     int updateByPrimaryKeySelective(TrendInfo record);
 
     int updateByPrimaryKey(TrendInfo record);
+
+    TrendInfo selectByEquipmentAndPoint(String equipmentUuid, String pointIdString);
 }

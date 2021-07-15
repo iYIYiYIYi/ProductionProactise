@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +32,8 @@ public class TrendRealTimeController {
     @GetMapping("/trend/{equipmentUuid}/{pointIdString}/real_time")
     @ApiOperation(value = "测点实时趋势波形频谱", notes = "获取指定测点的实时趋势、波形和频谱数据")
     public List<TrendRealTime_ToReturn> getTrend(@ApiParam(value = "String", required = true) @PathVariable String equipmentUuid,@ApiParam(value = "String", required = true) @PathVariable String pointIdString) {
-        TrendRealTime trendRealTime = trendRealTimeDao.selectByEquAndPoint(equipmentUuid, pointIdString);
+        BigInteger trendTime = trendRealTimeDao.selectRecent(equipmentUuid,pointIdString);
+        TrendRealTime trendRealTime = trendRealTimeDao.selectByEquAndPointAndTime(equipmentUuid, pointIdString,trendTime);
         TrendRealTime_ToReturn toReturn=new TrendRealTime_ToReturn();
 
         toReturn.setRev(trendRealTime.getRev());
@@ -42,13 +44,13 @@ public class TrendRealTimeController {
         toReturn.setStartindex(trendRealTime.getStartindex());
         toReturn.setEquipmentname(trendRealTime.getEquipmentname());
 
-        final TrendValue trendValue = trendValueDao.selectByEquAndPoint(equipmentUuid, pointIdString);
+        final TrendValue trendValue = trendValueDao.selectByEquAndPointAndTime(equipmentUuid, pointIdString,trendTime);
         toReturn.setTrendvalue(trendValue);
 
-        final TrendWaveValue trendWaveValue = trendWaveValueDao.selectByEquAndPoint(equipmentUuid, pointIdString);
+        final TrendWaveValue trendWaveValue = trendWaveValueDao.selectByEquAndPointAndTime(equipmentUuid, pointIdString,trendTime);
         toReturn.setTrendWavevalue(trendWaveValue);
 
-        final TrendSpectrumValue trendSpectrumValue = trendSpectrumValueDao.selectByEquAndPoint(equipmentUuid, pointIdString);
+        final TrendSpectrumValue trendSpectrumValue = trendSpectrumValueDao.selectByEquAndPointAndTime(equipmentUuid, pointIdString,trendTime);
         toReturn.setTrendSpectrumvalue(trendSpectrumValue);
 
         List<TrendRealTime_ToReturn> toReturns=new LinkedList<>();

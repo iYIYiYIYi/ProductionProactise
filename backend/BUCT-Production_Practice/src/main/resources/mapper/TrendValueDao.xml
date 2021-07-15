@@ -39,6 +39,14 @@
         and pointIdString = #{pointIdString,jdbcType=VARCHAR}
         and trendTime = #{trendTime,jdbcType=BIGINT}
     </select>
+    <select id="selectBySection" resultType="com.sram.buct_production_practice.entity.TrendValue">
+      select *
+      from trend_value
+      where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR}
+        and pointIdString = #{pointIdString,jdbcType=VARCHAR}
+        and trendTime &gt;= #{startTime,jdbcType=BIGINT}
+        and trendTime &lt;= #{endTime,jdbcType=BIGINT}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from trend_value
     where id = #{id,jdbcType=INTEGER}
