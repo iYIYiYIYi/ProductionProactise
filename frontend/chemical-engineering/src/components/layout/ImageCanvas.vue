@@ -2,24 +2,37 @@
   <el-row :gutter="20">
     <el-col :span="18">
       <div class="grid-content bg-purple" ref="boxes" >
-        <img v-if="type==='设备概貌图'"  :src="'data:image/jepg;base64,'+base64image" alt="示意图" class="image" :style="'width:'+imageWidth*imageMultiplier+'px ;height:'+imageHeight+'px'">
-        <div v-if="type==='设备概貌图'" class="boxes-container" ref="boxContainer" :style="'width:'+imageWidth*imageMultiplier+'px ;height:'+imageHeight+'px'">
-          <div class="header box" v-if="equipmentName" :style="'width:'+equipmentName.width*imageMultiplier+'px;height:'+equipmentName.height+'px;left:'+equipmentName.xpos*imageMultiplier+'px;top:'+equipmentName.ypos+'px;'">{{equipmentName.name}}</div>
-          <div class="header box" v-if="equipmentRevInfo" :style="'width:'+equipmentRevInfo.width*imageMultiplier+'px;height:'+equipmentRevInfo.height+'px;left:'+equipmentRevInfo.xpos*imageMultiplier+'px;top:'+equipmentRevInfo.ypos+'px;'">{{equipmentRevInfo.revname}}:{{equipmentRevInfo.revvalue}}</div>
-          <div class="header box" v-if="equipmentTime" :style="'width:'+equipmentTime.width*imageMultiplier+'px;height:'+equipmentTime.height+'px;left:'+equipmentTime.xpos*imageMultiplier+'px;top:'+equipmentTime.ypos+'px;'">{{equipmentTime.time}}</div>
+         <div v-if="type==='设备概貌图'" >
+          <img :src="'data:image/jepg;base64,'+base64image" alt="示意图" class="image" :style="'width:'+imageWidth*imageMultiplier+'px ;height:'+imageHeight+'px'">
+          <div class="boxes-container" ref="boxContainer" :style="'width:'+imageWidth*imageMultiplier+'px ;height:'+imageHeight+'px'">
+            <div class="header box" v-if="equipmentName" :style="'width:'+equipmentName.width*imageMultiplier+'px;height:'+equipmentName.height+'px;left:'+equipmentName.xpos*imageMultiplier+'px;top:'+equipmentName.ypos+'px;'">{{equipmentName.name}}</div>
+            <div class="header box" v-if="equipmentRevInfo" :style="'width:'+equipmentRevInfo.width*imageMultiplier+'px;height:'+equipmentRevInfo.height+'px;left:'+equipmentRevInfo.xpos*imageMultiplier+'px;top:'+equipmentRevInfo.ypos+'px;'">{{equipmentRevInfo.revname}}:{{equipmentRevInfo.revvalue}}</div>
+            <div class="header box" v-if="equipmentTime" :style="'width:'+equipmentTime.width*imageMultiplier+'px;height:'+equipmentTime.height+'px;left:'+equipmentTime.xpos*imageMultiplier+'px;top:'+equipmentTime.ypos+'px;'">{{equipmentTime.time}}</div>
 
-          <div :class="box.width*box.height===0?'no':'box'" v-for="(box,index) in boxPoints" :key="index" :style="'width:'+box.width*imageMultiplier+'px;height:'+box.height+'px;left:'+box.xpos*imageMultiplier+'px;top:'+box.ypos+'px;background-color:'+imageBackground+';'">
-            <div class="info_piece" v-for="(point,index) in box.points" :key="index"> {{point.pointid}}:{{point.value}} </div>
+            <div :class="box.width*box.height===0?'no':'box'" v-for="(box,index) in boxPoints" :key="index" :style="'width:'+box.width*imageMultiplier+'px;height:'+box.height+'px;left:'+box.xpos*imageMultiplier+'px;top:'+box.ypos+'px;background-color:'+imageBackground+';'">
+              <div class="info_piece" v-for="(point,index) in box.points" :key="index"> {{point.pointid}}:{{point.value}} </div>
+            </div>
           </div>
+          <div v-if="showImage">
+            <e-charts :style="'width:'+imageWidth*imageMultiplier+'px ;'" :option="chartOption"></e-charts>
+          </div>
+         </div>
+        <div v-else>
+          <e-charts :option="chartOption"></e-charts>
+          <e-charts :option="chartOption"></e-charts>
+          <e-charts :option="chartOption"></e-charts>
+          <e-charts :option="chartOption"></e-charts>
         </div>
-        <e-charts v-else></e-charts>
       </div>
     </el-col>
-    <el-col :span="6" style="z-index: 9999">
+    <el-col :span="6" style="z-index: 2000;position: absolute;right: 1vh">
       <div class="grid-content bg-purple">
         <InfoMenu
           :name="name"
           :equipment-u-u-i-d="dataInfo.equipmentuuid"
+          @showCanvas="showCanvas"
+          @drawData="drawData"
+          ref="info"
         />
       </div>
     </el-col>
@@ -30,6 +43,7 @@
 
 import InfoMenu from '../info-component/InfoMenu'
 import eCharts from '../info-component/eCharts'
+
 
 export default {
   name: "ImageCanvas",
@@ -43,6 +57,7 @@ export default {
     let imageMultiplier = 1.3;
     return {
       base64image:'',
+      showImage: false,
       imageWidth:0,
       imageHeight:0,
       imageBackground:'#fff',
@@ -52,6 +67,40 @@ export default {
       equipmentTime:{},
       netStatus : true,
       imageMultiplier:imageMultiplier,
+      chartxAxis:[],
+      chartyAxis:new Set(),
+      chartData:[],
+      chartOption: {
+        title: {
+          text: this.name+'实时趋势图'
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: this.chartData
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: {
+          type: 'category',
+              boundaryGap: false,
+              data: this.chartxAxis
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [],
+      },
     };
   },
   watch :{
@@ -65,6 +114,32 @@ export default {
     }
   },
   methods:{
+    drawData(data,name,time){
+      if (this.chartData.indexOf(name) === -1) {
+        this.chartData.push(name);
+      }
+      console.log(this.chartData);
+
+      this.chartxAxis.push(time);
+      this.chartOption.legend.data = this.chartData;
+      this.chartOption.xAxis.data = this.chartxAxis;
+      if (this.chartyAxis.has(name)) {
+        for (let serie of this.chartOption.series) {
+          if (serie.name === name) {
+            serie.data = data;
+            break;
+          }
+        }
+      } else {
+        let obj =  {
+          name: name,
+          type: 'line',
+          data: data
+        };
+        this.chartOption.series.push(obj);
+      }
+      this.chartyAxis.add(name);
+    },
     //获取频谱图数据//
     getData(equipmentUuid,pointIdString){
       // Make a request for a user with a given ID
@@ -133,6 +208,9 @@ export default {
         // always executed
       });
     },
+    showCanvas(bool){
+      this.showImage = bool;
+    },
     getGraphImage(equipmentUuid){
       let it = this;
       // Make a request for a user with a given ID
@@ -166,6 +244,7 @@ export default {
             // always executed
           });
     },
+
     updateData(equipmentUUID){
       let it = this;
 
@@ -192,12 +271,14 @@ export default {
       }).then(function () {
 
       });
+      this.infoMe
     }
   },
-
+  provide: {
+  },
 
   components:{
-    InfoMenu,eCharts,
+    InfoMenu,eCharts
   }
 }
 </script>
