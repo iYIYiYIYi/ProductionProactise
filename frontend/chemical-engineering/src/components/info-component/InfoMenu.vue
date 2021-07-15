@@ -26,7 +26,7 @@
             </el-select>
           </div>
           <br>
-          <div v-if="statusOptions&&statusOptions.length > 0">
+          <div v-if="value.indexOf('振动') !== -1">
             特征选择:
             <el-select v-model="statusValue" placeholder="请选择">
               <el-option
@@ -96,11 +96,46 @@ export default {
       // eslint-disable-next-line vue/require-prop-type-constructor
       value: '',
       statusOptions:[{
-        value: '选项2',
-        label: '蜜雪冰城',
+        value: 'all',
+        label: '通频',
+      },{
+        value: 'one',
+        label: '1倍频幅值',
+      },{
+        value: 'two',
+        label: '2倍频幅值',
+      },{
+        value: 'three',
+        label: '3倍频幅值',
+      },{
+        value: 'half',
+        label: '1/2倍频幅值',
+      },{
+        value: 'res',
+        label: '残振',
+      },{
+        value: 'dc',
+        label: '直流量',
+      },{
+        value: 'gap',
+        label: '间隙电压',
+      },{
+        value: 'phaseone',
+        label: '1倍频相位',
+      },{
+        value: 'phasetwo',
+        label: '2倍频相位',
+      },{
+        value: 'phasethree',
+        label: '3倍频相位',
+      },{
+        value: 'phasehalf',
+        label: '1/2倍频相位',
       }],
       statusValue:'',
+      trendStatusValues:{},
       selectEquipments:[],
+      FrequencyData:{},
       equipmentOptions:[{
         value: '选项2',
         label: '双皮奶',
@@ -109,6 +144,7 @@ export default {
         label: '蚵仔煎'
       }],
       data:[],
+      equipmentDataTimer:undefined,
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -117,22 +153,33 @@ export default {
   },
   watch:{
     equipmentUUID(val) {
-      this.selectEquipments.length = 0;
+      this.selectEquipments = [];
       this.getMessage(val);
     },
     value(val) {
       this.genData(val);
-    }
+    },
   },
   methods : {
     handleCheckChange(data, checked, indeterminate) {
       console.log(data, checked, indeterminate);
     },
     change(){
-
+      this.$emit('showCanvas',this.openChart);
+      if (! this.dataMode) {
+        let it = this;
+        //实时模式
+        this.equipmentDataTimer = setInterval(function () {
+          for (let selectEquipment of it.selectEquipments) {
+            it.getEquipmentData(selectEquipment);
+          }
+        },1000);
+      }
     },
     changeDataMode(){
-
+      this.selectEquipments.length = 0;
+    },
+    getFrequencyData(){
     },
     stopSwitch() {
       if (this.$data.stop_switch === '停止') {
@@ -159,14 +206,12 @@ export default {
       .then(function (response) {
         // handle success
         var parse = response.data;
-        console.log(parse);
         let data = parse.data;
         it.data = data;
         it.parseData(data);
       })
-      .catch(function (error) {
+      .catch(function () {
         // handle error
-        console.log(error);
         it.$notify.error({
           title: '网络错误',
           message: '获取设备测点信息失败'
@@ -178,37 +223,71 @@ export default {
     },
     parseData(data) {
       let channelTypeAliasList = new Set();
-      this.equipmentOptions.length=0;
+      this.equipmentOptions=[];
       this.options = [];
 
       for (let datum of data) {
-        if (!channelTypeAliasList.has(datum.channeltypealias)) {
+        let s = '径向',name = datum.channeltypealias;
+        if (datum.channeltypealias.indexOf('振动') !== -1) {
+          if (datum.channeltype === 1) {
+            name = s + name;
+          } else if (datum.channeltype === 2) {
+            s = '轴向';
+            name = s + name;
+          }
+        }
+        if (!channelTypeAliasList.has(name)) {
+
           this.options.push({
-            label:datum.channeltypealias,
-            value:datum.channeltypealias,
+            label:name,
+            value:name,
           })
         }
-        channelTypeAliasList.add(datum.channeltypealias);
+        channelTypeAliasList.add(name);
       }
 
       this.value = this.options[0].value;
     },
 
     genData(value) {
-      this.statusOptions = [];
-
+      this.equipmentOptions=[];
       for (let datum of this.data) {
-        if (datum.channeltypealias === value) {
+        let s = '径向',name = datum.channeltypealias;
+        if (datum.channeltypealias.indexOf('振动') !== -1) {
+          if (datum.channeltype === 1) {
+            name = s + name;
+          } else if (datum.channeltype === 2) {
+            s = '轴向';
+            name = s + name;
+          }
+        }
+        if (name === value) {
           this.equipmentOptions.push({
-            id: datum.pointid,
+            uuid: datum.pointuuid,
             label: datum.pointname,
-            value: datum.pointuuid,
+            value: datum.pointid,
           });
-
-
         }
       }
-    }
+    },
+    getEquipmentData(pointid)  {
+      let it = this;
+      this.$axios.get('/trend/'+this.equipmentUUID+'/'+pointid+'/real_time')
+      .then(response => {
+        let parse = response.data.data[0];
+        /** 获取实时趋势图 **/
+        let trendValue = parse.trendvalue;
+        if(!it.trendStatusValues[pointid])
+          it.trendStatusValues[pointid] = [];
+        let time = new Date(parse.trendtime).format('yyyy-MM-dd hh:mm:ss');
+        it.trendStatusValues[pointid].push([time,trendValue[it.statusValue]]);
+        it.$emit('drawData',it.trendStatusValues[pointid],pointid,time);
+      }).catch(() => {
+
+      }).then(() => {
+
+      });
+    },
 
   }
 }

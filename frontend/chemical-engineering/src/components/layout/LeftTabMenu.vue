@@ -70,7 +70,7 @@
   box-sizing: border-box;
   border-right: solid 2px #e6e6e6;
   margin: 0;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
 }
 
