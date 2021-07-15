@@ -8,10 +8,9 @@
     <result column="equipmentName" jdbcType="VARCHAR" property="equipmentname" />
     <result column="pointName" jdbcType="VARCHAR" property="pointname" />
     <result column="pointUuid" jdbcType="VARCHAR" property="pointuuid" />
-    <result column="sysTime" jdbcType="BIGINT" property="systime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, equipmentUuid, pointIdString, equipmentName, pointName, pointUuid, sysTime
+    id, equipmentUuid, pointIdString, equipmentName, pointName, pointUuid
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -25,11 +24,9 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sram.buct_production_practice.entity.TrendInfo" useGeneratedKeys="true">
     insert into trend_info (equipmentUuid, pointIdString, equipmentName, 
-      pointName, pointUuid, sysTime
-      )
+      pointName, pointUuid)
     values (#{equipmentuuid,jdbcType=VARCHAR}, #{pointidstring,jdbcType=VARCHAR}, #{equipmentname,jdbcType=VARCHAR}, 
-      #{pointname,jdbcType=VARCHAR}, #{pointuuid,jdbcType=VARCHAR}, #{systime,jdbcType=BIGINT}
-      )
+      #{pointname,jdbcType=VARCHAR}, #{pointuuid,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sram.buct_production_practice.entity.TrendInfo" useGeneratedKeys="true">
     insert into trend_info
@@ -49,9 +46,6 @@
       <if test="pointuuid != null">
         pointUuid,
       </if>
-      <if test="systime != null">
-        sysTime,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="equipmentuuid != null">
@@ -68,9 +62,6 @@
       </if>
       <if test="pointuuid != null">
         #{pointuuid,jdbcType=VARCHAR},
-      </if>
-      <if test="systime != null">
-        #{systime,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -92,9 +83,6 @@
       <if test="pointuuid != null">
         pointUuid = #{pointuuid,jdbcType=VARCHAR},
       </if>
-      <if test="systime != null">
-        sysTime = #{systime,jdbcType=BIGINT},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -104,8 +92,7 @@
       pointIdString = #{pointidstring,jdbcType=VARCHAR},
       equipmentName = #{equipmentname,jdbcType=VARCHAR},
       pointName = #{pointname,jdbcType=VARCHAR},
-      pointUuid = #{pointuuid,jdbcType=VARCHAR},
-      sysTime = #{systime,jdbcType=BIGINT}
+      pointUuid = #{pointuuid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

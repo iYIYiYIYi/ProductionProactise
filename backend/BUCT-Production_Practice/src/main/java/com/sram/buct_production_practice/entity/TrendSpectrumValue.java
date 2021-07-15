@@ -26,6 +26,8 @@ public class TrendSpectrumValue implements Serializable {
 
     private String pointidstring;
 
+    private Long trendtime;
+
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -46,7 +48,8 @@ public class TrendSpectrumValue implements Serializable {
             && (this.getX() == null ? other.getX() == null : this.getX().equals(other.getX()))
             && (this.getY() == null ? other.getY() == null : this.getY().equals(other.getY()))
             && (this.getEquipmentuuid() == null ? other.getEquipmentuuid() == null : this.getEquipmentuuid().equals(other.getEquipmentuuid()))
-            && (this.getPointidstring() == null ? other.getPointidstring() == null : this.getPointidstring().equals(other.getPointidstring()));
+            && (this.getPointidstring() == null ? other.getPointidstring() == null : this.getPointidstring().equals(other.getPointidstring()))
+            && (this.getTrendtime() == null ? other.getTrendtime() == null : this.getTrendtime().equals(other.getTrendtime()));
     }
 
     @Override
@@ -60,6 +63,7 @@ public class TrendSpectrumValue implements Serializable {
         result = prime * result + ((getY() == null) ? 0 : getY().hashCode());
         result = prime * result + ((getEquipmentuuid() == null) ? 0 : getEquipmentuuid().hashCode());
         result = prime * result + ((getPointidstring() == null) ? 0 : getPointidstring().hashCode());
+        result = prime * result + ((getTrendtime() == null) ? 0 : getTrendtime().hashCode());
         return result;
     }
 
@@ -76,6 +80,7 @@ public class TrendSpectrumValue implements Serializable {
         sb.append(", y=").append(y);
         sb.append(", equipmentuuid=").append(equipmentuuid);
         sb.append(", pointidstring=").append(pointidstring);
+        sb.append(", trendtime=").append(trendtime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

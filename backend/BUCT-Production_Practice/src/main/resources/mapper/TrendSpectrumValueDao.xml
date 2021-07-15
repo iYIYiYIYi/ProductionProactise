@@ -9,9 +9,10 @@
     <result column="y" jdbcType="VARCHAR" property="y" />
     <result column="equipmentUuid" jdbcType="VARCHAR" property="equipmentuuid" />
     <result column="pointIdString" jdbcType="VARCHAR" property="pointidstring" />
+    <result column="trendTime" jdbcType="BIGINT" property="trendtime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, spectrumY, spectrumX, x, y, equipmentUuid, pointIdString
+    id, spectrumY, spectrumX, x, y, equipmentUuid, pointIdString, trendTime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -23,17 +24,24 @@
       select * from trend_spectrum_value
       where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR} and pointIdString = #{pointIdString,jdbcType=VARCHAR}
     </select>
+    <select id="selectByEquAndPointAndTime"
+            resultType="com.sram.buct_production_practice.entity.TrendSpectrumValue">
+      select * from trend_spectrum_value
+      where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR}
+        and pointIdString = #{pointIdString,jdbcType=VARCHAR}
+        and trendTime = #{trendTime,jdbcType=BIGINT}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from trend_spectrum_value
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sram.buct_production_practice.entity.TrendSpectrumValue" useGeneratedKeys="true">
     insert into trend_spectrum_value (spectrumY, spectrumX, x, 
-      y, equipmentUuid, pointIdString
-      )
+      y, equipmentUuid, pointIdString, 
+      trendTime)
     values (#{spectrumy,jdbcType=VARCHAR}, #{spectrumx,jdbcType=VARCHAR}, #{x,jdbcType=VARCHAR}, 
-      #{y,jdbcType=VARCHAR}, #{equipmentuuid,jdbcType=VARCHAR}, #{pointidstring,jdbcType=VARCHAR}
-      )
+      #{y,jdbcType=VARCHAR}, #{equipmentuuid,jdbcType=VARCHAR}, #{pointidstring,jdbcType=VARCHAR}, 
+      #{trendtime,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sram.buct_production_practice.entity.TrendSpectrumValue" useGeneratedKeys="true">
     insert into trend_spectrum_value
@@ -56,6 +64,9 @@
       <if test="pointidstring != null">
         pointIdString,
       </if>
+      <if test="trendtime != null">
+        trendTime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="spectrumy != null">
@@ -75,6 +86,9 @@
       </if>
       <if test="pointidstring != null">
         #{pointidstring,jdbcType=VARCHAR},
+      </if>
+      <if test="trendtime != null">
+        #{trendtime,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -99,6 +113,9 @@
       <if test="pointidstring != null">
         pointIdString = #{pointidstring,jdbcType=VARCHAR},
       </if>
+      <if test="trendtime != null">
+        trendTime = #{trendtime,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -109,7 +126,8 @@
       x = #{x,jdbcType=VARCHAR},
       y = #{y,jdbcType=VARCHAR},
       equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR},
-      pointIdString = #{pointidstring,jdbcType=VARCHAR}
+      pointIdString = #{pointidstring,jdbcType=VARCHAR},
+      trendTime = #{trendtime,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

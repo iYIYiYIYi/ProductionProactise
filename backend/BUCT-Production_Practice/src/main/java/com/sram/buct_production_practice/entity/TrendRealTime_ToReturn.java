@@ -1,10 +1,13 @@
 package com.sram.buct_production_practice.entity;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(value="趋势图信息")
 public class TrendRealTime_ToReturn {
 
     private String equipmentname;
 
-    private TrendValue trendValue;
+    private TrendValue trendvalue;
 
     private Integer rev;
 
@@ -12,9 +15,9 @@ public class TrendRealTime_ToReturn {
 
     private Long trendtime;
 
-    private TrendWaveValue trendWaveValue;
+    private TrendWaveValue trendWavevalue;
 
-    private TrendSpectrumValue trendSpectrumValue;
+    private TrendSpectrumValue trendSpectrumvalue;
 
     private Integer startindex;
 
@@ -31,12 +34,12 @@ public class TrendRealTime_ToReturn {
         this.equipmentname = equipmentname;
     }
 
-    public TrendValue getTrendValue() {
-        return trendValue;
+    public TrendValue getTrendvalue() {
+        return trendvalue;
     }
 
-    public void setTrendValue(TrendValue trendValue) {
-        this.trendValue = trendValue;
+    public void setTrendvalue(TrendValue trendvalue) {
+        this.trendvalue = trendvalue;
     }
 
     public Integer getRev() {
@@ -63,20 +66,20 @@ public class TrendRealTime_ToReturn {
         this.trendtime = trendtime;
     }
 
-    public TrendWaveValue getTrendWaveValue() {
-        return trendWaveValue;
+    public TrendWaveValue getTrendWavevalue() {
+        return trendWavevalue;
     }
 
-    public void setTrendWaveValue(TrendWaveValue trendWaveValue) {
-        this.trendWaveValue = trendWaveValue;
+    public void setTrendWavevalue(TrendWaveValue trendWavevalue) {
+        this.trendWavevalue = trendWavevalue;
     }
 
-    public TrendSpectrumValue getTrendSpectrumValue() {
-        return trendSpectrumValue;
+    public TrendSpectrumValue getTrendSpectrumvalue() {
+        return trendSpectrumvalue;
     }
 
-    public void setTrendSpectrumValue(TrendSpectrumValue trendSpectrumValue) {
-        this.trendSpectrumValue = trendSpectrumValue;
+    public void setTrendSpectrumvalue(TrendSpectrumValue trendSpectrumvalue) {
+        this.trendSpectrumvalue = trendSpectrumvalue;
     }
 
     public Integer getStartindex() {

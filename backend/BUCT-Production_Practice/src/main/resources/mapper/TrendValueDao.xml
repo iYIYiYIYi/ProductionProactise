@@ -17,11 +17,11 @@
     <result column="phaseHalf" jdbcType="FLOAT" property="phasehalf" />
     <result column="equipmentUuid" jdbcType="VARCHAR" property="equipmentuuid" />
     <result column="pointIdString" jdbcType="VARCHAR" property="pointidstring" />
-    <result column="sysTIme" jdbcType="BIGINT" property="systime" />
+    <result column="trendTime" jdbcType="BIGINT" property="trendtime" />
   </resultMap>
   <sql id="Base_Column_List">
     id, `all`, one, two, three, half, res, dc, gap, phaseOne, phaseTwo, phaseThree, phaseHalf, 
-    equipmentUuid, pointIdString, sysTIme
+    equipmentUuid, pointIdString, trendTime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -33,6 +33,12 @@
       select * from trend_value
       where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR} and pointIdString = #{pointIdString,jdbcType=VARCHAR}
     </select>
+    <select id="selectByEquAndPointAndTime" resultType="com.sram.buct_production_practice.entity.TrendValue">
+      select * from trend_value
+      where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR}
+        and pointIdString = #{pointIdString,jdbcType=VARCHAR}
+        and trendTime = #{trendTime,jdbcType=BIGINT}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from trend_value
     where id = #{id,jdbcType=INTEGER}
@@ -42,12 +48,12 @@
       half, res, dc, gap, 
       phaseOne, phaseTwo, phaseThree, 
       phaseHalf, equipmentUuid, pointIdString, 
-      sysTIme)
+      trendTime)
     values (#{all,jdbcType=FLOAT}, #{one,jdbcType=FLOAT}, #{two,jdbcType=FLOAT}, #{three,jdbcType=FLOAT}, 
       #{half,jdbcType=FLOAT}, #{res,jdbcType=FLOAT}, #{dc,jdbcType=FLOAT}, #{gap,jdbcType=FLOAT}, 
       #{phaseone,jdbcType=FLOAT}, #{phasetwo,jdbcType=FLOAT}, #{phasethree,jdbcType=FLOAT}, 
       #{phasehalf,jdbcType=FLOAT}, #{equipmentuuid,jdbcType=VARCHAR}, #{pointidstring,jdbcType=VARCHAR}, 
-      #{systime,jdbcType=BIGINT})
+      #{trendtime,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sram.buct_production_practice.entity.TrendValue" useGeneratedKeys="true">
     insert into trend_value
@@ -94,8 +100,8 @@
       <if test="pointidstring != null">
         pointIdString,
       </if>
-      <if test="systime != null">
-        sysTIme,
+      <if test="trendtime != null">
+        trendTime,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -141,8 +147,8 @@
       <if test="pointidstring != null">
         #{pointidstring,jdbcType=VARCHAR},
       </if>
-      <if test="systime != null">
-        #{systime,jdbcType=BIGINT},
+      <if test="trendtime != null">
+        #{trendtime,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -191,8 +197,8 @@
       <if test="pointidstring != null">
         pointIdString = #{pointidstring,jdbcType=VARCHAR},
       </if>
-      <if test="systime != null">
-        sysTIme = #{systime,jdbcType=BIGINT},
+      <if test="trendtime != null">
+        trendTime = #{trendtime,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -213,7 +219,7 @@
       phaseHalf = #{phasehalf,jdbcType=FLOAT},
       equipmentUuid = #{equipmentuuid,jdbcType=VARCHAR},
       pointIdString = #{pointidstring,jdbcType=VARCHAR},
-      sysTIme = #{systime,jdbcType=BIGINT}
+      trendTime = #{trendtime,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
