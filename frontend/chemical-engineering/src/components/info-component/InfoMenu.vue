@@ -71,12 +71,13 @@
 </template>
 
 <script>
-
+import { setInterval, clearInterval } from "timers";
 export default {
   name: "InfoMenu",
   props :{
     name:String,
     equipmentUUID:String,
+    type:String,
   },
   data() {
     this.getMessage(this.equipmentUUID);
@@ -170,14 +171,19 @@ export default {
         let it = this;
         //实时模式
         this.equipmentDataTimer = setInterval(function () {
+          if (!it.openChart) {
+            clearInterval(it.equipmentDataTimer);
+            it.trendStatusValues = {};
+          }
+
           for (let selectEquipment of it.selectEquipments) {
             it.getEquipmentData(selectEquipment);
           }
-        },1000);
+        },1500);
       }
     },
     changeDataMode(){
-      this.selectEquipments.length = 0;
+      this.selectEquipments = [];
     },
     getFrequencyData(){
     },
@@ -185,12 +191,20 @@ export default {
       if (this.$data.stop_switch === '停止') {
         this.$data.stop_switch = '恢复';
         this.$data.stop_switch_type = 'danger';
-
-      }
-      else {
+        clearInterval(this.equipmentDataTimer);
+      } else {
         this.$data.stop_switch = '停止';
         this.$data.stop_switch_type = 'primary';
+        let it = this;
+        //实时模式
+        this.equipmentDataTimer = setInterval(function () {
+          if (!it.openChart)
+            clearInterval(it.equipmentDataTimer);
 
+          for (let selectEquipment of it.selectEquipments) {
+            it.getEquipmentData(selectEquipment);
+          }
+        },1500);
       }
 
     },
@@ -237,11 +251,10 @@ export default {
           }
         }
         if (!channelTypeAliasList.has(name)) {
-
           this.options.push({
             label:name,
             value:name,
-          })
+          });
         }
         channelTypeAliasList.add(name);
       }
@@ -271,6 +284,7 @@ export default {
       }
     },
     getEquipmentData(pointid)  {
+
       let it = this;
       this.$axios.get('/trend/'+this.equipmentUUID+'/'+pointid+'/real_time')
       .then(response => {
@@ -281,15 +295,32 @@ export default {
           it.trendStatusValues[pointid] = [];
         let time = new Date(parse.trendtime).format('yyyy-MM-dd hh:mm:ss');
         it.trendStatusValues[pointid].push([time,trendValue[it.statusValue]]);
+
         it.$emit('drawData',it.trendStatusValues[pointid],pointid,time);
+
+        if (it.type === '频率检测') {
+          let spectrumData = {
+            x:parse.trendSpectrumvalue.spectrumx,
+            y:parse.trendSpectrumvalue.spectrumy
+          };
+          let waveData = {
+            x:parse.trendWavevalue.wavex,
+            y:parse.trendWavevalue.wavey,
+          };
+
+
+          it.$emit('drawWaveAndSpectrumAndSoOn',spectrumData,waveData);
+        }
       }).catch(() => {
 
       }).then(() => {
 
       });
     },
-
-  }
+  },
+  beforeDestroy() {
+    clearInterval(this.equipmentDataTimer);
+  },
 }
 </script>
 

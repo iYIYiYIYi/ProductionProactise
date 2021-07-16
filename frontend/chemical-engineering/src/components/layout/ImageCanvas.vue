@@ -20,18 +20,20 @@
         <div v-else>
           <e-charts :option="chartOption"></e-charts>
           <e-charts :option="chartOption"></e-charts>
-          <e-charts :option="chartOption"></e-charts>
-          <e-charts :option="chartOption"></e-charts>
+          <e-charts :option="waveOption"></e-charts>
+          <e-charts :option="spectrumOption"></e-charts>
         </div>
       </div>
     </el-col>
-    <el-col :span="6" style="z-index: 2000;position: absolute;right: 1vh">
+    <el-col :span="6" style="z-index: 2000;position: absolute;right:2vh;top:5vh;">
       <div class="grid-content bg-purple">
         <InfoMenu
           :name="name"
+          :type="type"
           :equipment-u-u-i-d="dataInfo.equipmentuuid"
           @showCanvas="showCanvas"
           @drawData="drawData"
+          @drawWaveAndSpectrumAndSoOn="drawWaveAndSpectrumAndSoOn"
           ref="info"
         />
       </div>
@@ -41,9 +43,9 @@
 
 <script>
 
-import InfoMenu from '../info-component/InfoMenu'
-import eCharts from '../info-component/eCharts'
-
+import InfoMenu from '../info-component/InfoMenu';
+import eCharts from '../info-component/eCharts';
+import { setInterval, clearInterval } from "timers";
 
 export default {
   name: "ImageCanvas",
@@ -101,6 +103,76 @@ export default {
         },
         series: [],
       },
+      spectrumOption: {
+        title: {
+          text: this.name+'实时频谱图'
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: ['频谱']
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: []
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [{
+          name: '频谱',
+          type: 'line',
+          data: [],
+        }],
+      },
+      waveOption: {
+        title: {
+          text: this.name+'实时波形图'
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: ['波形']
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: []
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [{
+          name: '波形',
+          type: 'line',
+          data: [],
+        }],
+      },
     };
   },
   watch :{
@@ -118,11 +190,15 @@ export default {
       if (this.chartData.indexOf(name) === -1) {
         this.chartData.push(name);
       }
-      console.log(this.chartData);
 
       this.chartxAxis.push(time);
       this.chartOption.legend.data = this.chartData;
+      if (this.chartxAxis.length > 50) {
+        this.chartxAxis.shift();
+      }
       this.chartOption.xAxis.data = this.chartxAxis;
+
+
       if (this.chartyAxis.has(name)) {
         for (let serie of this.chartOption.series) {
           if (serie.name === name) {
@@ -140,73 +216,12 @@ export default {
       }
       this.chartyAxis.add(name);
     },
-    //获取频谱图数据//
-    getData(equipmentUuid,pointIdString){
-      // Make a request for a user with a given ID
-      this.$axios({
-        method:'get',
-        url:'/trend/'+equipmentUuid+'/'+pointIdString+'/real_time',
-        responseType:'json',
-      })
-      .then(function (response) {
-        // handle success
-        console.log(response);
-        var parse = JSON.parse(response.data);
-        console.log(parse)
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .then(function () {
-        // always executed
-      });
-    },
-    //历史趋势图//
-    getHistory(equipmentUuid,pointIdString,startTime,endTime){
-      // Make a request for a user with a given ID
-      this.$axios({
-        method:'get',
-        url:'/trend/'+equipmentUuid+'/'+pointIdString+'/'+startTime+'/'+endTime+'/info',
-        responseType:'json',
-      })
-      .then(function (response) {
-        // handle success
-        console.log(response);
-        var parse = JSON.parse(response.data);
-        console.log(parse)
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .then(function () {
-        // always executed
-      });
-    },
-    //历史波形频谱图//
-    getHistoryWave(equipmentUuid,pointId,trendTime,waveNumber,analysisLines){
-      // Make a request for a user with a given ID
-      // let it = this;
-      this.$axios({
-        method:'get',
-        url:'/wave-spectrum/'+equipmentUuid+'/'+pointId+'/'+trendTime+'/'+waveNumber+'/'+analysisLines+'/info',
-        responseType:'json',
-      })
-      .then(function (response) {
-        // handle success
-        console.log(response);
-        let parse = JSON.parse(response.data);
-        console.log(parse);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
+    drawWaveAndSpectrumAndSoOn(SpectrumData,WaveData) {
+      this.spectrumOption.xAxis.data = SpectrumData.x;
+      this.spectrumOption.series[0].data = SpectrumData.y;
 
-      })
-      .then(function () {
-        // always executed
-      });
+      this.waveOption.xAxis.data = WaveData.x;
+      this.waveOption.series[0].data = WaveData.y;
     },
     showCanvas(bool){
       this.showImage = bool;
@@ -279,6 +294,9 @@ export default {
 
   components:{
     InfoMenu,eCharts
+  },
+  beforeDestroy() {
+    clearInterval(this.$interval)
   }
 }
 </script>
