@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sram.buct_production_practice.dao.TrendRealTimeDao">
+
   <resultMap id="BaseResultMap" type="com.sram.buct_production_practice.entity.TrendRealTime">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="equipmentName" jdbcType="VARCHAR" property="equipmentname" />
@@ -35,7 +36,7 @@
       and trendTime = #{trendTime,jdbcType=BIGINT}
   </select>
   <select id="selectRecent" resultType="java.math.BigInteger">
-    select max(trendTime)
+    select trendTime
     from trend_real_time
     where equipmentUuid = #{equipmentUuid,jdbcType=VARCHAR}
       and pointIdString = #{pointIdString,jdbcType=VARCHAR}

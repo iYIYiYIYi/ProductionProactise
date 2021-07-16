@@ -1,18 +1,19 @@
 package com.sram.buct_production_practice.entity;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value="趋势图信息")
 public class TrendRealTime_ToReturn {
-
+    @ApiModelProperty("设备名称")
     private String equipmentname;
 
     private TrendValue trendvalue;
 
     private Integer rev;
-
+    @ApiModelProperty("测点名称")
     private String pointname;
-
+    @ApiModelProperty("趋势时间")
     private Long trendtime;
 
     private TrendWaveValue trendWavevalue;

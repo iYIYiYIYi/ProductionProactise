@@ -9,23 +9,23 @@ import lombok.Data;
  * trend_spectrum_value
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.TrendSpectrumValue")
+@ApiModel(value="频谱图数据")
 @Data
 public class TrendSpectrumValue implements Serializable {
     private Integer id;
-
+    @ApiModelProperty("频谱图y")
     private String spectrumy;
-
+    @ApiModelProperty("频谱图x")
     private String spectrumx;
-
+    @ApiModelProperty("x轴")
     private String x;
-
+    @ApiModelProperty("y轴")
     private String y;
-
+    @ApiModelProperty("设备唯一标识")
     private String equipmentuuid;
-
+    @ApiModelProperty("测点ID")
     private String pointidstring;
-
+    @ApiModelProperty("趋势时间")
     private Long trendtime;
 
     private static final long serialVersionUID = 1L;

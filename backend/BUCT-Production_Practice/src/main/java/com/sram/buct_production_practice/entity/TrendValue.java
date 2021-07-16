@@ -9,39 +9,39 @@ import lombok.Data;
  * trend_value
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.TrendValue")
+@ApiModel(value="趋势图数据")
 @Data
 public class TrendValue implements Serializable {
     private Integer id;
-
+    @ApiModelProperty("通频")
     private Double all;
-
+    @ApiModelProperty("1倍频辐值")
     private Double one;
-
+    @ApiModelProperty("2倍频辐值")
     private Double two;
-
+    @ApiModelProperty("3倍频辐值")
     private Double three;
-
+    @ApiModelProperty("1/2倍频辐值")
     private Double half;
-
+    @ApiModelProperty("残振")
     private Double res;
-
+    @ApiModelProperty("直流量")
     private Double dc;
-
+    @ApiModelProperty("间隙电压")
     private Double gap;
-
+    @ApiModelProperty("1倍频相位")
     private Double phaseone;
-
+    @ApiModelProperty("2倍频相位")
     private Double phasetwo;
-
+    @ApiModelProperty("3倍频相位")
     private Double phasethree;
-
+    @ApiModelProperty("1/2倍频相位")
     private Double phasehalf;
-
+    @ApiModelProperty("设备唯一标识")
     private String equipmentuuid;
-
+    @ApiModelProperty("测点ID")
     private String pointidstring;
-
+    @ApiModelProperty("趋势时间")
     private Long trendtime;
 
     private static final long serialVersionUID = 1L;
