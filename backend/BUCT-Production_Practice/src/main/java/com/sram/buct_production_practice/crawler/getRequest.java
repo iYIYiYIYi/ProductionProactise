@@ -1,4 +1,4 @@
-package com.sram.buct_production_practice;
+package com.sram.buct_production_practice.crawler;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -19,9 +19,9 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 
+//用于基础数据获取
 @SpringBootTest
-class BuctProductionPracticeApplicationTests {
-
+public class getRequest {
     CloseableHttpClient httpClient = HttpClients.createDefault();
     CloseableHttpResponse response;
 
@@ -85,7 +85,7 @@ class BuctProductionPracticeApplicationTests {
             List<NodeInfo> nodeInfoList = JSONObject.parseArray(datas.get("data").toString(), NodeInfo.class);
             System.out.println(nodeInfoList);
             for (NodeInfo nodeInfo : nodeInfoList) {
-                System.out.println(nodeInfoDao.insert(nodeInfo));
+//                System.out.println(nodeInfoDao.insert(nodeInfo));
             }
         }
     }
@@ -101,7 +101,7 @@ class BuctProductionPracticeApplicationTests {
                 List<EquipmentInfo> equipmentInfoList=JSONObject.parseArray(datas.get("data").toString(), EquipmentInfo.class);
                 System.out.println(equipmentInfoList);
                 for (EquipmentInfo equipmentInfo : equipmentInfoList) {
-                    System.out.println(equipmentInfoDao.insert(equipmentInfo));
+//                    System.out.println(equipmentInfoDao.insert(equipmentInfo));
                 }
             }
         }
@@ -110,6 +110,7 @@ class BuctProductionPracticeApplicationTests {
 
     @Test
     public void getPointDetail(){
+        System.out.println("hello world");
         List<EquipmentInfo> equipmentInfoList = equipmentInfoDao.selectAll();
         for (EquipmentInfo equipmentInfo : equipmentInfoList) {
             String url="http://39.106.31.26:8289//point/"+equipmentInfo.getEquipmentuuid()+"/detail";
@@ -119,7 +120,7 @@ class BuctProductionPracticeApplicationTests {
                 List<PointDetail> pointDetailList = JSONObject.parseArray(datas.get("data").toString(), PointDetail.class);
                 System.out.println(pointDetailList);
                 for (PointDetail pointDetail : pointDetailList) {
-                    System.out.println(pointDetailDao.insert(pointDetail));
+//                    System.out.println(pointDetailDao.insert(pointDetail));
                 }
             }
         }
@@ -148,7 +149,7 @@ class BuctProductionPracticeApplicationTests {
                 trendRealTime.setEquipmentuuid(pointDetail.getEquipmentuuid());
                 trendRealTime.setPointidstring(pointDetail.getPointid());
 //                System.out.println(trendRealTime);
-                System.out.println(trendRealTimeDao.insert(trendRealTime));
+//                System.out.println(trendRealTimeDao.insert(trendRealTime));
 
                 final List<TrendValue> trendValues = JSONObject.parseArray(data.get("trendValue").toString(), TrendValue.class);
 
@@ -157,7 +158,7 @@ class BuctProductionPracticeApplicationTests {
                     trendValue.setPointidstring(pointDetail.getPointid());
                     trendValue.setTrendtime(trendTime);
 //                    System.out.println(trendValue);
-                    System.out.println(trendValueDao.insert(trendValue));
+//                    System.out.println(trendValueDao.insert(trendValue));
                 }
 
                 if(data.containsKey("waveValue")) {
@@ -174,7 +175,7 @@ class BuctProductionPracticeApplicationTests {
                     trendWaveValue.setY(waveUnit.get("y").toString());
                     trendWaveValue.setTrendtime(trendTime);
 //                    System.out.println(trendWaveValue);
-                    System.out.println(trendWaveValueDao.insert(trendWaveValue));
+//                    System.out.println(trendWaveValueDao.insert(trendWaveValue));
                 }
 
                 if(data.containsKey("spectrumValue")){
@@ -191,7 +192,7 @@ class BuctProductionPracticeApplicationTests {
                     trendSpectrumValue.setY(spectrumUnit.get("y").toString());
                     trendSpectrumValue.setTrendtime(trendTime);
 //                    System.out.println(trendSpectrumValue);
-                    System.out.println(trendSpectrumValueDao.insert(trendSpectrumValue));
+//                    System.out.println(trendSpectrumValueDao.insert(trendSpectrumValue));
                 }
 
             }
@@ -252,12 +253,12 @@ class BuctProductionPracticeApplicationTests {
                 for (Object listBox : listBoxes) {
                     JSONObject listo = (JSONObject) listBox;
                     GraphDataListboxes graphDataListboxes = new GraphDataListboxes(
-                                equipmentUUID,
-                                listo.getString("yPos"),
-                                listo.getString("width"),
-                                listo.getString("xPos"),
-                                listo.getString("height")
-                            );
+                            equipmentUUID,
+                            listo.getString("yPos"),
+                            listo.getString("width"),
+                            listo.getString("xPos"),
+                            listo.getString("height")
+                    );
                     graphDataListboxesDao.insert(graphDataListboxes);
 
                     JSONArray points = listo.getJSONArray("points");
@@ -280,40 +281,44 @@ class BuctProductionPracticeApplicationTests {
             }
         }
     }
+
     @Test
     public void getTrendInfo(){
         final List<PointDetail> pointDetailList = pointDetailDao.selectAll();
         for (PointDetail pointDetail : pointDetailList) {
-            String url="http://39.106.31.26:8289/trend/"+pointDetail.getEquipmentuuid()+"/"+pointDetail.getPointid()+"/"+"1611689047405"+"/"+"1614367447405"+"/info";
+            long time =System.currentTimeMillis();
+            String url="http://39.106.31.26:8289/trend/"+pointDetail.getEquipmentuuid()+"/"+pointDetail.getPointid()+"/"+"1593689047405"+"/"+"1625225047405"+"/info";
             System.out.println(url);
             JSONObject datas = getRequest(url);
             Integer status = (Integer) datas.get("code");
+            //System.out.println(data);
             if (status == 200) {
                 JSONObject data = datas.getJSONObject("data");
                 TrendInfo trendInfo = JSONObject.parseObject(data.toJSONString(),TrendInfo.class);
                 trendInfo.setPointidstring(pointDetail.getPointid());
-                if(trendInfoDao.selectByEquipmentAndPoint(pointDetail.getEquipmentuuid(),pointDetail.getPointid())==null)
-                    trendInfoDao.insert(trendInfo);
+                trendInfoDao.insert(trendInfo);
                 JSONArray trends = data.getJSONArray("trendInfo");
                 for (Object trend : trends) {
                     TrendInfoTrendinfo trendInfoTrendinfo = JSONObject.parseObject(trend.toString(),TrendInfoTrendinfo.class);
-                    trendInfoTrendinfo.setEquipmentuuid(pointDetail.getEquipmentuuid());
-                    trendInfoTrendinfo.setPointidstring(pointDetail.getPointid());
                     BigInteger trendTime = ((JSONObject) trend).getBigInteger("trendTime");
                     //JSONArray trendValues = ((JSONObject) trend).getJSONArray("trendValue");
-//                    TrendRealTime trendRealTime = trendRealTimeDao.selectByEquAndPointAndTime(pointDetail.getEquipmentuuid(),pointDetail.getPointid(),trendTime);
-                    if(trendRealTimeDao.selectAll(pointDetail.getEquipmentuuid(),pointDetail.getPointid(),trendTime).isEmpty())
-                        getTrendHistory(pointDetail.getEquipmentuuid(),pointDetail.getPointid(),trendTime.toString());
-                    if(trendInfoTrendinfoDao.selectAll(pointDetail.getEquipmentuuid(),pointDetail.getPointid(),trendTime).isEmpty())
-                        trendInfoTrendinfoDao.insert(trendInfoTrendinfo);
+                    TrendRealTime trendRealTime = trendRealTimeDao.selectByEquAndPointAndTime(pointDetail.getEquipmentuuid(),pointDetail.getPointid(),trendTime);
+                    if(trendRealTime == null)
+                    {
+                        getTrendHistory(trendTime.toString());
+                    }
+                    trendInfoTrendinfoDao.insert(trendInfoTrendinfo);
                 }
             }
         }
 
     }
-    public void getTrendHistory(String equipmentUuid,String pointIDString,String trendTimeString){
+
+    public void getTrendHistory(String trendTimeString){
         long trendTime=Long.parseLong(trendTimeString);
-            String url="http://39.106.31.26:8289/wave-spectrum/"+equipmentUuid+"/"+pointIDString+"/"+trendTime+"/16384/0/info";
+        List<PointDetail> pointDetailList = pointDetailDao.selectAll();
+        for (PointDetail pointDetail : pointDetailList) {
+            String url="http://39.106.31.26:8289/wave-spectrum/"+pointDetail.getEquipmentuuid()+"/"+pointDetail.getPointid()+"/"+trendTime+"/16384/0/info";
             System.out.println(url);
             JSONObject datas = getRequest(url);
             System.out.println(datas);
@@ -328,19 +333,19 @@ class BuctProductionPracticeApplicationTests {
                 trendRealTime.setTrendtime(trendTime);
                 trendRealTime.setStartindex((Integer) data.get("startIndex"));
                 trendRealTime.setEndindex((Integer) data.get("endIndex"));
-                trendRealTime.setEquipmentuuid(equipmentUuid);
-                trendRealTime.setPointidstring(pointIDString);
+                trendRealTime.setEquipmentuuid(pointDetail.getEquipmentuuid());
+                trendRealTime.setPointidstring(pointDetail.getPointid());
 //                System.out.println(trendRealTime);
-                System.out.println(trendRealTimeDao.insert(trendRealTime));
+//                System.out.println(trendRealTimeDao.insert(trendRealTime));
 
                 final List<TrendValue> trendValues = JSONObject.parseArray(data.get("trendValue").toString(), TrendValue.class);
 
                 for (TrendValue trendValue : trendValues) {
-                    trendValue.setEquipmentuuid(equipmentUuid);
-                    trendValue.setPointidstring(pointIDString);
+                    trendValue.setEquipmentuuid(pointDetail.getEquipmentuuid());
+                    trendValue.setPointidstring(pointDetail.getPointid());
                     trendValue.setTrendtime(trendTime);
 //                    System.out.println(trendValue);
-                    System.out.println(trendValueDao.insert(trendValue));
+//                    System.out.println(trendValueDao.insert(trendValue));
                 }
 
                 if(data.containsKey("waveValue")) {
@@ -349,15 +354,15 @@ class BuctProductionPracticeApplicationTests {
                     final JSONArray waveY = JSONObject.parseArray(waveValue.get("waveY").toString());
                     final JSONObject waveUnit = JSONObject.parseObject(waveValue.get("waveUnit").toString());
                     TrendWaveValue trendWaveValue = new TrendWaveValue();
-                    trendWaveValue.setEquipmentuuid(equipmentUuid);
-                    trendWaveValue.setPointidstring(pointIDString);
+                    trendWaveValue.setEquipmentuuid(pointDetail.getEquipmentuuid());
+                    trendWaveValue.setPointidstring(pointDetail.getPointid());
                     trendWaveValue.setWavex(waveX.toString());
                     trendWaveValue.setWavey(waveY.toString());
                     trendWaveValue.setX(waveUnit.get("x").toString());
                     trendWaveValue.setY(waveUnit.get("y").toString());
                     trendWaveValue.setTrendtime(trendTime);
 //                    System.out.println(trendWaveValue);
-                    System.out.println(trendWaveValueDao.insert(trendWaveValue));
+//                    System.out.println(trendWaveValueDao.insert(trendWaveValue));
                 }
 
                 if(data.containsKey("spectrumValue")){
@@ -366,19 +371,19 @@ class BuctProductionPracticeApplicationTests {
                     final JSONArray spectrumY = JSONObject.parseArray(spectrumValue.get("spectrumY").toString());
                     final JSONObject spectrumUnit = JSONObject.parseObject(spectrumValue.get("spectrumUnit").toString());
                     TrendSpectrumValue trendSpectrumValue=new TrendSpectrumValue();
-                    trendSpectrumValue.setEquipmentuuid(equipmentUuid);
-                    trendSpectrumValue.setPointidstring(pointIDString);
+                    trendSpectrumValue.setEquipmentuuid(pointDetail.getEquipmentuuid());
+                    trendSpectrumValue.setPointidstring(pointDetail.getPointid());
                     trendSpectrumValue.setSpectrumx(spectrumX.toString());
                     trendSpectrumValue.setSpectrumy(spectrumY.toString());
                     trendSpectrumValue.setX(spectrumUnit.get("x").toString());
                     trendSpectrumValue.setY(spectrumUnit.get("y").toString());
                     trendSpectrumValue.setTrendtime(trendTime);
 //                    System.out.println(trendSpectrumValue);
-                    System.out.println(trendSpectrumValueDao.insert(trendSpectrumValue));
+//                    System.out.println(trendSpectrumValueDao.insert(trendSpectrumValue));
                 }
 
             }
-
+        }
     }
 
     @Test
@@ -424,5 +429,4 @@ class BuctProductionPracticeApplicationTests {
         }
         return null;
     }
-
 }

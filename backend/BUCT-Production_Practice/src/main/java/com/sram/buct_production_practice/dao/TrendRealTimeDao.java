@@ -23,4 +23,8 @@ public interface TrendRealTimeDao {
     TrendRealTime selectByEquAndPoint(String equipmentUuid, String pointIdString);
 
     TrendRealTime selectByEquAndPointAndTime(String equipmentUuid, String pointIdString, BigInteger trendTime);
+
+    List<TrendRealTime> selectAll(String equipmentUuid, String pointIdString, BigInteger trendTime);
+
+    BigInteger selectRecent(String equipmentUuid, String pointIdString);
 }

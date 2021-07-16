@@ -136,6 +136,7 @@ export default {
       statusValue:'',
       trendStatusValues:{},
       selectEquipments:[],
+      FrequencyData:{},
       equipmentOptions:[{
         value: '选项2',
         label: '双皮奶',
@@ -183,6 +184,8 @@ export default {
     },
     changeDataMode(){
       this.selectEquipments = [];
+    },
+    getFrequencyData(){
     },
     stopSwitch() {
       if (this.$data.stop_switch === '停止') {

@@ -4,6 +4,7 @@ import com.sram.buct_production_practice.entity.TrendValue;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @Repository
 public interface TrendValueDao {
@@ -22,5 +23,7 @@ public interface TrendValueDao {
     TrendValue selectByEquAndPoint(String equipmentUuid, String pointIdString);
 
     TrendValue selectByEquAndPointAndTime(String equipmentUuid, String pointIdString, BigInteger trendTime);
+
+    List<TrendValue> selectBySection(String equipmentUuid, String pointIdString, BigInteger startTime,BigInteger endTime );
 
 }

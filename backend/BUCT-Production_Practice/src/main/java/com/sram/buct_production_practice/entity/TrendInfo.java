@@ -3,6 +3,8 @@ package com.sram.buct_production_practice.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -23,6 +25,8 @@ public class TrendInfo implements Serializable {
     private String pointname;
 
     private String pointuuid;
+
+    private List<TrendInfoTrendinfo> trendInfos;
 
     private static final long serialVersionUID = 1L;
 
