@@ -183,6 +183,7 @@ export default {
       }],
       statusValue:'all',
       trendStatusValues:{},
+      historyTrendStatusValues:{},
       selectEquipments:[],
       FrequencyData:{},
       equipmentOptions:[{
@@ -212,7 +213,6 @@ export default {
     startDate(val) {
       this.historyDate.start = val.getTime();
       if ((!this.historyDate.start > this.historyDate.end)) {
-        console.log(this.historyDate);
         for (let selectEquipment of this.selectEquipments) {
           this.handleHistory(selectEquipment);
         }
@@ -231,7 +231,6 @@ export default {
           message:'请选择起始/结束时间',
         });
       } else {
-        console.log(this.historyDate);
         for (let selectEquipment of this.selectEquipments) {
           this.handleHistory(selectEquipment);
         }
@@ -248,11 +247,36 @@ export default {
       this.$axios.get('/trend/'+this.equipmentUUID+'/'+pointid+'/'+this.historyDate.start+'/'+this.historyDate.end+'/info')
       .then(responce => {
         let parse = responce.data.data[0];
-        console.log(parse);
+        let times = [];
+        let revs = [];
+        /** 获取历史趋势图 **/
+        let trendInfos = parse.trendInfos;
+        for (let trendInfo of trendInfos) {
+          if(!it.historyTrendStatusValues[pointid])
+            it.historyTrendStatusValues[pointid] = [];
+          let time = new Date(trendInfo.trendtime).format('yyyy-MM-dd hh:mm:ss');
+          times.push(time);
+          revs.push(trendInfo.rev);
+          it.historyTrendStatusValues[pointid].push([time,trendInfo.trendValues[it.statusValue]]);
+        }
+
+        it.$emit('drawData',it.historyTrendStatusValues[pointid],pointid,undefined,undefined,times,revs);
         if (it.type === '频率检测' && it.selectEquipments[0] === pointid) {
           console.log('nothing');
+          // this.$axios.get('/wave-spectrum/'+this.equipmentUUID+'/'+pointid+'/'+trendInfos[0].trendtime+'/16384/0/info')
+          // .then(function (response) {
+          //   let parse = response.data.data[0];
+          //
+          // }).catch(reason => {
+          //   console.log(reason);
+          //   it.$notify.error({
+          //     title: '网络错误',
+          //     message: '获取历史数据失败'
+          //   });
+          // });
         }
-      }).catch(() => {
+      }).catch((error) => {
+        console.error(error);
         it.$notify.error({
           title: '网络错误',
           message: '获取历史数据失败'

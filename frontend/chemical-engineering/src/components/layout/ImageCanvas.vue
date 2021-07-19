@@ -117,11 +117,13 @@ export default {
         },
         xAxis: {
           type: 'category',
-              boundaryGap: false,
-              data: this.chartxAxis
+          boundaryGap: false,
+          data: this.chartxAxis,
+          name:'时间'
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          name: 'um',
         },
         series: [],
       },
@@ -162,6 +164,7 @@ export default {
         },
         xAxis: {
           type: 'category',
+          name: '时间',
           boundaryGap: false,
           data: this.chartxAxis
         },
@@ -370,20 +373,35 @@ export default {
         }
       }
     },
-    drawData(data,name,time,rev){
+    drawData(data,name,time,rev,xAxis,revs){
       if (this.chartData.indexOf(name) === -1) {
         this.chartData.push(name);
       }
 
-      this.chartxAxis.push(time);
+      if (time) {
+        this.chartxAxis.push(time);
+        this.revOption.title.text.replace('实时','历史');
+        this.chartOption.title.text.replace('实时','历史');
+      } else if (xAxis) {
+        this.chartxAxis = xAxis;
+        this.revOption.title.text.replace('历史','实时');
+        this.chartOption.title.text.replace('历史','实时');
+      }
       this.chartOption.legend.data = this.chartData;
-      if (this.chartxAxis.length > 50) {
+      if (time&&this.chartxAxis.length > 50) {
         this.chartxAxis.shift();
       }
       this.chartOption.xAxis.data = this.chartxAxis;
       this.revOption.xAxis.data = this.chartxAxis;
 
-      this.revOption.series[0].data.push(rev);
+      if (rev !== undefined) {
+        console.log(rev);
+        this.revOption.series[0].data.push(rev);
+      }
+      else if (revs) {
+        console.log(rev);
+        this.revOption.series[0].data = revs;
+      }
 
       if (this.chartyAxis.has(name)) {
         for (let serie of this.chartOption.series) {
@@ -402,14 +420,20 @@ export default {
       }
       this.chartyAxis.add(name);
     },
-    drawWaveAndSpectrumAndSoOn(SpectrumData,WaveData,pointId) {
+    drawWaveAndSpectrumAndSoOn(SpectrumData,WaveData,pointId,history) {
       this.spectrumOption.xAxis.data = SpectrumData.x;
       this.spectrumOption.series[0].data = SpectrumData.y;
-      this.spectrumOption.title.text = this.name+' '+pointId+' 实时频谱图';
+      if (history) {
+        this.spectrumOption.title.text = this.name+' '+pointId+' 历史频谱图';
+        this.waveOption.title.text =  this.name+' '+pointId+' 历史波形图';
+      }
+      else {
+        this.spectrumOption.title.text = this.name+' '+pointId+' 实时频谱图';
+        this.waveOption.title.text =  this.name+' '+pointId+' 实时波形图';
+      }
 
       this.waveOption.xAxis.data = WaveData.x;
       this.waveOption.series[0].data = WaveData.y;
-      this.waveOption.title.text =  this.name+' '+pointId+' 实时波形图';
 
       if (this.waveOption.dataZoom && this.dataZoom) {
         this.waveOption.dataZoom[0].start = this.dataZoom.start;

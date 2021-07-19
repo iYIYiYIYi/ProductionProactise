@@ -3,7 +3,7 @@
 <!--    <h1>{{ msg }}</h1>-->
     <LeftTabMenu @changeContent="changeContent"></LeftTabMenu>
     <div class="right-part">
-      <NavMenu ></NavMenu>
+<!--      <NavMenu ></NavMenu>-->
       <div class="content">
         <Content
             :types="[
