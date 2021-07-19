@@ -1,7 +1,7 @@
 <template>
 
   <div class="hello">
-    <v-chart class="chart" :option="option" />
+    <v-chart class="chart" :option="option" v-on:datazoom="dataZoom"/>
   </div>
 
 </template>
@@ -63,14 +63,23 @@ export default {
         ]
       },
     };
+  },
+  methods:{
+    dataZoom(event){
+      this.$emit('dataZoom',event);
+    },
   }
 };
 </script>
 
 <style scoped>
 .chart {
-  width: 48vw;
-  height: 45vh;
-  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  min-width: 50vw;
+  min-height: 45vh;
+  //width: 55vw;
+  //height: 50vh;
+  margin: 10px auto;
 }
 </style>

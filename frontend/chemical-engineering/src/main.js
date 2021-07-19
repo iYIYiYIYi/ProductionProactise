@@ -13,6 +13,7 @@ import {
 import {
   BarChart,
   LineChart,
+  ScatterChart,
 } from 'echarts/charts'
 import {
   GridComponent,
@@ -20,6 +21,7 @@ import {
   ToolboxComponent,
   TitleComponent,
   LegendComponent,
+  DataZoomComponent
 } from 'echarts/components'
 
 echarts.use([
@@ -27,12 +29,14 @@ echarts.use([
   BarChart,
   GridComponent,
   TooltipComponent,
+  DataZoomComponent,
   TooltipComponent,
   GridComponent,
   ToolboxComponent,
   TitleComponent,
   LegendComponent,
   LineChart,
+  ScatterChart,
 ]);
 
 Date.prototype.format = function(fmt) {
@@ -62,7 +66,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI) //使用elementUI
 
 Vue.prototype.$axios = Axios;
-Axios.defaults.baseURL = 'http://192.168.137.1:8848';
+Axios.defaults.baseURL = 'http://47.117.116.187:8848/';
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 new Vue({
