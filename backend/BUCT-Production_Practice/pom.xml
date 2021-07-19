@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.sram</groupId>
-    <artifactId>BUCT_Production_Practice</artifactId>
+    <artifactId>buct_production_practice</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>BUCT_Production_Practice</name>
+    <name>buct_production_practice</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
