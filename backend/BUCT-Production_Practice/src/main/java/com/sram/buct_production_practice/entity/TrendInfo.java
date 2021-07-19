@@ -11,19 +11,19 @@ import lombok.Data;
  * trend_info
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.TrendInfo")
+@ApiModel(value="历史趋势数据")
 @Data
 public class TrendInfo implements Serializable {
     private Integer id;
-
+    @ApiModelProperty("设备唯一标识")
     private String equipmentuuid;
-
+    @ApiModelProperty("测点ID")
     private String pointidstring;
-
+    @ApiModelProperty("设备名称")
     private String equipmentname;
-
+    @ApiModelProperty("测点名称")
     private String pointname;
-
+    @ApiModelProperty("测点唯一标识")
     private String pointuuid;
 
     private List<TrendInfoTrendinfo> trendInfos;

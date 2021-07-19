@@ -9,23 +9,23 @@ import lombok.Data;
  * trend_wave_value
  * @author 
  */
-@ApiModel(value="com.sram.buct_production_practice.entity.TrendWaveValue")
+@ApiModel(value="波形图数据")
 @Data
 public class TrendWaveValue implements Serializable {
     private Integer id;
-
+    @ApiModelProperty("x轴")
     private String x;
-
+    @ApiModelProperty("y轴")
     private String y;
-
+    @ApiModelProperty("波形x值")
     private String wavex;
-
+    @ApiModelProperty("波形x值")
     private String wavey;
-
+    @ApiModelProperty("设备唯一标识")
     private String equipmentuuid;
-
+    @ApiModelProperty("测点ID")
     private String pointidstring;
-
+    @ApiModelProperty("趋势时间")
     private Long trendtime;
 
     private static final long serialVersionUID = 1L;

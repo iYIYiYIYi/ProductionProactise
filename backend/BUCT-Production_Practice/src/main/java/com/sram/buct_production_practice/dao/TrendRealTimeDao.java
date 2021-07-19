@@ -26,5 +26,5 @@ public interface TrendRealTimeDao {
 
     List<TrendRealTime> selectAll(String equipmentUuid, String pointIdString, BigInteger trendTime);
 
-    BigInteger selectRecent(String equipmentUuid, String pointIdString);
+    List<BigInteger> selectRecent(String equipmentUuid, String pointIdString);
 }
