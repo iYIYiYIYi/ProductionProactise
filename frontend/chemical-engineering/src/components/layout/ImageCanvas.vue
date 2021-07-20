@@ -545,9 +545,12 @@ export default {
 
 .box {
   position: absolute;
-  border: white 1px solid;
+  /*border: white 1px solid;*/
   border-radius: 4px;
 
+  border: 1px solid slategray;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 5px gray;
   display: block;
   white-space: nowrap;
   font-size: 12px;
