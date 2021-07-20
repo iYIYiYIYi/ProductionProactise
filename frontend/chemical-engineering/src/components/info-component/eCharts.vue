@@ -1,14 +1,12 @@
 <template>
 
   <div class="hello">
-    <v-chart class="chart" :option="option" v-on:datazoom="dataZoom"/>
+    <v-chart class="chart" :option="option" :resizable="true" :theme="'myTheme'" v-on:datazoom="dataZoom"/>
   </div>
 
 </template>
 
 <script>
-
-
 import VChart, { THEME_KEY } from "vue-echarts";
 
 export default {
@@ -77,7 +75,7 @@ export default {
   width: 100%;
   height: 100%;
   min-width: 50vw;
-  min-height: 25vh;
+  min-height: 40vh;
   //width: 55vw;
   //height: 50vh;
   margin: 10px auto;

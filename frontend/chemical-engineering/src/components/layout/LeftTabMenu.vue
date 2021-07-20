@@ -75,14 +75,13 @@
 }
 
 .head {
-  background-color: #409EFF;
+  background-color: #c4ff58;
   color: white;
   height: 6%;
 }
 
 .search {
   height: 4%;
-  background-color: white;
 }
 
 </style>

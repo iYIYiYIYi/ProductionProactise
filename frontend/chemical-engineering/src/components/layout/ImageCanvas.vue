@@ -15,6 +15,7 @@
           </div>
           <div v-if="showImage">
             <e-charts :style="'width:'+imageWidth*imageMultiplier+'px ;'" :option="chartOption"></e-charts>
+            <br>
           </div>
          </div>
         <div v-else>
@@ -22,6 +23,7 @@
           <e-charts  v-if="showImage" :option="revOption"></e-charts>
           <e-charts  v-if="showImage" :option="waveOption" @dataZoom="onDataZoom"></e-charts>
           <e-charts  v-if="showImage" :option="spectrumOption"></e-charts>
+          <br>
         </div>
       </div>
     </el-col>
@@ -70,7 +72,7 @@ export default {
       showImage: false,
       imageWidth:0,
       imageHeight:0,
-      imageBackground:'#fff',
+      imageBackground:'#4e4e43',
       boxPoints:[],
       equipmentName:{},
       equipmentRevInfo:{},
@@ -91,13 +93,13 @@ export default {
           data: this.chartData
         },
         grid: {
-          top:'8%',
+          top:'16%',
           left: '8%',
-          right: '8%',
-          bottom: '10%',
+          right: '16%',
+          bottom: '4%',
           containLabel: true,
-          width:'90%',
-          height:'90%',
+          width:'88%',
+          height:'80%',
         },
         toolbox: {
           feature: {
@@ -138,13 +140,13 @@ export default {
           data:['转速']
         },
         grid: {
-          top:'8%',
+          top:'16%',
           left: '8%',
-          right: '8%',
-          bottom: '10%',
+          right: '16%',
+          bottom: '4%',
           containLabel: true,
-          width:'90%',
-          height:'90%',
+          width:'88%',
+          height:'80%',
         },
         toolbox: {
           feature: {
@@ -188,13 +190,13 @@ export default {
           data: ['频谱']
         },
         grid: {
-          top:'8%',
+          top:'16%',
           left: '8%',
-          right: '8%',
-          bottom: '10%',
+          right: '16%',
+          bottom: '4%',
           containLabel: true,
-          width:'90%',
-          height:'90%',
+          width:'88%',
+          height:'80%',
         },
         toolbox: {
           feature: {
@@ -234,10 +236,10 @@ export default {
           trigger: 'axis'
         },
         grid: {
-          top:'8%',
+          top:'16%',
           left: '8%',
-          right: '8%',
-          bottom: '10%',
+          right: '16%',
+          bottom: '4%',
           containLabel:true,
           width:'90%',
           height:'90%',
@@ -526,7 +528,7 @@ export default {
 <style scoped>
 .image {
   margin-left: 40px;
-  background-color: white;
+  background-color: #3d3d3d;
 }
 
 .boxes-container {

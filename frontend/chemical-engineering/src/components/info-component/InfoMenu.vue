@@ -471,7 +471,7 @@ export default {
 }
 
 .piece {
-  color: #303133;
+  color: #c4ff58;
   width: fit-content;
   padding: 16px 16px;
   margin: 4px auto;
@@ -489,5 +489,6 @@ export default {
 
 .el-card__body {
   padding: 8px;
+  background-color: #4e4e43;
 }
 </style>

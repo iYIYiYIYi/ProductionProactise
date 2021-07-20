@@ -19,13 +19,12 @@
 </template>
 
 <script>
-import NavMenu from "@/components/layout/NavMenu";
 import LeftTabMenu from "@/components/layout/LeftTabMenu";
 import Content from "@/components/layout/Content";
 
 export default {
   name: 'HelloWorld',
-  components: {Content, NavMenu,LeftTabMenu},
+  components: {Content,LeftTabMenu},
   props: {
     msg: String
   },
@@ -73,7 +72,6 @@ a {
 
 .right-part {
   width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 </style>
