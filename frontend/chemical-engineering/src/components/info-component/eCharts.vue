@@ -77,7 +77,7 @@ export default {
   width: 100%;
   height: 100%;
   min-width: 50vw;
-  min-height: 45vh;
+  min-height: 25vh;
   //width: 55vw;
   //height: 50vh;
   margin: 10px auto;
