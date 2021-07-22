@@ -200,40 +200,44 @@ export default {
     equipmentUUID(val,oldVal) {
       this.equipmentUUID = val;
       let callback = ()=>{
-        if (!this.cache[oldVal]) {
-          this.cache[oldVal] = {};
+        if (!this.cache[this.type]) {
+          this.cache[this.type] = {};
         }
-        this.cache[oldVal].startDate = this.startDate;
-        this.cache[oldVal].endDate = this.endDate;
-        this.cache[oldVal].value = this.value;
-        this.cache[oldVal].stop_switch = this.stop_switch;
-        this.cache[oldVal].stop_switch_type = this.stop_switch_type;
-        this.cache[oldVal].selectEquipments = this.selectEquipments;
-        this.cache[oldVal].statusValue = this.statusValue;
-        this.cache[oldVal].dataMode = this.dataMode;
-        this.cache[oldVal].openChart = this.openChart;
 
-        if (!this.cache[val]) {
-          this.cache[val] = {};
-          this.cache[val].startDate = '';
-          this.cache[val].endDate = '';
-          this.cache[val].value = '';
-          this.cache[val].stop_switch = '停止';
-          this.cache[val].stop_switch_type = 'primary';
-          this.cache[val].selectEquipments = [];
-          this.cache[val].statusValue = 'all';
-          this.cache[val].dataMode = false;
-          this.cache[val].openChart = this.openChart;
+        if (!this.cache[this.type][oldVal]) {
+          this.cache[this.type][oldVal] = {};
         }
-        this.startDate = this.cache[val].startDate;
-        this.endDate = this.cache[val].endDate;
-        this.value = this.cache[val].value;
-        this.stop_switch = this.cache[val].stop_switch;
-        this.stop_switch_type = this.cache[val].stop_switch_type;
-        this.selectEquipments = this.cache[val].selectEquipments;
-        this.statusValue = this.cache[val].statusValue;
-        this.dataMode = this.cache[val].dataMode;
-        this.openChart = this.cache[val].openChart;
+        this.cache[this.type][oldVal].startDate = this.startDate;
+        this.cache[this.type][oldVal].endDate = this.endDate;
+        this.cache[this.type][oldVal].value = this.value;
+        this.cache[this.type][oldVal].stop_switch = this.stop_switch;
+        this.cache[this.type][oldVal].stop_switch_type = this.stop_switch_type;
+        this.cache[this.type][oldVal].selectEquipments = this.selectEquipments;
+        this.cache[this.type][oldVal].statusValue = this.statusValue;
+        this.cache[this.type][oldVal].dataMode = this.dataMode;
+        this.cache[this.type][oldVal].openChart = this.openChart;
+
+        if (!this.cache[this.type][val]) {
+          this.cache[this.type][val] = {};
+          this.cache[this.type][val].startDate = '';
+          this.cache[this.type][val].endDate = '';
+          this.cache[this.type][val].value = '';
+          this.cache[this.type][val].stop_switch = '停止';
+          this.cache[this.type][val].stop_switch_type = 'primary';
+          this.cache[this.type][val].selectEquipments = [];
+          this.cache[this.type][val].statusValue = 'all';
+          this.cache[this.type][val].dataMode = false;
+          this.cache[this.type][val].openChart = this.openChart;
+        }
+        this.startDate = this.cache[this.type][val].startDate;
+        this.endDate = this.cache[this.type][val].endDate;
+        this.value = this.cache[this.type][val].value;
+        this.stop_switch = this.cache[this.type][val].stop_switch;
+        this.stop_switch_type = this.cache[this.type][val].stop_switch_type;
+        this.selectEquipments = this.cache[this.type][val].selectEquipments;
+        this.statusValue = this.cache[this.type][val].statusValue;
+        this.dataMode = this.cache[this.type][val].dataMode;
+        this.openChart = this.cache[this.type][val].openChart;
         this.change();
         this.stopSwitch();
       }
