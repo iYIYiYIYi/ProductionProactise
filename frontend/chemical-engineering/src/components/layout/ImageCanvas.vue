@@ -360,6 +360,23 @@ export default {
       this.chartOption.title.text = val+'实时趋势图';
       this.waveOption.title.text = val+'实时波形图';
       this.spectrumOption.title.text = val+'实时频谱图';
+
+      this.chartData = []
+      this.chartxAxis = []
+      this.chartyAxis.clear();
+
+      this.chartOption.xAxis.data = [];
+      this.chartOption.series = [];
+      this.chartOption.legend.data = [];
+
+      this.revOption.xAxis.data = [];
+      this.revOption.series[0].data = [];
+
+      this.waveOption.xAxis.data = [];
+      this.waveOption.series[0].data = [];
+
+      this.spectrumOption.xAxis.data = [];
+      this.spectrumOption.series[0].data = [];
     },
     screenWidth (val) {
       this.screenWidth = val
@@ -371,16 +388,14 @@ export default {
         let that = this;
         setTimeout(function () {
           // that.screenWidth = that.$store.state.canvasWidth
-          console.log(that.screenWidth)
           that.imageMultiplier = (that.screenWidth*0.60)/that.imageWidth;
-          console.log(that.imageMultiplier,that.fresh);
           // that.$nextTick(() => {
           //   that.fresh = true;
           // });
           that.timer = false
         }, 200)
       }
-    }
+    },
   },
   mounted() {
     const that = this
@@ -415,7 +430,6 @@ export default {
     onClick(range) {
       let point0 = this.waveOption.xAxis.data[range[0]];
       let point1 = this.waveOption.xAxis.data[range[1]];
-      console.log(point0,point1)
       let res = 1 / (point1 - point0)
       this.waveOption.title.subtext = 'ΔF = 1s / ( '+point1+'s - '+point0+'s ) = '+res.toPrecision(4)+' Hz';
     },
@@ -456,11 +470,9 @@ export default {
       this.revOption.xAxis.data = this.chartxAxis;
 
       if (rev !== undefined) {
-        console.log(rev);
         this.revOption.series[0].data.push(rev);
       }
       else if (revs) {
-        console.log(rev);
         this.revOption.series[0].data = revs;
       }
 

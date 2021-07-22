@@ -189,7 +189,7 @@ export default {
       equipmentOptions:[],
       data:[],
       cache:{},
-      equipmentDataTimer:undefined,
+      equipmentDataTimer:false,
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -215,15 +215,15 @@ export default {
 
         if (!this.cache[val]) {
           this.cache[val] = {};
-          this.cache[oldVal].startDate = '';
-          this.cache[oldVal].endDate = '';
-          this.cache[oldVal].value = '';
-          this.cache[oldVal].stop_switch = '停止';
-          this.cache[oldVal].stop_switch_type = 'primary';
-          this.cache[oldVal].selectEquipments = [];
-          this.cache[oldVal].statusValue = 'all';
-          this.cache[oldVal].dataMode = false;
-          this.cache[oldVal].openChart = this.openChart;
+          this.cache[val].startDate = '';
+          this.cache[val].endDate = '';
+          this.cache[val].value = '';
+          this.cache[val].stop_switch = '停止';
+          this.cache[val].stop_switch_type = 'primary';
+          this.cache[val].selectEquipments = [];
+          this.cache[val].statusValue = 'all';
+          this.cache[val].dataMode = false;
+          this.cache[val].openChart = this.openChart;
         }
         this.startDate = this.cache[val].startDate;
         this.endDate = this.cache[val].endDate;
@@ -234,6 +234,8 @@ export default {
         this.statusValue = this.cache[val].statusValue;
         this.dataMode = this.cache[val].dataMode;
         this.openChart = this.cache[val].openChart;
+        this.change();
+        this.stopSwitch();
       }
       this.getMessage(val,callback);
     },
@@ -271,9 +273,6 @@ export default {
         }
       }
     },
-    openChart() {
-      this.change();
-    }
   },
   methods : {
     handleCheckChange(data, checked, indeterminate) {
@@ -339,11 +338,11 @@ export default {
       this.changeDataMode();
     },
     changeDataMode(){
-      if (this.dataMode) {
+      if (this.dataMode && this.equipmentDataTimer) {
         //历史模式
         clearInterval(this.equipmentDataTimer);
-
-      } else if (this.$data.stop_switch !== '恢复') {
+        this.equipmentDataTimer = false;
+      } else if (this.$data.stop_switch !== '恢复'&& !this.equipmentDataTimer) {
         //实时模式
         let it = this;
         this.equipmentDataTimer = setInterval(function () {
@@ -359,18 +358,21 @@ export default {
       }
     },
     stopSwitch() {
-      if (this.$data.stop_switch === '停止') {
+      if (this.$data.stop_switch === '停止' && this.equipmentDataTimer) {
         this.$data.stop_switch = '恢复';
         this.$data.stop_switch_type = 'danger';
         clearInterval(this.equipmentDataTimer);
-      } else {
+        this.equipmentDataTimer = false;
+      } else if (!this.equipmentDataTimer) {
         this.$data.stop_switch = '停止';
         this.$data.stop_switch_type = 'primary';
         let it = this;
         //实时模式
         this.equipmentDataTimer = setInterval(function () {
-          if (!it.openChart)
+          if (!it.openChart) {
             clearInterval(it.equipmentDataTimer);
+            it.equipmentDataTimer = false;
+          }
 
           for (let selectEquipment of it.selectEquipments) {
             it.getEquipmentData(selectEquipment);
@@ -417,7 +419,7 @@ export default {
 
       for (let datum of data) {
         let s = '径向',name = datum.channeltypealias;
-        if (datum.channeltypealias.indexOf('振动') !== -1) {
+        if (datum.channeltypealias.indexOf&&datum.channeltypealias.indexOf('振动') !== -1) {
           if (datum.channeltype === 1) {
             name = s + name;
           } else if (datum.channeltype === 2) {
@@ -439,7 +441,7 @@ export default {
       this.equipmentOptions=[];
       for (let datum of this.data) {
         let s = '径向',name = datum.channeltypealias;
-        if (datum.channeltypealias.indexOf('振动') !== -1) {
+        if (datum.channeltypealias.indexOf&&datum.channeltypealias.indexOf('振动') !== -1) {
           if (datum.channeltype === 1) {
             name = s + name;
           } else if (datum.channeltype === 2) {
@@ -498,6 +500,7 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.equipmentDataTimer);
+    this.equipmentDataTimer = false;
   },
 }
 </script>
