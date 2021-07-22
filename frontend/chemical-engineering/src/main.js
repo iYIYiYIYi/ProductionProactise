@@ -17,6 +17,7 @@ import {
   ScatterChart,
 } from 'echarts/charts'
 import {
+  BrushComponent,
   GridComponent,
   TooltipComponent,
   ToolboxComponent,
@@ -35,6 +36,7 @@ echarts.use([
   GridComponent,
   ToolboxComponent,
   TitleComponent,
+  BrushComponent,
   LegendComponent,
   LineChart,
   ScatterChart,
@@ -464,14 +466,15 @@ let data =
 
 
 
-echarts.registerTheme('myTheme',data)
+echarts.registerTheme('myTheme',data);
 
 // register globally (or you can do it locally)
-Vue.component('v-chart', ECharts)
-Vue.config.productionTip = false
-Vue.use(ElementUI) //使用elementUI
+Vue.component('v-chart', ECharts);
+Vue.config.productionTip = false;
+Vue.use(ElementUI); //使用elementUI
 
 Vue.prototype.$axios = Axios;
+
 Axios.defaults.baseURL = 'http://47.117.116.187:8848/';
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
 

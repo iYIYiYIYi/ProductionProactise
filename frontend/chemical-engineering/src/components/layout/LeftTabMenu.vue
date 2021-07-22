@@ -22,24 +22,27 @@
       <el-col :span="12">
 
         <el-menu
-            default-active="2"
             class="el-menu-vertical-demo"
             @open="handleOpen"
             @close="handleClose"
             v-if="nodes !== undefined"
+            :collapse="false"
+            :default-openeds="groupNames"
         >
-          <el-submenu v-for="(group_value, group_name) in nodes" :key="group_name" :index="group_name">
+          <el-submenu v-for="(group_value, group_name) in nodes" :key="group_name" :index="group_name" :default-openeds="companyNames">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>{{group_name}}</span>
             </template>
-            <el-submenu v-for="(company_value,company_name) in group_value" :key="company_name" :index="company_name">
+            <el-submenu v-for="(company_value,company_name) in group_value" :key="company_name" :index="company_name" :default-openeds="factoryNames">
               <template slot="title"><i class="el-icon-s-cooperation"></i>{{ company_name }}</template>
-              <el-submenu v-for="(factory_value,factory_name) in company_value" :key="factory_name" :index="factory_name">
+              <el-submenu v-for="(factory_value,factory_name) in company_value" :key="factory_name" :index="factory_name" :default-openeds="equipmentNames">
                 <template slot="title"><i class="el-icon-s-flag"></i>{{factory_name}}</template>
-                <el-menu-item v-for="(equipment_value,equipment_name) in factory_value" :key="equipment_name" :index="equipment_name" @click="selectNode">
-                  <i class="el-icon-setting"></i>{{equipment_name}}
-                </el-menu-item>
+                <div v-for="(equipment_value,equipment_name) in factory_value" :key="equipment_name">
+                  <el-menu-item  :index="equipment_name" @click="selectNode" v-if="companyVisible[group_name][company_name][factory_name][equipment_name] === true">
+                    <i class="el-icon-setting" :style="{color:(()=>{if (nodes[group_name][company_name][factory_name][equipment_name]['alarmalias'] === '断网') return '#ff0000'; else return '#ffffff';})()}"></i>{{equipment_name}}
+                  </el-menu-item>
+                </div>
               </el-submenu>
             </el-submenu>
           </el-submenu>
@@ -98,10 +101,42 @@ export default {
       search_value:'',
       nodes:undefined,
       tree_description:'正在获取节点信息...',
+      companyVisible:{},
+      groupNames:[],
+      companyNames:[],
+      factoryNames:[],
+      equipmentNames:[],
+
     };
   },
   props: {
 
+  },
+  watch: {
+    search_value(val) {
+      for (const nodesKey in this.$data.nodes) {
+
+          let companyNodes = this.$data.nodes[nodesKey];
+          for (let companyNodesKey in companyNodes) {
+
+              let factoryNodes = companyNodes[companyNodesKey];
+              for (let factoryNodesKey in factoryNodes) {
+
+                  let equipmentNodes = factoryNodes[factoryNodesKey];
+                  for (let equipmentNodesKey in equipmentNodes) {
+                    if (equipmentNodes[equipmentNodesKey].equipmentname.indexOf(val) === -1) {
+                      this.companyVisible[nodesKey][companyNodesKey][factoryNodesKey][equipmentNodesKey] = false;
+                    } else {
+                      this.companyVisible[nodesKey][companyNodesKey][factoryNodesKey][equipmentNodesKey] = true;
+                    }
+                  }
+
+              }
+
+          }
+
+      }
+    }
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -182,18 +217,36 @@ export default {
         console.log(parse);
         let data = parse.data;
         let tree = {};
+        let groupSet = new Set();
+        let companySet = new Set();
+        let factorySet = new Set();
+        let equipmentSet = new Set();
         for (const datum of data) {
           if (!tree[datum.groupname]) {
             tree[datum.groupname] = {};
+            it.companyVisible[datum.groupname] = {};
           }
           if (!tree[datum.groupname][datum.companyname]) {
             tree[datum.groupname][datum.companyname] = {};
+            it.companyVisible[datum.groupname][datum.companyname] = {};
           }
           if (!tree[datum.groupname][datum.companyname][datum.factoryname]) {
             tree[datum.groupname][datum.companyname][datum.factoryname] = {};
+            it.companyVisible[datum.groupname][datum.companyname][datum.factoryname] = {};
           }
           tree[datum.groupname][datum.companyname][datum.factoryname][datum.equipmentname] = datum;
+          it.companyVisible[datum.groupname][datum.companyname][datum.factoryname][datum.equipmentname] = true;
+
+          groupSet.add(datum.groupname);
+          companySet.add(datum.companyname);
+          factorySet.add(datum.factoryname);
+          equipmentSet.add(datum.equipmentname);
         }
+
+        it.groupNames = Array.from(groupSet);
+        it.companyNames = Array.from(companySet);
+        it.factoryNames = Array.from(factorySet);
+        it.equipmentNames = Array.from(equipmentSet);
         it.$data.nodes = tree;
         console.log(tree);
       })

@@ -3,25 +3,27 @@
     <el-col :span="18">
       <div class="grid-content bg-purple" ref="boxes" >
          <div v-if="type==='设备概貌图'" >
-          <img :src="'data:image/jepg;base64,'+base64image" alt="示意图" class="image" :style="'width:'+imageWidth*imageMultiplier+'px ;height:'+imageHeight+'px'">
-          <div class="boxes-container" ref="boxContainer" :style="'width:'+imageWidth*imageMultiplier+'px ;height:'+imageHeight+'px'">
-            <div class="header box" v-if="equipmentName" :style="'width:'+equipmentName.width*imageMultiplier+'px;height:'+equipmentName.height+'px;left:'+equipmentName.xpos*imageMultiplier+'px;top:'+equipmentName.ypos+'px;'">{{equipmentName.name}}</div>
-            <div class="header box" v-if="equipmentRevInfo" :style="'width:'+equipmentRevInfo.width*imageMultiplier+'px;height:'+equipmentRevInfo.height+'px;left:'+equipmentRevInfo.xpos*imageMultiplier+'px;top:'+equipmentRevInfo.ypos+'px;'">{{equipmentRevInfo.revname}}:{{equipmentRevInfo.revvalue}}</div>
-            <div class="header box" v-if="equipmentTime" :style="'width:'+equipmentTime.width*imageMultiplier+'px;height:'+equipmentTime.height+'px;left:'+equipmentTime.xpos*imageMultiplier+'px;top:'+equipmentTime.ypos+'px;'">{{equipmentTime.time}}</div>
+           <div v-if="fresh" :key="imageMultiplier">
+            <img :src="'data:image/jepg;base64,'+base64image" alt="示意图" class="image" :style="{width:imageWidth*imageMultiplier+'px',height:imageHeight+'px'}">
+            <div class="boxes-container" ref="boxContainer" :style="{width:imageWidth*imageMultiplier+'px',height:imageHeight+'px'}">
+              <div class="header box" v-if="equipmentName" :style="{width:equipmentName.width*imageMultiplier+'px',height:equipmentName.height+'px',left:equipmentName.xpos*imageMultiplier+'px',top:equipmentName.ypos+'px'}">{{equipmentName.name}}</div>
+              <div class="header box" v-if="equipmentRevInfo" :style="{width:equipmentRevInfo.width*imageMultiplier+'px',height:equipmentRevInfo.height+'px',left:equipmentRevInfo.xpos*imageMultiplier+'px',top:equipmentRevInfo.ypos+'px'}">{{equipmentRevInfo.revname}}:{{equipmentRevInfo.revvalue}}</div>
+              <div class="header box" v-if="equipmentTime" :style="{width:equipmentTime.width*imageMultiplier+'px',height:equipmentTime.height+'px',left:equipmentTime.xpos*imageMultiplier+'px',top:equipmentTime.ypos+'px'}">{{equipmentTime.time}}</div>
 
-            <div :class="box.width*box.height===0?'no':'box'" v-for="(box,index) in boxPoints" :key="index" :style="'width:'+box.width*imageMultiplier+'px;height:'+box.height+'px;left:'+box.xpos*imageMultiplier+'px;top:'+box.ypos+'px;background-color:'+imageBackground+';'">
-              <div class="info_piece" v-for="(point,index) in box.points" :key="index"> {{point.pointid}}:{{point.value}} </div>
+              <div :class="box.width*box.height===0?'no':'box'" v-for="(box,index) in boxPoints" :key="index" :style="{width:box.width*imageMultiplier+'px',height:box.height+'px',left:box.xpos*imageMultiplier+'px',top:box.ypos+'px',backgroundColor:imageBackground}">
+                <div class="info_piece" v-for="(point,index) in box.points" :key="index"> {{point.pointid}}:{{point.value}} </div>
+              </div>
             </div>
-          </div>
-          <div v-if="showImage">
-            <e-charts :style="'width:'+imageWidth*imageMultiplier+'px ;'" :option="chartOption"></e-charts>
-            <br>
-          </div>
+            <div v-if="showImage">
+              <e-charts :style="{width:imageWidth*imageMultiplier+'px'}" :option="chartOption"></e-charts>
+              <br>
+            </div>
+           </div>
          </div>
         <div v-else>
           <e-charts  v-if="showImage" :option="chartOption"></e-charts>
           <e-charts  v-if="showImage" :option="revOption"></e-charts>
-          <e-charts  v-if="showImage" :option="waveOption" @dataZoom="onDataZoom"></e-charts>
+          <e-charts  v-if="showImage" :option="waveOption" @dataZoom="onDataZoom" @clickChart="onClick" style="height: 50vh"></e-charts>
           <e-charts  v-if="showImage" :option="spectrumOption"></e-charts>
           <br>
         </div>
@@ -65,10 +67,10 @@ export default {
   },
   data() {
     this.getGraphImage(this.dataInfo.equipmentuuid);
-    let imageMultiplier = 1.3;
     let vue_it = this;
     return {
       base64image:'',
+      fresh:true,
       showImage: false,
       imageWidth:0,
       imageHeight:0,
@@ -78,7 +80,7 @@ export default {
       equipmentRevInfo:{},
       equipmentTime:{},
       netStatus : true,
-      imageMultiplier:imageMultiplier,
+      imageMultiplier:1,
       chartxAxis:[],
       chartyAxis:new Set(),
       chartData:[],
@@ -93,12 +95,12 @@ export default {
           data: this.chartData
         },
         grid: {
-          top:'16%',
-          left: '8%',
-          right: '16%',
+          top:'18%',
+          left: '12%',
+          right: '12%',
           bottom: '4%',
           containLabel: true,
-          width:'88%',
+          width:'76%',
           height:'80%',
         },
         toolbox: {
@@ -140,12 +142,12 @@ export default {
           data:['转速']
         },
         grid: {
-          top:'16%',
-          left: '8%',
-          right: '16%',
+          top:'18%',
+          left: '12%',
+          right: '12%',
           bottom: '4%',
           containLabel: true,
-          width:'88%',
+          width:'76%',
           height:'80%',
         },
         toolbox: {
@@ -171,17 +173,19 @@ export default {
           data: this.chartxAxis
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          name: 'r/min',
         },
         series: [{
           name: '转速',
           type: 'line',
-          data: []
+          data: [],
+          areaStyle: {},
         }],
       },
       spectrumOption: {
         title: {
-          text: this.name+'实时频谱图'
+          text: this.name+'实时频谱图',
         },
         tooltip: {
           trigger: 'axis'
@@ -190,12 +194,12 @@ export default {
           data: ['频谱']
         },
         grid: {
-          top:'16%',
-          left: '8%',
-          right: '16%',
+          top:'18%',
+          left: '12%',
+          right: '12%',
           bottom: '4%',
           containLabel: true,
-          width:'88%',
+          width:'76%',
           height:'80%',
         },
         toolbox: {
@@ -217,10 +221,16 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: []
+          data: [],
+          name: '秒',
+          axisLabel: {
+            show: true,
+
+          },
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          name: 'um',
         },
         series: [{
           name: '频谱',
@@ -230,25 +240,29 @@ export default {
       },
       waveOption: {
         title: {
-          text: this.name+'实时波形图'
+          text: this.name+'实时波形图',
+          subtext: ''
         },
         tooltip: {
           trigger: 'axis'
         },
         grid: {
-          top:'16%',
-          left: '8%',
-          right: '16%',
+          top:'26%',
+          left: '12%',
+          right: '12%',
           bottom: '4%',
           containLabel:true,
-          width:'90%',
-          height:'90%',
+          width:'76%',
+          height:'58%',
         },
         toolbox: {
           feature: {
             saveAsImage: {},
             dataZoom: {
-              yAxisIndex: 'none'
+              yAxisIndex: false
+            },
+            brush: {
+              type: ['lineX', 'clear'],
             },
             myExpand: {
               show: true,
@@ -260,30 +274,37 @@ export default {
             },
           }
         },
+        brush: {
+          xAxisIndex: 'all',
+          brushLink: 'all',
+          outOfBrush: {
+            colorAlpha: 0.1
+          }
+        },
         dataZoom: [{
           type: 'inside',
           start: 0,
           end: 10
         }, {
+          type: 'slider',
           start: 0,
           end: 10,
-          handleIcon: 'path://M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-          handleSize: '80%',
-          handleStyle: {
-            color: '#fff',
-            shadowBlur: 3,
-            shadowColor: 'rgba(0, 0, 0, 0.6)',
-            shadowOffsetX: 2,
-            shadowOffsetY: 2
-          }
+          top:'85%',
+          // handleIcon: 'path://M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+          // handleSize: '70%',
+          // handleStyle: {
+          //   color: '#fff',
+          // }
         }],
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: []
+          data: [],
+          name: 'Hz',
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          name: 'um',
         },
         series: [{
           name: '波形',
@@ -323,6 +344,7 @@ export default {
         yAxis: {},
         series: [],
       },
+      screenWidth: document.body.clientWidth,
     };
   },
   watch :{
@@ -331,17 +353,43 @@ export default {
       clearInterval(this.$interval);
     },
     imageWidth(val) {
-      let leftSpace = window.innerWidth - 720;
-      this.imageMultiplier = (leftSpace>val)?(leftSpace/val):1;
+      this.imageWidth = val;
+      this.imageMultiplier = (this.screenWidth*0.60)/this.imageWidth;
     },
     name(val) {
       this.chartOption.title.text = val+'实时趋势图';
       this.waveOption.title.text = val+'实时波形图';
       this.spectrumOption.title.text = val+'实时频谱图';
     },
+    screenWidth (val) {
+      this.screenWidth = val
+      if (!this.timer) {
+        this.timer = true;
+        // this.$nextTick(() => {
+        //   this.fresh = false;
+        // });
+        let that = this;
+        setTimeout(function () {
+          // that.screenWidth = that.$store.state.canvasWidth
+          console.log(that.screenWidth)
+          that.imageMultiplier = (that.screenWidth*0.60)/that.imageWidth;
+          console.log(that.imageMultiplier,that.fresh);
+          // that.$nextTick(() => {
+          //   that.fresh = true;
+          // });
+          that.timer = false
+        }, 200)
+      }
+    }
   },
   mounted() {
-
+    const that = this
+    window.onresize = () => {
+      return (() => {
+        window.screenWidth = document.body.clientWidth
+        that.screenWidth = window.screenWidth
+      })()
+    }
   },
   methods:{
     handleClose(done) {
@@ -358,7 +406,18 @@ export default {
       this.activeOption.series = this[objName].series;
       if (this[objName].dataZoom)
         this.activeOption.dataZoom = this[objName].dataZoom;
+      if (this[objName].brush)
+        this.activeOption.brush = this[objName].brush;
+      else
+        this.activeOption.brush = undefined;
       this.dialogVisible = true;
+    },
+    onClick(range) {
+      let point0 = this.waveOption.xAxis.data[range[0]];
+      let point1 = this.waveOption.xAxis.data[range[1]];
+      console.log(point0,point1)
+      let res = 1 / (point1 - point0)
+      this.waveOption.title.subtext = 'ΔF = 1s / ( '+point1+'s - '+point0+'s ) = '+res.toPrecision(4)+' Hz';
     },
     onDataZoom (event) {
       if (event.batch) {
@@ -390,7 +449,7 @@ export default {
         this.chartOption.title.text.replace('历史','实时');
       }
       this.chartOption.legend.data = this.chartData;
-      if (time&&this.chartxAxis.length > 50) {
+      if (time&&this.chartxAxis.length > 20) {
         this.chartxAxis.shift();
       }
       this.chartOption.xAxis.data = this.chartxAxis;
@@ -416,7 +475,8 @@ export default {
         let obj =  {
           name: name,
           type: 'line',
-          data: data
+          data: data,
+          areaStyle: {},
         };
         this.chartOption.series.push(obj);
       }
@@ -545,12 +605,9 @@ export default {
 
 .box {
   position: absolute;
-  /*border: white 1px solid;*/
   border-radius: 4px;
-
   border: 1px solid slategray;
   box-sizing: border-box;
-  box-shadow: 1px 1px 5px gray;
   display: block;
   white-space: nowrap;
   font-size: 12px;

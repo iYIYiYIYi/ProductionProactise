@@ -1,7 +1,7 @@
 <template>
 
   <div class="hello">
-    <v-chart class="chart" :option="option" :resizable="true" :theme="'myTheme'" v-on:datazoom="dataZoom"/>
+    <v-chart class="chart" :option="option" :resizable="true" v-on:resize="resize" v-on:datazoom="dataZoom" v-on:brushselected="click"/>
   </div>
 
 </template>
@@ -18,54 +18,21 @@ export default {
     option:Object,
   },
   provide: {
-    [THEME_KEY]: "bright"
+    [THEME_KEY]: "myTheme"
   },
-  data() {
-    return {
-      option1 : {
-        title: {
-          text: 'K-203B 实时趋势图'
-        },
-        tooltip: {
-          trigger: 'axis'
-        },
-        legend: {
-          data: ['邮件营销']
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
-        },
-        toolbox: {
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [
-          {
-            name: '邮件营销',
-            type: 'line',
-            stack: '总量',
-            data: [120, 132, 101, 134, 90, 230, 210]
-          },
-        ]
-      },
-    };
+  mounted() {
   },
   methods:{
     dataZoom(event){
       this.$emit('dataZoom',event);
     },
+    click(event) {
+      if (event.batch[0].areas[0])
+        this.$emit('clickChart',event.batch[0].areas[0].coordRange);
+    },
+    resize() {
+      VChart.resize()
+    }
   }
 };
 </script>

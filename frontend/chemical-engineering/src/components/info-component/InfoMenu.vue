@@ -186,14 +186,9 @@ export default {
       historyTrendStatusValues:{},
       selectEquipments:[],
       FrequencyData:{},
-      equipmentOptions:[{
-        value: '选项2',
-        label: '双皮奶',
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }],
+      equipmentOptions:[],
       data:[],
+      cache:{},
       equipmentDataTimer:undefined,
       defaultProps: {
         children: 'children',
@@ -202,40 +197,83 @@ export default {
     }
   },
   watch:{
-    equipmentUUID(val) {
-      this.selectEquipments = [];
-      this.getMessage(val);
+    equipmentUUID(val,oldVal) {
+      this.equipmentUUID = val;
+      let callback = ()=>{
+        if (!this.cache[oldVal]) {
+          this.cache[oldVal] = {};
+        }
+        this.cache[oldVal].startDate = this.startDate;
+        this.cache[oldVal].endDate = this.endDate;
+        this.cache[oldVal].value = this.value;
+        this.cache[oldVal].stop_switch = this.stop_switch;
+        this.cache[oldVal].stop_switch_type = this.stop_switch_type;
+        this.cache[oldVal].selectEquipments = this.selectEquipments;
+        this.cache[oldVal].statusValue = this.statusValue;
+        this.cache[oldVal].dataMode = this.dataMode;
+        this.cache[oldVal].openChart = this.openChart;
+
+        if (!this.cache[val]) {
+          this.cache[val] = {};
+          this.cache[oldVal].startDate = '';
+          this.cache[oldVal].endDate = '';
+          this.cache[oldVal].value = '';
+          this.cache[oldVal].stop_switch = '停止';
+          this.cache[oldVal].stop_switch_type = 'primary';
+          this.cache[oldVal].selectEquipments = [];
+          this.cache[oldVal].statusValue = 'all';
+          this.cache[oldVal].dataMode = false;
+          this.cache[oldVal].openChart = this.openChart;
+        }
+        this.startDate = this.cache[val].startDate;
+        this.endDate = this.cache[val].endDate;
+        this.value = this.cache[val].value;
+        this.stop_switch = this.cache[val].stop_switch;
+        this.stop_switch_type = this.cache[val].stop_switch_type;
+        this.selectEquipments = this.cache[val].selectEquipments;
+        this.statusValue = this.cache[val].statusValue;
+        this.dataMode = this.cache[val].dataMode;
+        this.openChart = this.cache[val].openChart;
+      }
+      this.getMessage(val,callback);
     },
     value(val) {
       this.selectEquipments = [];
       this.genData(val);
     },
     startDate(val) {
-      this.historyDate.start = val.getTime();
-      if ((!this.historyDate.start > this.historyDate.end)) {
-        for (let selectEquipment of this.selectEquipments) {
-          this.handleHistory(selectEquipment);
+      if (val) {
+        this.historyDate.start = val.getTime();
+        if ((!this.historyDate.start > this.historyDate.end)) {
+          for (let selectEquipment of this.selectEquipments) {
+            this.handleHistory(selectEquipment);
+          }
         }
       }
     },
     endDate(val) {
-      this.historyDate.end = val.getTime();
-      if (this.historyDate.start > this.historyDate.end) {
-        this.$notify.error({
-          title: '时间错误',
-          message: '起始日期晚于结束日期'
-        });
-      } else if (this.historyDate.start === 0||this.historyDate.end === 0) {
-        this.$notify.info({
-          title:'选择时间',
-          message:'请选择起始/结束时间',
-        });
-      } else {
-        for (let selectEquipment of this.selectEquipments) {
-          this.handleHistory(selectEquipment);
+      if (val) {
+        this.historyDate.end = val.getTime();
+        if (this.historyDate.start > this.historyDate.end) {
+          this.$notify.error({
+            title: '时间错误',
+            message: '起始日期晚于结束日期'
+          });
+        } else if (this.historyDate.start === 0||this.historyDate.end === 0) {
+          this.$notify.info({
+            title:'选择时间',
+            message:'请选择起始/结束时间',
+          });
+        } else {
+          for (let selectEquipment of this.selectEquipments) {
+            this.handleHistory(selectEquipment);
+          }
         }
       }
     },
+    openChart() {
+      this.change();
+    }
   },
   methods : {
     handleCheckChange(data, checked, indeterminate) {
@@ -263,17 +301,29 @@ export default {
         it.$emit('drawData',it.historyTrendStatusValues[pointid],pointid,undefined,undefined,times,revs);
         if (it.type === '频率检测' && it.selectEquipments[0] === pointid) {
           console.log('nothing');
-          // this.$axios.get('/wave-spectrum/'+this.equipmentUUID+'/'+pointid+'/'+trendInfos[0].trendtime+'/16384/0/info')
-          // .then(function (response) {
-          //   let parse = response.data.data[0];
-          //
-          // }).catch(reason => {
-          //   console.log(reason);
-          //   it.$notify.error({
-          //     title: '网络错误',
-          //     message: '获取历史数据失败'
-          //   });
-          // });
+          this.$axios.get('/wave-spectrum/'+this.equipmentUUID+'/'+pointid+'/'+trendInfos[0].trendtime+'/16384/0/info')
+          .then(function (response) {
+            let parse = response.data.data[0];
+
+            let spectrumData = {
+              x:JSON.parse(parse.trendSpectrumvalue.spectrumx),
+              y:JSON.parse(parse.trendSpectrumvalue.spectrumy),
+            };
+            let waveData = {
+              x:JSON.parse(parse.trendWavevalue.wavex),
+              y:JSON.parse(parse.trendWavevalue.wavey),
+            };
+
+
+            it.$emit('drawWaveAndSpectrumAndSoOn',spectrumData,waveData,pointid,true);
+
+          }).catch(reason => {
+            console.log(reason);
+            it.$notify.error({
+              title: '网络错误',
+              message: '获取历史数据失败'
+            });
+          });
         }
       }).catch((error) => {
         console.error(error);
@@ -330,7 +380,7 @@ export default {
 
     },
     //获取测点信息//
-    getMessage(equipmentUuid){
+    getMessage(equipmentUuid,callback){
       let it = this;
       // Make a request for a user with a given ID
       this.$axios({
@@ -344,6 +394,10 @@ export default {
         let data = parse.data;
         it.data = data;
         it.parseData(data);
+        if (callback)
+          callback();
+        else
+          it.value = it.options[0].value;
       })
       .catch(function () {
         // handle error
@@ -379,8 +433,6 @@ export default {
         }
         channelTypeAliasList.add(name);
       }
-
-      this.value = this.options[0].value;
     },
 
     genData(value) {
